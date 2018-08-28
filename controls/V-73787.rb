@@ -1,4 +1,4 @@
-737control "V-73787" do
+control "V-73787" do
   title "The Increase scheduling priority user right must only be assigned to
 the Administrators group."
   desc  "Inappropriate granting of user rights can provide system,

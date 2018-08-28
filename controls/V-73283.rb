@@ -137,8 +137,8 @@ end
 
 
 else
-  describe "No temp accounts exist" do
-    skip "check not applicable"
+  describe "No temporary accounts on this system, control not applicable" do
+    skip "No temporary accounts on this system, control not applicable"
   end
 
 end

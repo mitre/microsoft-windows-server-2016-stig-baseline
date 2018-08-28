@@ -51,5 +51,24 @@ control "V-73231" do
 
   It is recommended that system-managed service accounts be used whenever
   possible."
+  users = command("net user | Findstr /V 'command -- accounts'").stdout.strip.split(' ')
+
+   users.each do |user|
+
+    get_password_last_set = command("Net User #{user}  | Findstr /i 'Password Last Set' | Findstr /v 'expires changeable required may logon'").stdout.strip
+
+    month = get_password_last_set[27..29]
+    day = get_password_last_set[31..32]
+    year = get_password_last_set[34..38]
+
+    date = day +  "/" + month + "/" + year
+
+    date_password_last_set = DateTime.now.mjd - DateTime.parse(date).mjd
+     describe "#{user}'s data password last set" do
+        describe date_password_last_set do
+          it { should cmp <= 365}
+        end 
+      end
+   end
 end
 

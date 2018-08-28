@@ -4,7 +4,6 @@
   'administrators',
   description: 'List of authorized users in the local Admionistrators group',
   default: %w[
-            Administrators
             Admn
            ]
 )
@@ -60,7 +59,7 @@ control "V-73219" do
       it { should be_in ADMINISTRATORS}
     end  
   end if domain_role == '4' || domain_role == '5'
-  
+
   describe "System is not a domain controller, control not applicable" do
     skip "System is not a domain controller, control not applicable"
   end if domain_role != '4' || domain_role != '5'

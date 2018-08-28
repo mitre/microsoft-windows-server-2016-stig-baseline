@@ -1,10 +1,9 @@
-  domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
+domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
 
  ADMINISTRATORS = attribute(
   'administrators',
   description: 'List of authorized users in the local Admionistrators group',
   default: %w[
-            Administrators
             Admn
            ]
 )

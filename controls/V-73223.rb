@@ -1,5 +1,5 @@
-ADMINISTRATOR_ACCOUNT = attribute(
-  'administrator_account',
+ADMINISTRATOR_DOMAIN_GROUP = attribute(
+  'administrator_domain_group',
   description: 'List of authorized users in the local Administrators domain group',
   default: 'Admn'
 )
@@ -59,7 +59,7 @@ control "V-73223" do
   Automated tools, such as Microsoft's LAPS, may be used on domain-joined member
   servers to accomplish this."
   require 'date'
-  get_password_last_set = command("Net User #{ADMINISTRATOR_ACCOUNT} | Findstr /i 'Password Last Set' | Findstr /v 'expires changeable required may logon'").stdout.strip
+  get_password_last_set = command("Net User #{ADMINISTRATOR_DOMAIN_GROUP} | Findstr /i 'Password Last Set' | Findstr /v 'expires changeable required may logon'").stdout.strip
   month = get_password_last_set[27..29]
   day = get_password_last_set[31..32]
   year = get_password_last_set[34..38]

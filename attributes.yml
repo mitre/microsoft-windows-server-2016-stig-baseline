@@ -1,0 +1,25 @@
+# encoding: utf-8
+#
+# This is an example of an attributes file that can be passed to the profile
+# to override the defaults of the attributes defined in each of the tests.
+# You can use this to automatically adjust your tests when using automation or
+# progromatic deployment or validation of differnt deployment patterns without
+# having to adjust the core profile.
+
+# Description: List of authorized users in the local Admionistrators group
+administrators: 'Admn'
+
+# Description: List of authorized users in the local Administrators domain group
+administrator_domain_group: 'Admn'
+
+# Description: List of authorized users in the Backup Operators Group.
+backup_operators: 'Backup'
+
+# Description: List of shared accounts on the system
+shared_accounts: ''
+
+# Description: List of temporary accounts on the system
+temp_account: ''
+
+# Description: List of emergency accounts on the system
+emergency_account: ''
