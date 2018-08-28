@@ -44,10 +44,10 @@ control "V-73261" do
   the name of the user account."
   users = command("net user | Findstr /V 'command -- accounts'").stdout.strip.split(' ')
 
-   users.each do |user|
-     describe command("net user #{user} | Findstr required") do
-        its('stdout') { should_not eq "Password required            No\r\n" }
-      end
-   end
+  users.each do |user|
+    describe command("net user #{user} | Findstr required") do
+      its('stdout') { should_not eq "Password required            No\r\n" }
+    end
+  end
 end
 

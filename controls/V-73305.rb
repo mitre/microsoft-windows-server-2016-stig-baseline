@@ -4,7 +4,11 @@ control "V-73305" do
   directories that could provide access to system resources and compromise the
   system, especially if the user can gain access to the root directory of the
   boot drive."
-  impact 0.5
+  if (is_ftp_installed == 'False' || is_ftp_installed == '')
+    impact 0.0
+  else
+    impact 0.5
+  end
   tag "gtitle": "SRG-OS-000480-GPOS-00227"
   tag "gid": "V-73305"
   tag "rid": "SV-87957r1_rule"
@@ -29,11 +33,9 @@ control "V-73305" do
   or Windows directories, this is a finding."
   tag "fix": "Configure the FTP sites to allow access only to specific FTP
   shared resources. Do not allow access to other areas of the system."
-  is_ftp_installed = command("Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed").stdout.strip
-  if (is_ftp_installed == 'False' || is_ftp_installed == '')
-    describe 'FTP not installed' do
-      skip "control NA"
-    end
+  describe 'File Transfer Protocol (FTP) servers must be configured to prevent
+  anonymous logons' do
+    skip "is a manual check"
   end
 end
 

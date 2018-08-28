@@ -14,7 +14,12 @@ control "V-73227" do
   to circumvent the file access restrictions present on NTFS disk drives for
   backup and restore purposes. Members of the Backup Operators group must have
   separate logon accounts for performing backup duties."
-  impact 0.5
+  backup_operators_group = command("net localgroup 'Backup Operators' | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split("\r\n")
+   if backup_operators_group == []
+    impact 0.0
+  else
+    impact 0.5
+  end
   tag "gtitle": "SRG-OS-000480-GPOS-00227"
   tag "gid": "V-73227"
   tag "rid": "SV-87879r1_rule"
@@ -33,7 +38,6 @@ control "V-73227" do
   accounts for backup functions and standard user functions, this is a finding."
   tag "fix": "Ensure each member of the Backup Operators group has separate
   accounts for backup functions and standard user functions."
-  backup_operators_group = command("net localgroup 'Backup Operators' | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split("\r\n")
   if backup_operators_group != []
     backup_operators_group.each do |user|
       describe user do

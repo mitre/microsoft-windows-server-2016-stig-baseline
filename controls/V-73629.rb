@@ -1,16 +1,16 @@
+domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
 control "V-73629" do
   title "Domain controllers must require LDAP access signing."
   desc  "Unsigned network traffic is susceptible to man-in-the-middle attacks,
-where an intruder captures packets between the server and the client and
-modifies them before forwarding them to the client. In the case of an LDAP
-server, this means that an attacker could cause a client to make decisions
-based on false records from the LDAP directory. The risk of an attacker pulling
-this off can be decreased by implementing strong physical security measures to
-protect the network infrastructure. Furthermore, implementing Internet Protocol
-security (IPsec) authentication header mode (AH), which performs mutual
-authentication and packet integrity for Internet Protocol (IP) traffic, can
-make all types of man-in-the-middle attacks extremely difficult.
-
+  where an intruder captures packets between the server and the client and
+  modifies them before forwarding them to the client. In the case of an LDAP
+  server, this means that an attacker could cause a client to make decisions
+  based on false records from the LDAP directory. The risk of an attacker pulling
+  this off can be decreased by implementing strong physical security measures to
+  protect the network infrastructure. Furthermore, implementing Internet Protocol
+  security (IPsec) authentication header mode (AH), which performs mutual
+  authentication and packet integrity for Internet Protocol (IP) traffic, can
+  make all types of man-in-the-middle attacks extremely difficult.
 
   "
   impact 0.5
@@ -25,30 +25,26 @@ make all types of man-in-the-middle attacks extremely difficult.
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
-If the following registry value does not exist or is not configured as
-specified, this is a finding.
+  If the following registry value does not exist or is not configured as
+  specified, this is a finding.
 
-Registry Hive: HKEY_LOCAL_MACHINE
-Registry Path: \\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters\\
+  Registry Hive: HKEY_LOCAL_MACHINE
+  Registry Path: \\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters\\
 
-Value Name: LDAPServerIntegrity
+  Value Name: LDAPServerIntegrity
 
-Value Type: REG_DWORD
-Value: 0x00000002 (2)"
+  Value Type: REG_DWORD
+  Value: 0x00000002 (2)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
-Settings >> Security Settings >> Local Policies >> Security Options >> \"Domain
-controller: LDAP server signing requirements\" to \"Require signing\"."
-  domain_role = command("wmic computersystem get domainrole /v DomainRole").stdout.strip
-  if domain_role < 4
-    describe 'control' do
-      skip 'no domain role'
-    end
-  end
-  else
-   describe registry_key("HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\NTDS\\Parameters") do
-      it { should have_property "LDAPServerIntegrity" }
-      its("LDAPServerIntegrity") { should cmp == 2 }
-    end
-  end
+  Settings >> Security Settings >> Local Policies >> Security Options >> \"Domain
+  controller: LDAP server signing requirements\" to \"Require signing\"."
+  describe registry_key("HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\NTDS\\Parameters") do
+    it { should have_property "LDAPServerIntegrity" }
+    its("LDAPServerIntegrity") { should cmp == 2 }
+  end if domain_role == '4' || domain_role == '5'
+  
+  describe "System is not a domain controller, control not applicable" do
+    skip "System is not a domain controller, control not applicable"
+  end if domain_role != '4' || domain_role != '5'
 end
 

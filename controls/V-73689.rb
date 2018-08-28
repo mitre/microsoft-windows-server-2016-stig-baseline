@@ -12,7 +12,7 @@ this must be enforced."
   tag "stig_id": "WN16-SO-000370"
   tag "fix_id": "F-80139r1_fix"
   tag "cci": ["CCI-001133"]
-  tag "nist": ["SC-10, "Rev_4"]
+  tag "nist": ["SC-10", "Rev_4"]
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 

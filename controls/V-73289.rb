@@ -1,3 +1,4 @@
+is_ftp_installed = command("Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed").stdout.strip
 control "V-73289" do
   title "The Microsoft FTP service must not be installed unless required."
   desc  "Unnecessary services increase the attack surface of a system. Some of

@@ -7,7 +7,12 @@ control "V-73303" do
   that the userid and password will be captured on the network and give
   administrator access to an unauthorized user.
   "
-  impact 0.5
+  is_ftp_installed = command("Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed").stdout.strip
+  if (is_ftp_installed == 'False' || is_ftp_installed == '')
+    impact 0.0
+  else
+    impact 0.5
+  end
   tag "gtitle": "SRG-OS-000480-GPOS-00227"
   tag "gid": "V-73303"
   tag "rid": "SV-87955r1_rule"
@@ -36,11 +41,9 @@ control "V-73303" do
   Select \"Anonymous Authentication\".
 
   Select \"Disabled\" under \"Actions\"."
-  is_ftp_installed = command("Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed").stdout.strip
-  if (is_ftp_installed == 'False' || is_ftp_installed == '')
-    describe 'FTP not installed' do
-      skip "control NA"
-    end
+  describe 'File Transfer Protocol (FTP) servers must be configured to prevent
+  anonymous logons' do
+    skip "is a manual check"
   end
 end
 

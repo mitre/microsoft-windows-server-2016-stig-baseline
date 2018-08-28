@@ -68,59 +68,67 @@ control "V-73259" do
   get_names = []
   names = []
   sids = []
-
+  inactive_accounts = []
  
   users.each do |user|
-    get_sids = command("wmic useraccount where \"Name='#{user}'\" get name',' sid | Findstr /v SID").stdout.strip
+    get_sids = command("wmic useraccount where \"Name='#{user}'\" get name',' sid',' Disabled | Findstr /v SID").stdout.strip
     get_last = get_sids[get_sids.length-3, 3]
+    get_disabled = get_sids[0,4]
     loc_colon = get_sids.index(' ')
     names = get_sids[0,loc_colon]
-    if (get_last != '500'  && get_last != '501')
+    if (get_last != '500'  && get_last != '501' && get_disabled != 'TRUE')
       get_names.push(names)
      end
   end
- 
-  if get_names == []
-  describe 'No Outdated accounts' do 
-    skip 'control not applicable'
-  end
-end
-if get_names != []
- get_names.each do |user|
 
-    get_last_logon = command("Net User #{user} | Findstr /i 'Last Logon' | Findstr /v 'Password script hours'").stdout.strip
+  if get_names != []
+    get_names.each do |user|
 
-    last_logon = get_last_logon[29..33]
+      get_last_logon = command("Net User #{user} | Findstr /i 'Last Logon' | Findstr /v 'Password script hours'").stdout.strip
 
-    if (last_logon != 'Never')
-      month = get_last_logon[28..29]
-      day = get_last_logon[31..32]
-      year = get_last_logon[34..37]
+      last_logon = get_last_logon[29..33]
 
-      if (get_last_logon[32] == '/')
+      if (last_logon != 'Never')
         month = get_last_logon[28..29]
-        day = get_last_logon[31]
-        year = get_last_logon[33..37]
-      end
-      date = day +  "/" + month + "/" + year
+        day = get_last_logon[31..32]
+        year = get_last_logon[34..37]
 
-      date_last_logged_on = DateTime.now.mjd - DateTime.parse(date).mjd
-      describe "#{user}'s last logon" do
-        describe date_last_logged_on do
-          it { should cmp <= 35 }
-        end 
-      end
-    end
+        if (get_last_logon[32] == '/')
+          month = get_last_logon[28..29]
+          day = get_last_logon[31]
+          year = get_last_logon[33..37]
+        end
+        date = day +  "/" + month + "/" + year
 
-    if (last_logon == 'Never')
-      date_last_logged_on = 'Never'
-      describe "#{user}'s last logon" do
-        describe date_last_logged_on do
-          it { should_not == 'Never' }
-        end 
+        date_last_logged_on = DateTime.now.mjd - DateTime.parse(date).mjd
+        if date_last_logged_on >35
+          inactive_accounts.push(user)
+        end
+
+        describe "#{user}'s last logon" do
+          describe date_last_logged_on do
+            it { should cmp <= 35 }
+          end 
+        end if inactive_accountsac != []
       end
+
+      if (last_logon == 'Never')
+        date_last_logged_on = 'Never'
+        describe "#{user}'s last logon" do
+          describe date_last_logged_on do
+            it { should_not == 'Never' }
+          end 
+        end
+      end if inactive_accountsac != []
     end
-  end
+  end 
+
+  describe "The system does not have any inactive_accounts, control is NA" do
+    skip "The system does not have any inactive_accounts, controls is NA"
+  end if inactive_accounts == []
+
+  if inactive_accounts == []
+    impact 0.0
   end 
 end
 

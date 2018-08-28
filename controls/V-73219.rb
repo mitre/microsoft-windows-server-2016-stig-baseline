@@ -1,4 +1,6 @@
- ADMINISTRATORS3 = attribute(
+ domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
+
+ ADMINISTRATORS = attribute(
   'administrators',
   description: 'List of authorized users in the local Admionistrators group',
   default: %w[
@@ -20,7 +22,11 @@ control "V-73219" do
   Standard user accounts must not be members of the built-in Administrators
   group.
   "
-  impact 0.7
+  if domain_role == '4' || domain_role == '5'
+    impact 0.7
+  else
+    impact 0.0
+  end
   tag "gtitle": "SRG-OS-000324-GPOS-00125"
   tag "gid": "V-73219"
   tag "rid": "SV-87871r1_rule"
@@ -51,8 +57,12 @@ control "V-73219" do
   administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split('\n')
   administrator_group.each do |user|
     describe "#{user}" do
-      it { should be_in ADMINISTRATORS3}
+      it { should be_in ADMINISTRATORS}
     end  
-  end 
+  end if domain_role == '4' || domain_role == '5'
+  
+  describe "System is not a domain controller, control not applicable" do
+    skip "System is not a domain controller, control not applicable"
+  end if domain_role != '4' || domain_role != '5'
 end
 

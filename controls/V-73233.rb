@@ -12,7 +12,11 @@ control "V-73233" do
   same user identification) do not provide adequate identification and
   authentication. There is no way to provide for nonrepudiation or individual
   accountability for system access and resource usage."
-  impact 0.5
+   if ACCOUNTS == []
+    impact 0.0
+  else
+    impact 0.5
+  end
   tag "gtitle": "SRG-OS-000104-GPOS-00051"
   tag "gid": "V-73233"
   tag "rid": "SV-87885r2_rule"
@@ -39,8 +43,12 @@ control "V-73233" do
   get_accounts = command("net user | Findstr /v 'command -- accounts'").stdout.strip.split(' ')
   get_accounts.each do |user|
     describe user do
-      it { should be_in ACCOUNTS}
-    end  
+      it { should_not be_in ACCOUNTS}
+    end  if ACCOUNTS == []
   end 
+
+  describe "The system does not have any shared accounts, control is NA" do
+    skip "The system does not have any shared accounts, controls is NA"
+  end if ACCOUNTS != []
 end
 
