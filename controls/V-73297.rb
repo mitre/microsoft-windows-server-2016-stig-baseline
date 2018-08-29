@@ -35,5 +35,8 @@ control "V-73297" do
   Deselect \"TFTP Client\" on the \"Features\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
+  describe command("Get-WindowsFeature TFTP-Client | Select -Expand Installed") do
+    its('stdout') {should match /False/}
+  end
 end
 

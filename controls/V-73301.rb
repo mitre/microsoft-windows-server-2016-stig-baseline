@@ -37,5 +37,8 @@ control "V-73301" do
   \"Features\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
+  describe command("Get-WindowsFeature PowerShell-v2 | Select -Expand Installed") do
+    its('stdout') {should match /False/}
   end
+end
 

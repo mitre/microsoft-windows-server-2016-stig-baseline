@@ -35,5 +35,8 @@ control "V-73295" do
   Deselect \"Telnet Client\" on the \"Features\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
+  describe command("Get-WindowsFeature Telnet-Client | Select -Expand Installed") do
+    its('stdout') {should match /False/}
+  end
 end
 

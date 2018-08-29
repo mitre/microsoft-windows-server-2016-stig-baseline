@@ -1,6 +1,6 @@
  EMERGENCY_ACCOUNT = attribute(
   'emergency_account',
-  description: 'List of temporary accounts on the system',
+  description: 'List of emergency accounts on the system',
   default: %w[
            ]
 )

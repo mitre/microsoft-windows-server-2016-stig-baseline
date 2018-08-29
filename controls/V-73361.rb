@@ -1,15 +1,20 @@
+domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
+
 control "V-73361" do
   title "The Kerberos service ticket maximum lifetime must be limited to 600
-minutes or less."
+  minutes or less."
   desc  "This setting determines the maximum amount of time (in minutes) that a
-granted session ticket can be used to access a particular service. Session
-tickets are used only to authenticate new connections with servers. Ongoing
-operations are not interrupted if the session ticket used to authenticate the
-connection expires during the connection.
-
+  granted session ticket can be used to access a particular service. Session
+  tickets are used only to authenticate new connections with servers. Ongoing
+  operations are not interrupted if the session ticket used to authenticate the
+  connection expires during the connection.
 
   "
-  impact 0.5
+  if domain_role == '4' || domain_role == '5'
+    impact 0.5
+  else
+    impact 0.0
+  end
   tag "gtitle": "SRG-OS-000112-GPOS-00057"
   tag "satisfies": ["SRG-OS-000112-GPOS-00057", "SRG-OS-000113-GPOS-00058"]
   tag "gid": "V-73361"
@@ -22,26 +27,38 @@ connection expires during the connection.
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
-Verify the following is configured in the Default Domain Policy.
+  Verify the following is configured in the Default Domain Policy.
 
-Open \"Group Policy Management\".
+  Open \"Group Policy Management\".
 
-Navigate to \"Group Policy Objects\" in the Domain being reviewed (Forest >>
-Domains >> Domain).
+  Navigate to \"Group Policy Objects\" in the Domain being reviewed (Forest >>
+  Domains >> Domain).
 
-Right-click on the \"Default Domain Policy\".
+  Right-click on the \"Default Domain Policy\".
 
-Select \"Edit\".
+  Select \"Edit\".
 
-Navigate to Computer Configuration >> Policies >> Windows Settings >> Security
-Settings >> Account Policies >> Kerberos Policy.
+  Navigate to Computer Configuration >> Policies >> Windows Settings >> Security
+  Settings >> Account Policies >> Kerberos Policy.
 
-If the value for \"Maximum lifetime for service ticket\" is \"0\" or greater
-than \"600\" minutes, this is a finding."
+  If the value for \"Maximum lifetime for service ticket\" is \"0\" or greater
+  than \"600\" minutes, this is a finding."
   tag "fix": "Configure the policy value in the Default Domain Policy for
-Computer Configuration >> Policies >> Windows Settings >> Security Settings >>
-Account Policies >> Kerberos Policy >> \"Maximum lifetime for service ticket\"
-to a maximum of \"600\" minutes, but not \"0\", which equates to \"Ticket
-doesn't expire\"."
+  Computer Configuration >> Policies >> Windows Settings >> Security Settings >>
+  Account Policies >> Kerberos Policy >> \"Maximum lifetime for service ticket\"
+  to a maximum of \"600\" minutes, but not \"0\", which equates to \"Ticket
+  doesn't expire\"."
+  describe.one do
+    describe security_policy do
+      its("MaxServiceAge") { should be > 0}
+    end
+    describe security_policy do
+      its("MaxServiceAge") { should be <= 600}
+    end
+  end if domain_role == '4' || domain_role == '5'
+
+  describe "System is not a domain controller, control not applicable" do
+    skip "System is not a domain controller, control not applicable"
+  end if domain_role != '4' || domain_role != '5'
 end
 
