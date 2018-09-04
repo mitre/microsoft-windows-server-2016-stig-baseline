@@ -54,5 +54,18 @@ control "V-73307" do
   http://tycho.usno.navy.mil/ntp.html. Time synchronization will occur through a
   hierarchy of time servers down to the local level. Clients and lower-level
   servers will synchronize with an authorized time server in the hierarchy."
+  is_domain = command("wmic computersystem get domain | FINDSTR /V Domain").stdout.strip
+  
+  describe command(" W32tm /query /configuration | Findstr Type") do
+    its('stdout') { should eq "Type: NT5DS (Local)\r\n" }
+  end if is_domain != "WORKGROUP"
+
+  get_type = command("W32tm /query /configuration | Findstr Type").stdout.strip
+
+  if get_type == 'Type: NTP (Policy)'
+      describe registry_key('HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\W32time\Parameters') do
+        its('NTPServer') { should_not cmp == 'time.windows.com,0x9' }
+      end if is_domain == "WORKGROUP"
+  end
 end
 

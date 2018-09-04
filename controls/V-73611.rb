@@ -1,3 +1,4 @@
+domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
 control "V-73611" do
   title "Domain controllers must have a PKI server certificate."
   desc  "Domain controllers are part of the chain of trust for PKI
@@ -38,11 +39,13 @@ Select the Certificates entry in the left pane.
 If no certificate for the domain controller exists in the right pane, this is a
 finding."
   tag "fix": "Obtain a server certificate for the domain controller."
-  domain_role = command("wmic computersystem get domainrole /v DomainRole").stdout.strip
-  if domain_role < 4
-    describe 'control' do
-      skip 'no domain role'
-    end
-  end
+  describe command("Get-ChildItem -Path Cert:\\LocalMachine\\My | Findstr /v 'Thumbprint -- PSParentPath'") do
+  its('stdout') { should_not eq ' ' }
+end if domain_role == '4' || domain_role == '5'
+
+  describe "System is not a domain controller, control not applicable" do
+    skip "System is not a domain controller, control not applicable"
+  end if domain_role != '4' && domain_role != '5'
+  
 end
 

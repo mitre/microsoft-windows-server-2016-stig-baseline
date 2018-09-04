@@ -31,7 +31,7 @@ control "V-73219" do
   tag "rid": "SV-87871r1_rule"
   tag "stig_id": "WN16-DC-000010"
   tag "fix_id": "F-79665r1_fix"
-  tag "cci": ["CCI-002235"]
+  tag "cci": ["CCI-002235"] 
   tag "nist": ["AC-6 (10)", "Rev_4"]
   tag "nist": ["CCI-002235"]
   tag "documentable": false
@@ -62,6 +62,6 @@ control "V-73219" do
 
   describe "System is not a domain controller, control not applicable" do
     skip "System is not a domain controller, control not applicable"
-  end if domain_role != '4' || domain_role != '5'
+  end if domain_role != '4' && domain_role != '5'
 end
 

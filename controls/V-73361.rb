@@ -59,6 +59,6 @@ control "V-73361" do
 
   describe "System is not a domain controller, control not applicable" do
     skip "System is not a domain controller, control not applicable"
-  end if domain_role != '4' || domain_role != '5'
+  end if domain_role != '4' && domain_role != '5'
 end
 

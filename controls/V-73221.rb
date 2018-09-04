@@ -1,101 +1,124 @@
+FORREST = attribute(
+  'forrest',
+  description: 'List of authorized users in the local Admionistrators group',
+  default: "dc=test, dc=com"
+           )
 domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
 
- ADMINISTRATORS = attribute(
-  'administrators',
-  description: 'List of authorized users in the local Admionistrators group',
-  default: %w[
-            Admn
-           ]
-)
-
-control "V-73221" do
-  title "Only administrators responsible for the member server or standalone
-  system must have Administrator rights on the system."
-  desc  "An account that does not have Administrator duties must not have
-  Administrator rights. Such rights would allow the account to bypass or modify
-  required security restrictions on that machine and make it vulnerable to attack.
-
-  System administrators must log on to systems using only accounts with the
-  minimum level of authority necessary.
-
-  For domain-joined member servers, the Domain Admins group must be replaced
-  by a domain member server administrator group (see V-36433 in the Active
-  Directory Domain STIG). Restricting highly privileged accounts from the local
-  Administrators group helps mitigate the risk of privilege escalation resulting
-  from credential theft attacks.
-
-  Systems dedicated to the management of Active Directory (AD admin
-  platforms, see V-36436 in the Active Directory Domain STIG) are exempt from
-  this. AD admin platforms may use the Domain Admins group or a domain
-  administrative group created specifically for AD admin platforms (see V-43711
-  in the Active Directory Domain STIG).
-
-  Standard user accounts must not be members of the built-in Administrators
-  group.
-  "
-  if domain_role != '4' || domain_role != '5'
-    impact 0.7
+control "V-73387" do
+  title "The directory service must be configured to terminate LDAP-based
+  network connections to the directory server after 5 minutes of inactivity."
+  desc  "The failure to terminate inactive network connections increases the
+  risk of a successful attack on the directory server. The longer an established
+  session is in progress, the more time an attacker has to hijack the session,
+  implement a means to passively intercept data, or compromise any protections on
+  client access. For example, if an attacker gains control of a client computer,
+  an existing (already authenticated) session with the directory server could
+  allow access to the directory. The lack of confidentiality protection in
+  LDAP-based sessions increases exposure to this vulnerability."
+  if domain_role == '4' || domain_role == '5'
+    impact 0.3
   else
     impact 0.0
   end
-  tag "gtitle": "SRG-OS-000324-GPOS-00125"
-  tag "gid": "V-73221"
-  tag "rid": "SV-87873r1_rule"
-  tag "stig_id": "WN16-MS-000010"
-  tag "fix_id": "F-80263r1_fix"
-  tag "cci": ["CCI-002235"]
-  tag "nist": ["AC-6 (10)", "Rev_4"]
+  tag "gtitle": "SRG-OS-000163-GPOS-00072"
+  tag "gid": "V-73387"
+  tag "rid": "SV-88039r1_rule"
+  tag "stig_id": "WN16-DC-000160"
+  tag "fix_id": "F-79829r1_fix"
+  tag "cci": ["CCI-001133"]
+  tag "nist": ["SC-10", "Rev_4"]
   tag "documentable": false
-  tag "check": "This applies to member servers and standalone systems. A
-  separate version applies to domain controllers.
+  tag "check": "This applies to domain controllers. It is NA for other systems.
 
-  Open \"Computer Management\".
+  Open an elevated \"Command Prompt\" (run as administrator).
 
-  Navigate to \"Groups\" under \"Local Users and Groups\".
+  Enter \"ntdsutil\".
 
-  Review the local \"Administrators\" group.
+  At the \"ntdsutil:\" prompt, enter \"LDAP policies\".
 
-  Only administrator groups or accounts responsible for administration of the
-  system may be members of the group.
+  At the \"ldap policy:\" prompt, enter \"connections\".
 
-  For domain-joined member servers, the Domain Admins group must be replaced by a
-  domain member server administrator group.
+  At the \"server connections:\" prompt, enter \"connect to server [host-name]\"
+  (where [host-name] is the computer name of the domain controller).
 
-  Systems dedicated to the management of Active Directory (AD admin platforms,
-  see V-36436 in the Active Directory Domain STIG) are exempt from this. AD admin
-  platforms may use the Domain Admins group or a domain administrative group
-  created specifically for AD admin platforms (see V-43711 in the Active
-  Directory Domain STIG).
+  At the \"server connections:\" prompt, enter \"q\".
 
-  Standard user accounts must not be members of the local Administrator group.
+  At the \"ldap policy:\" prompt, enter \"show values\".
 
-  If accounts that do not have responsibility for administration of the system
-  are members of the local Administrators group, this is a finding.
+  If the value for MaxConnIdleTime is greater than \"300\" (5 minutes) or is not
+  specified, this is a finding.
 
-  If the built-in Administrator account or other required administrative accounts
-  are found on the system, this is not a finding."
-  tag "fix": "Configure the local \"Administrators\" group to include only
-  administrator groups or accounts responsible for administration of the system.
+  Enter \"q\" at the \"ldap policy:\" and \"ntdsutil:\" prompts to exit.
 
-  For domain-joined member servers, replace the Domain Admins group with a domain
-  member server administrator group.
+  Alternately, Dsquery can be used to display MaxConnIdleTime:
 
-  Systems dedicated to the management of Active Directory (AD admin platforms,
-  see V-36436 in the Active Directory Domain STIG) are exempt from this. AD admin
-  platforms may use the Domain Admins group or a domain administrative group
-  created specifically for AD admin platforms (see V-43711 in the Active
-  Directory Domain STIG).
+  Open \"Command Prompt (Admin)\".
+  Enter the following command (on a single line).
 
-  Remove any standard user accounts."
-  administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split('\n')
-  administrator_group.each do |user|
-    describe "#{user}" do
-      it { should be_in ADMINISTRATORS}
-    end  
-  end if domain_role != '4' || domain_role != '5'
-  describe "System is a domain controller, control not applicable" do
-    skip "System is a domain controller, control not applicable"
+  dsquery * \"cn=Default Query Policy,cn=Query-Policies,cn=Directory Service,
+  cn=Windows NT,cn=Services,cn=Configuration,dc=[forest-name]\" -attr
+  LDAPAdminLimits
+
+  The quotes are required and dc=[forest-name] is the fully qualified LDAP name
+  of the domain being reviewed (e.g., dc=disaost,dc=mil).
+
+  If the results do not specify a \"MaxConnIdleTime\" or it has a value greater
+  than \"300\" (5 minutes), this is a finding."
+  tag "fix": "Configure the directory service to terminate LDAP-based network
+  connections to the directory server after 5 minutes of inactivity.
+
+  Open an elevated \"Command prompt\" (run as administrator).
+
+  Enter \"ntdsutil\".
+
+  At the \"ntdsutil:\" prompt, enter \"LDAP policies\".
+
+  At the \"ldap policy:\" prompt, enter \"connections\".
+
+  At the \"server connections:\" prompt, enter \"connect to server [host-name]\"
+  (where [host-name] is the computer name of the domain controller).
+
+  At the \"server connections:\" prompt, enter \"q\".
+
+  At the \"ldap policy:\" prompt, enter \"Set MaxConnIdleTime to 300\".
+
+  Enter \"Commit Changes\" to save.
+
+  Enter \"Show values\" to verify changes.
+
+  Enter \"q\" at the \"ldap policy:\" and \"ntdsutil:\" prompts to exit."
+  names = []
+  values = []
+  query = command("dsquery * 'cn=Default Query Policy,cn=Query-Policies,cn=Directory Service,
+  cn=Windows NT,cn=Services,cn=Configuration,#{FORREST}' -attr LDAPAdminLimits").stdout.strip.split(';')
+  query.each do |data|
+    loc_equalsign = data.index('=')
+    name = data[0..loc_equalsign-1]
+    names.push(name)
+    value_start = loc_equalsign+1
+    value = data[value_start..-1]
+    if name == 'MaxConnIdleTime'
+    MaxConnIdleTime = value
+    end
+  end
+  [names].each do |n|
+    describe "The ldapadminlimits" do
+      subject {n}
+      it {should include 'MaxConnIdleTime'}
+    end if domain_role == '4' || domain_role == '5'
+  end
+ 
+  describe "The MaxConnIdle" do
+    subject {MaxConnIdleTime}
+    it {should cmp <= 300}
   end if domain_role == '4' || domain_role == '5'
 
+  describe "System is not a domain controller, control not applicable" do
+    skip "System is not a domain controller, control not applicable"
+  end if (domain_role != '4' && domain_role != '5')
 end
+
+
+
 

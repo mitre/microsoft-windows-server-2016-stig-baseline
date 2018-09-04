@@ -141,11 +141,13 @@ Inherited from - None
 Applies to - This object only
 (Access - Special = Permissions: Write all properties, Modify permissions,
 Modify owner.)"
-  domain_role = command("wmic computersystem get domainrole | /v DomainRole").stdout.strip
-  if domain_role != '4' || domain_role != '5'
-    describe 'control' do
-      skip 'This computer is not a domain controller'
-    end
-  end
+ get_distinguisedname = command("Get-ADDomain | Findstr DistinguishedName").stdout.strip
+  loc_colon = get_netbiosname.index(':')
+  distinguishedName = get_distinguisedname[37..-1]
+  get_ou = command("Import-Module ActiveDirectory | Get-ADOrganizationalUnit -LDAPFilter '(name=*)' | Findstr DistinguishedName | Findstr Controllers").stdout.strip
+  ou = get_ou[27..70]
+  describe powershell("Import-Module ActiveDirectory; Get-Acl -Path 'AD:#{distinguishedName}' | Fl | Findstr All") do
+    its('stdout') { should eq "Access : NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\Authenticated \Users Allow  \r\n         NT AUTHORITY\\SYSTEM Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         #{netbiosname}\\Key Admins Allow  \r\n         #{netbiosname}\\Enterprise Key Admins Allow  \r\n         CREATOR OWNER Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Administrators Allow  \r\n"}
+  end if domain_role == '4' || domain_role == '5'
 end
 

@@ -61,6 +61,10 @@ control "V-73381" do
   and email from the domain controller."
   describe "Domain controllers must run on a machine dedicated to that function" do
     skip "This is a manual check"
-  end
+  end if domain_role == '4' || domain_role == '5'
+
+  describe "System is not a domain controller, control not applicable" do
+    skip "System is not a domain controller, control not applicable"
+  end if domain_role != '4' && domain_role != '5'
 end
 

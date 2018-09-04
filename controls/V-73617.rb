@@ -1,25 +1,25 @@
+domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
 control "V-73617" do
   title "Active Directory user accounts, including administrators, must be
-configured to require the use of a Common Access Card (CAC), Personal Identity
-Verification (PIV)-compliant hardware token, or Alternate Logon Token (ALT) for
-user authentication."
+  configured to require the use of a Common Access Card (CAC), Personal Identity
+  Verification (PIV)-compliant hardware token, or Alternate Logon Token (ALT) for
+  user authentication."
   desc  "Smart cards such as the CAC support a two-factor authentication
-technique. This provides a higher level of trust in the asserted identity than
-use of the username and password for authentication.
-
+  technique. This provides a higher level of trust in the asserted identity than
+  use of the username and password for authentication.
 
   "
   impact 0.5
   tag "gtitle": "SRG-OS-000105-GPOS-00052"
   tag "satisfies": ["SRG-OS-000105-GPOS-00052", "SRG-OS-000106-GPOS-00053",
-"SRG-OS-000107-GPOS-00054", "SRG-OS-000108-GPOS-00055",
-"SRG-OS-000375-GPOS-00160"]
+  "SRG-OS-000107-GPOS-00054", "SRG-OS-000108-GPOS-00055",
+  "SRG-OS-000375-GPOS-00160"]
   tag "gid": "V-73617"
   tag "rid": "SV-88281r1_rule"
   tag "stig_id": "WN16-DC-000310"
   tag "fix_id": "F-80067r1_fix"
   tag "cci": ["CCI-000765", "CCI-000766", "CCI-000767", "CCI-000768",
-"CCI-001948"]
+  "CCI-001948"]
   tag "nist": ["IA-2 (1)", "Rev_4"]
   tag "nist": ["IA-2 (2)", "Rev_4"]
   tag "nist": ["IA-2 (3)", "Rev_4"]
@@ -28,54 +28,55 @@ use of the username and password for authentication.
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
-Open \"PowerShell\".
+  Open \"PowerShell\".
 
-Enter the following:
+  Enter the following:
 
-\"Get-ADUser -Filter {(Enabled -eq $True) -and (SmartcardLogonRequired -eq
-$False)} | FT Name\"
-(\"DistinguishedName\" may be substituted for \"Name\" for more detailed
-output.)
+  \"Get-ADUser -Filter {(Enabled -eq $True) -and (SmartcardLogonRequired -eq
+  $False)} | FT Name\"
+  (\"DistinguishedName\" may be substituted for \"Name\" for more detailed
+  output.)
 
-If any user accounts, including administrators, are listed, this is a finding.
+  If any user accounts, including administrators, are listed, this is a finding.
 
-Alternately:
+  Alternately:
 
-To view sample accounts in \"Active Directory Users and Computers\" (available
-from various menus or run \"dsa.msc\"):
+  To view sample accounts in \"Active Directory Users and Computers\" (available
+  from various menus or run \"dsa.msc\"):
 
-Select the Organizational Unit (OU) where the user accounts are located. (By
-default, this is the Users node; however, accounts may be under other
-organization-defined OUs.)
+  Select the Organizational Unit (OU) where the user accounts are located. (By
+  default, this is the Users node; however, accounts may be under other
+  organization-defined OUs.)
 
-Right-click the sample user account and select \"Properties\".
+  Right-click the sample user account and select \"Properties\".
 
-Select the \"Account\" tab.
+  Select the \"Account\" tab.
 
-If any user accounts, including administrators, do not have \"Smart card is
-required for interactive logon\" checked in the \"Account Options\" area, this
-is a finding."
+  If any user accounts, including administrators, do not have \"Smart card is
+  required for interactive logon\" checked in the \"Account Options\" area, this
+  is a finding."
   tag "fix": "Configure all user accounts, including administrator accounts, in
-Active Directory to enable the option \"Smart card is required for interactive
-logon\".
+  Active Directory to enable the option \"Smart card is required for interactive
+  logon\".
 
-Run \"Active Directory Users and Computers\" (available from various menus or
-run \"dsa.msc\"):
+  Run \"Active Directory Users and Computers\" (available from various menus or
+  run \"dsa.msc\"):
 
-Select the OU where the user accounts are located. (By default this is the
-Users node; however, accounts may be under other organization-defined OUs.)
+  Select the OU where the user accounts are located. (By default this is the
+  Users node; however, accounts may be under other organization-defined OUs.)
 
-Right-click the user account and select \"Properties\".
+  Right-click the user account and select \"Properties\".
 
-Select the \"Account\" tab.
+  Select the \"Account\" tab.
 
-Check \"Smart card is required for interactive logon\" in the \"Account
-Options\" area."
-  domain_role = command("wmic computersystem get domainrole /v DomainRole").stdout.strip
-  if domain_role < 4
-    describe 'control' do
-      skip 'no domain role'
-    end
-  end
+  Check \"Smart card is required for interactive logon\" in the \"Account
+  Options\" area."
+  describe command("Get-ADUser -Filter {(Enabled -eq $True) -and (SmartcardLogonRequired -eq $False)} | FT Name | Findstr /v 'Name ---'") do
+    its('stdout') { should eq ''}
+  end if domain_role == '4' || domain_role == '5'
+
+  describe "System is not a domain controller, control not applicable" do
+    skip "System is not a domain controller, control not applicable"
+  end if domain_role != '4' && domain_role != '5'
 end
 
