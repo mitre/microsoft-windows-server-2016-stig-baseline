@@ -26,7 +26,11 @@ control "V-73283" do
   with enterprise-level authentication/access mechanisms that meet or exceed
   access control policy requirements.
   "
-  impact 0.5
+  if TEMP_ACCOUNT == []
+    impact 0.0
+  else
+    impact 0.5
+  end
   tag "gtitle": "SRG-OS-000002-GPOS-00002"
   tag "gid": "V-73283"
   tag "rid": "SV-87935r1_rule"

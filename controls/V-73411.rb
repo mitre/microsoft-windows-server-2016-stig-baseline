@@ -1,16 +1,14 @@
 control "V-73411" do
   title "Event Viewer must be protected from unauthorized modification and
-deletion."
+  deletion."
   desc  "Protecting audit information also includes identifying and protecting
-the tools used to view and manipulate log data. Therefore, protecting audit
-tools is necessary to prevent unauthorized operation on audit information.
+  the tools used to view and manipulate log data. Therefore, protecting audit
+  tools is necessary to prevent unauthorized operation on audit information.
 
-    Operating systems providing tools to interface with audit information will
-leverage user permissions and roles identifying the user accessing the tools
-and the corresponding rights the user enjoys in order to make access decisions
-regarding the modification or deletion of audit tools.
-
-
+      Operating systems providing tools to interface with audit information will
+  leverage user permissions and roles identifying the user accessing the tools
+  and the corresponding rights the user enjoys in order to make access decisions
+  regarding the modification or deletion of audit tools.
   "
   impact 0.5
   tag "gtitle": "SRG-OS-000257-GPOS-00098"
@@ -24,26 +22,26 @@ regarding the modification or deletion of audit tools.
   tag "documentable": false
   tag "check": "Navigate to \"%SystemRoot%\\System32\".
 
-View the permissions on \"Eventvwr.exe\".
+  View the permissions on \"Eventvwr.exe\".
 
-If any groups or accounts other than TrustedInstaller have \"Full control\" or
-\"Modify\" permissions, this is a finding.
+  If any groups or accounts other than TrustedInstaller have \"Full control\" or
+  \"Modify\" permissions, this is a finding.
 
-The default permissions below satisfy this requirement:
+  The default permissions below satisfy this requirement:
 
-TrustedInstaller - Full Control
-Administrators, SYSTEM, Users, ALL APPLICATION PACKAGES, ALL RESTRICTED
-APPLICATION PACKAGES - Read & Execute"
+  TrustedInstaller - Full Control
+  Administrators, SYSTEM, Users, ALL APPLICATION PACKAGES, ALL RESTRICTED
+  APPLICATION PACKAGES - Read & Execute"
   tag "fix": "Configure the permissions on the \"Eventvwr.exe\" file to prevent
-modification by any groups or accounts other than TrustedInstaller. The default
-permissions listed below satisfy this requirement:
+  modification by any groups or accounts other than TrustedInstaller. The default
+  permissions listed below satisfy this requirement:
 
-TrustedInstaller - Full Control
-Administrators, SYSTEM, Users, ALL APPLICATION PACKAGES, ALL RESTRICTED
-APPLICATION PACKAGES - Read & Execute
+  TrustedInstaller - Full Control
+  Administrators, SYSTEM, Users, ALL APPLICATION PACKAGES, ALL RESTRICTED
+  APPLICATION PACKAGES - Read & Execute
 
-The default location is the \"%SystemRoot%\\ System32\" folder."
-get_system_root = command("env | Findstr SYSTEMROOT").stdout.strip
+  The default location is the \"%SystemRoot%\\ System32\" folder."
+  get_system_root = command("env | Findstr SYSTEMROOT").stdout.strip
   system_root = get_system_root[11..get_system_root.length]
 
   describe command("Get-Acl -Path '#{system_root}\\SYSTEM32\\Eventvwr.exe' | Format-List | Findstr All") do

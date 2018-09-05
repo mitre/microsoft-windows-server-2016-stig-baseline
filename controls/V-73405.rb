@@ -1,19 +1,19 @@
 control "V-73405" do
   title "Permissions for the Application event log must prevent access by
-non-privileged accounts."
+  non-privileged accounts."
   desc  "Maintaining an audit trail of system activity logs can help identify
-configuration errors, troubleshoot service disruptions, and analyze compromises
-that have occurred, as well as detect attacks. Audit logs are necessary to
-provide a trail of evidence in case the system or network is compromised. The
-Application event log may be susceptible to tampering if proper permissions are
-not applied.
+  configuration errors, troubleshoot service disruptions, and analyze compromises
+  that have occurred, as well as detect attacks. Audit logs are necessary to
+  provide a trail of evidence in case the system or network is compromised. The
+  Application event log may be susceptible to tampering if proper permissions are
+  not applied.
 
 
   "
   impact 0.5
   tag "gtitle": "SRG-OS-000057-GPOS-00027"
   tag "satisfies": ["SRG-OS-000057-GPOS-00027", "SRG-OS-000058-GPOS-00028",
-"SRG-OS-000059-GPOS-00029"]
+  "SRG-OS-000059-GPOS-00029"]
   tag "gid": "V-73405"
   tag "rid": "SV-88057r1_rule"
   tag "stig_id": "WN16-AU-000030"
@@ -23,28 +23,28 @@ not applied.
   tag "documentable": false
   tag "check": "Navigate to the Application event log file.
 
-The default location is the \"%SystemRoot%\\System32\\winevt\\Logs\" folder.
-However, the logs may have been moved to another folder.
+  The default location is the \"%SystemRoot%\\System32\\winevt\\Logs\" folder.
+  However, the logs may have been moved to another folder.
 
-If the permissions for the \"Application.evtx\" file are not as restrictive as
-the default permissions listed below, this is a finding.
+  If the permissions for the \"Application.evtx\" file are not as restrictive as
+  the default permissions listed below, this is a finding.
 
-Eventlog - Full Control
-SYSTEM - Full Control
-Administrators - Full Control"
+  Eventlog - Full Control
+  SYSTEM - Full Control
+  Administrators - Full Control"
   tag "fix": "Configure the permissions on the Application event log file
-(Application.evtx) to prevent access by non-privileged accounts. The default
-permissions listed below satisfy this requirement:
+  (Application.evtx) to prevent access by non-privileged accounts. The default
+  permissions listed below satisfy this requirement:
 
-Eventlog - Full Control
-SYSTEM - Full Control
-Administrators - Full Control
+  Eventlog - Full Control
+  SYSTEM - Full Control
+  Administrators - Full Control
 
-The default location is the \"%SystemRoot%\\ System32\\winevt\\Logs\" folder.
+  The default location is the \"%SystemRoot%\\ System32\\winevt\\Logs\" folder.
 
-If the location of the logs has been changed, when adding Eventlog to the
-permissions, it must be entered as \"NT Service\\Eventlog\"."
-get_system_root = command("env | Findstr SYSTEMROOT").stdout.strip
+  If the location of the logs has been changed, when adding Eventlog to the
+  permissions, it must be entered as \"NT Service\\Eventlog\"."
+  get_system_root = command("env | Findstr SYSTEMROOT").stdout.strip
   system_root = get_system_root[11..get_system_root.length]
 
   describe command("Get-Acl -Path '#{system_root}\\SYSTEM32\\WINEVT\\LOGS\' | Format-List | Findstr All") do

@@ -4,7 +4,12 @@ control "V-73257" do
   desc  "Windows shares are a means by which files, folders, printers, and
   other resources can be published for network users to access. Improper
   configuration can permit access to devices and data beyond a user's need."
-  impact 0.3
+  get_printers = command("Get-Printer | Format-List | Findstr /v 'Name ---'")
+  if get_printers == ''
+    impact 0.0
+  else
+    impact 0.3
+  end
   tag "gtitle": "SRG-OS-000080-GPOS-00048"
   tag "gid": "V-73257"
   tag "rid": "SV-87909r1_rule"
@@ -37,16 +42,9 @@ control "V-73257" do
   accounts."
   tag "fix": "Configure the permissions on shared printers to restrict standard
   users to only have Print permissions."
-  get_shared_printer_status = command('get-Printer | Format-List | Findstr Shared').stdout.strip.split("\n")
-  get_shared_printer_status.each do |status|
-    loc_colon = status.index(':')
-    shared = status[loc_colon+2..loc_colon+7]
-
-    if (shared == 'False')
-      describe "Printer shared not enabled" do
-        skip "control not applicable"
-      end
-    end
+  describe "Nonadministrative user accounts or groups must only have print
+  permissions on printer shares." do
+    skip "This is a manual control"
   end
 end
 

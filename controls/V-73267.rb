@@ -1,10 +1,28 @@
+get = command('Get-WMIObject -Query "SELECT * FROM Win32_Share" | Findstr /V "Name --"').stdout.strip.split("\n")
+
+  get.each do |share|
+    loc_space = share.index(' ')
+ 
+    names = share[0..loc_space-1]
+ 
+    share_names.push(names)
+    loc_colon = share.index(':')
+    path = share[40..50]
+    share_paths.push(path)
+  end
+
+
 control "V-73267" do
   title "Non-system-created file shares on a system must limit access to groups
   that require it."
   desc  "Shares on a system provide network access. To prevent exposing
   sensitive information, where shares are necessary, permissions must be
   reconfigured to give the minimum access to accounts that require it."
-  impact 0.5
+  if (share_names_string == 'ADMIN$,C$,IPC$') 
+    impact 0.0
+  else
+    impact 0.5
+  end
   tag "gtitle": "SRG-OS-000138-GPOS-00069"
   tag "gid": "V-73267"
   tag "rid": "SV-87919r1_rule"
@@ -42,18 +60,7 @@ control "V-73267" do
   Remove any unnecessary non-system-created shares."
   share_names = []
   share_paths = []
-  get = command('Get-WMIObject -Query "SELECT * FROM Win32_Share" | Findstr /V "Name --"').stdout.strip.split("\n")
-
-  get.each do |share|
-    loc_space = share.index(' ')
- 
-    names = share[0..loc_space-1]
- 
-    share_names.push(names)
-    loc_colon = share.index(':')
-    path = share[40..50]
-    share_paths.push(path)
-  end
+  
 
   share_names_string = share_names.join(",")
   if (share_names_string != 'ADMIN$,C$,IPC$')

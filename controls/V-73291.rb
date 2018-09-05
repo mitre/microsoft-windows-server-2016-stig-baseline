@@ -35,15 +35,8 @@ control "V-73291" do
   Deselect \"Peer Name Resolution Protocol\" on the \"Features\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
-  is_pnrp_installed = command("Get-Service pnrp").stdout.strip
-  if (is_p2pimsvc_installed == '')
-    describe 'pnrp not installed' do
-      skip "control NA, pnrp is not installed"
-    end
-  else
-    describe wmi({:namespace=>"root\\cimv2", :query=>"SELECT startmode FROM Win32_Service WHERE name='p2pimsvc'"}).params.values do
-      its("join") { should eq "Disabled" }
-    end
+  describe command('Get-WindowsFeature PNRP| Select -Expand Installed') do
+    its('stdout') { should eq "False\r\n"}
   end
 end
 

@@ -1,4 +1,3 @@
-is_ftp_installed = command("Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed").stdout.strip
 control "V-73289" do
   title "The Microsoft FTP service must not be installed unless required."
   desc  "Unnecessary services increase the attack surface of a system. Some of
@@ -40,15 +39,8 @@ control "V-73289" do
   Deselect \"FTP Server\" under \"Web Server (IIS)\" on the \"Roles\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
-  is_ftp_installed = command("Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed").stdout.strip
-  if (is_ftp_installed == 'False' || is_ftp_installed == '')
-    describe 'Ftp not installed' do
-      skip "control NA, Ftp is not installed"
-    end
-  else
-    describe wmi({:namespace=>"root\\cimv2", :query=>"SELECT startmode FROM Win32_Service WHERE name='ftpsvc'"}).params.values do
-      its("join") { should eq "Disabled" }
-    end
+  describe command('Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed') do
+    its('stdout') { should eq "False\r\n"}
   end
 end
 

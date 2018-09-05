@@ -18,8 +18,13 @@ control "V-73241" do
 
   If there is no anti-virus solution installed on the system, this is a finding."
   tag "fix": "Install an anti-virus solution on the system."
-  describe "Server systems must be located in a controlled area" do
-    skip "is a manual check"
+  describe.one do
+    describe registry_key('HKLM\SOFTWARE\Symantec\Symantec Endpoint Protection\CurrentVersion') do
+      it { should exist }
+    end
+    describe registry_key('HKLM\SOFTWARE\McAfee/DesktopProtection\szProductVer') do
+      it { should exist }
+    end
   end
 end
 

@@ -35,15 +35,8 @@ control "V-73293" do
   Deselect \"Simple TCP/IP Services\" on the \"Features\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
-  is_simptcp_installed = command("Get-Service simptcp").stdout.strip
-  if (is_simptcp_installed == '')
-    describe 'simptcp not installed' do
-      skip "control NA, simptcp is not installed"
-    end
-  else
-    describe wmi({:namespace=>"root\\cimv2", :query=>"SELECT startmode FROM Win32_Service WHERE name='simptcp'"}).params.values do
-      its("join") { should eq "Disabled" }
-    end
+  describe command('Get-WindowsFeature Simple-TCPIP| Select -Expand Installed') do
+    its('stdout') { should eq "False\r\n"}
   end
 end
 

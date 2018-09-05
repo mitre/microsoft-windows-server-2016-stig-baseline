@@ -34,15 +34,8 @@ control "V-73287" do
   Deselect \"Fax Server\" on the \"Roles\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
-  is_fax_installed = command("Get-WindowsFeature Fax | Select -Expand Installed").stdout.strip
-  if (is_fax_installed == 'False' || is_fax_installed == '')
-    describe 'Fax not installed' do
-      skip "control NA, Fax is not installed"
-    end
-  else
-    describe wmi({:namespace=>"root\\cimv2", :query=>"SELECT startmode FROM Win32_Service WHERE name='Fax'"}).params.values do
-      its("join") { should eq "Disabled" }
-    end
+  describe command('Get-WindowsFeature Fax | Select -Expand Installed') do
+    its('stdout') { should eq "False\r\n"}
   end
 end
 
