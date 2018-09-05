@@ -1,11 +1,9 @@
 control "V-73603" do
   title "The Windows Remote Management (WinRM) service must not store RunAs
-credentials."
+  credentials."
   desc  "Storage of administrative credentials could allow unauthorized access.
-Disallowing the storage of RunAs credentials for Windows Remote Management will
-prevent them from being used with plug-ins.
-
-
+  Disallowing the storage of RunAs credentials for Windows Remote Management will
+  prevent them from being used with plug-ins.
   "
   impact 0.5
   tag "gtitle": "SRG-OS-000373-GPOS-00157"
@@ -18,20 +16,20 @@ prevent them from being used with plug-ins.
   tag "nist": ["IA-11", "Rev_4"]
   tag "documentable": false
   tag "check": "If the following registry value does not exist or is not
-configured as specified, this is a finding.
+  configured as specified, this is a finding.
 
-Registry Hive: HKEY_LOCAL_MACHINE
-Registry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service\\
+  Registry Hive: HKEY_LOCAL_MACHINE
+  Registry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service\\
 
-Value Name: DisableRunAs
+  Value Name: DisableRunAs
 
-Type: REG_DWORD
-Value: 0x00000001 (1)"
+  Type: REG_DWORD
+  Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-Administrative Templates >> Windows Components >> Windows Remote Management
-(WinRM) >> WinRM Service >> \"Disallow WinRM from storing RunAs credentials\"
-to \"Enabled\"."
-describe registry_key("HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\WinRM\\Service") do
+  Administrative Templates >> Windows Components >> Windows Remote Management
+  (WinRM) >> WinRM Service >> \"Disallow WinRM from storing RunAs credentials\"
+  to \"Enabled\"."
+  describe registry_key("HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\WinRM\\Service") do
     it { should have_property "DisableRunAs" }
     its("DisableRunAs") { should cmp == 1 }
   end

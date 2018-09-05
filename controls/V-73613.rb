@@ -10,7 +10,11 @@ control "V-73613" do
   implementations results in interoperability issues. If servers and clients do
   not have a common set of root CA certificates, they are not able to
   authenticate each other."
-  impact 0.7
+  if domain_role == '4' || domain_role == '5'
+    impact 0.7
+  else
+    impact 0.0
+  end
   tag "gtitle": "SRG-OS-000066-GPOS-00034"
   tag "gid": "V-73613"
   tag "rid": "SV-88277r1_rule"

@@ -17,7 +17,7 @@ control "V-73767" do
     Incorrect configurations could prevent services from starting and result in
   a DoS.
   "
-  if domain_role != '4' || domain_role != '5'
+  if domain_role != '4' && domain_role != '5'
     impact 0.5
   else
     impact 0.0
@@ -68,7 +68,7 @@ control "V-73767" do
     describe security_policy do
       its('SeDenyServiceLogonRight') { should include "S-1-21-#{domain_sid}-519" }
     end 
-  end if domain_role != '4' || domain_role != '5'
+  end if domain_role != '4' && domain_role != '5'
   
   describe "System is a domain controller, control not applicable" do
     skip "System is a domain controller, control not applicable"

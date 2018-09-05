@@ -10,7 +10,7 @@ control "V-73779" do
   right allows the \"Trusted for Delegation\" setting to be changed. This could
   allow unauthorized users to impersonate other users.
   "
-  if domain_role != '4' || domain_role != '5'
+  if domain_role != '4' && domain_role != '5'
     impact 0.5
   else
     impact 0.0
@@ -41,8 +41,8 @@ control "V-73779" do
   defined but containing no entries (blank)."
   describe security_policy do
       its("SeEnableDelegationPrivilege"){ should eq [] }
-  end if domain_role != '4' || domain_role != '5'
-  describe "System is not a domain controller, control not applicable" do
-    skip "System is not a domain controller, control not applicable"
+  end if domain_role != '4' && domain_role != '5'
+  describe "System is a domain controller, control not applicable" do
+    skip "System is a domain controller, control not applicable"
   end if domain_role == '4' || domain_role == '5'
 end

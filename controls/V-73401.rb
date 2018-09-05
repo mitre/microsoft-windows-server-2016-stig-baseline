@@ -1,9 +1,9 @@
 control "V-73401" do
   title "Audit records must be backed up to a different system or media than
-the system being audited."
+  the system being audited."
   desc  "Protection of log data includes assuring the log data is not
-accidentally lost or deleted. Audit information stored in one location is
-vulnerable to accidental or incidental deletion or alteration."
+  accidentally lost or deleted. Audit information stored in one location is
+  vulnerable to accidental or incidental deletion or alteration."
   impact 0.5
   tag "gtitle": "SRG-OS-000342-GPOS-00133"
   tag "gid": "V-73401"
@@ -14,12 +14,12 @@ vulnerable to accidental or incidental deletion or alteration."
   tag "nist": ["AU-4 (1)", "Rev_4"]
   tag "documentable": false
   tag "check": "Determine if a process to back up log data to a different
-system or media than the system being audited has been implemented.
+  system or media than the system being audited has been implemented.
 
-If it has not, this is a finding."
+  If it has not, this is a finding."
   tag "fix": "Establish and implement a process for backing up log data to
-another system or media other than the system being audited."
-describe "Audit records must be backed up onto a different system or media than
+  another system or media other than the system being audited."
+  describe "Audit records must be backed up onto a different system or media than
   the system being audited" do
     skip "is a manual check"
   end

@@ -1,9 +1,9 @@
 control "V-73403" do
   title "Windows Server 2016 must, at a minimum, off-load audit records of
-interconnected systems in real time and off-load standalone systems weekly."
+  interconnected systems in real time and off-load standalone systems weekly."
   desc  "Protection of log data includes assuring the log data is not
-accidentally lost or deleted. Audit information stored in one location is
-vulnerable to accidental or incidental deletion or alteration."
+  accidentally lost or deleted. Audit information stored in one location is
+  vulnerable to accidental or incidental deletion or alteration."
   impact 0.5
   tag "gtitle": "SRG-OS-000479-GPOS-00224"
   tag "gid": "V-73403"
@@ -14,13 +14,13 @@ vulnerable to accidental or incidental deletion or alteration."
   tag "nist": ["AU-4 (1)", "Rev_4"]
   tag "documentable": false
   tag "check": "Verify the audit records, at a minimum, are off-loaded for
-interconnected systems in real time and off-loaded for standalone systems
-weekly.
+  interconnected systems in real time and off-loaded for standalone systems
+  weekly.
 
-If they are not, this is a finding."
+  If they are not, this is a finding."
   tag "fix": "Configure the system to, at a minimum, off-load audit records of
-interconnected systems in real time and off-load standalone systems weekly."
-describe "The operating system must, at a minimum, off-load audit records of
+  interconnected systems in real time and off-load standalone systems weekly."
+  describe "The operating system must, at a minimum, off-load audit records of
   interconnected systems in real time and off-load standalone systems weekly" do
     skip "is a manual check"
   end

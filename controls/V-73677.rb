@@ -5,7 +5,7 @@ control "V-73677" do
   desc  "The Windows Security Account Manager (SAM) stores users' passwords.
   Restricting Remote Procedure Call (RPC) connections to the SAM to
   Administrators helps protect those credentials."
-  if domain_role != '4' || domain_role != '5'
+  if domain_role != '4' && domain_role != '5'
     impact 0.5
   else
     impact 0.0
@@ -50,7 +50,7 @@ control "V-73677" do
   describe registry_key("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa") do
     it { should have_property "RestrictRemoteSAM" }
     its("RestrictRemoteSAM") { should eq "O:BAG:BAD:(A;;RC;;;BA)" }
-  end if domain_role != '4' || domain_role != '5'
+  end if domain_role != '4' && domain_role != '5'
   describe "System is a domain controller, control not applicable" do
     skip "System is a domain controller, control not applicable"
   end if domain_role == '4' || domain_role == '5'

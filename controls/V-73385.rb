@@ -7,7 +7,11 @@ control "V-73385" do
   disabled. If other means of controlling access (such as network restrictions)
   are compromised, there may be nothing else to protect the confidentiality of
   sensitive directory data."
-  impact 0.7
+  iif domain_role == '4' || domain_role == '5'
+    impact 0.7
+  else
+    impact 0.0
+  end
   tag "gtitle": "SRG-OS-000480-GPOS-00227"
   tag "gid": "V-73385"
   tag "rid": "SV-88037r1_rule"

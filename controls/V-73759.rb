@@ -22,7 +22,7 @@ control "V-73759" do
     The Guests group must be assigned this right to prevent unauthenticated
   access.
   "
-  if domain_role != '4' || domain_role != '5'
+  if domain_role != '4' && domain_role != '5'
     impact 0.5
   else
     impact 0.0
@@ -90,7 +90,7 @@ control "V-73759" do
   if is_domain == 'WORKGROUP'
     describe security_policy do
       its('SeDenyNetworkLogonRight') { should eq ['S-1-5-32-546'] }
-     end if domain_role != '4' || domain_role != '5'
+     end if domain_role != '4' && domain_role != '5'
       
   else
     get_domain_sid = command("wmic useraccount get sid | FINDSTR /V SID | Select -First 2").stdout.strip
@@ -101,7 +101,7 @@ control "V-73759" do
     describe security_policy do
       its('SeDenyNetworkLogonRight') { should include "S-1-21-#{domain_sid}-519" }
     end 
-  end if domain_role != '4' || domain_role != '5'
+  end if domain_role != '4' && domain_role != '5'
 
   describe "System is a domain controller, control not applicable" do
     skip "System is a domain controller, control not applicable"

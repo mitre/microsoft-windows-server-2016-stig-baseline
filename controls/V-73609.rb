@@ -1,13 +1,11 @@
 control "V-73609" do
   title "The US DoD CCEB Interoperability Root CA cross-certificates must be
-installed in the Untrusted Certificates Store on unclassified systems."
+  installed in the Untrusted Certificates Store on unclassified systems."
   desc  "To ensure users do not experience denial of service when performing
-certificate-based authentication to DoD websites due to the system chaining to
-a root other than DoD Root CAs, the US DoD CCEB Interoperability Root CA
-cross-certificates must be installed in the Untrusted Certificate Store. This
-requirement only applies to unclassified systems.
-
-
+  certificate-based authentication to DoD websites due to the system chaining to
+  a root other than DoD Root CAs, the US DoD CCEB Interoperability Root CA
+  cross-certificates must be installed in the Untrusted Certificate Store. This
+  requirement only applies to unclassified systems.
   "
   impact 0.5
   tag "gtitle": "SRG-OS-000066-GPOS-00034"
@@ -22,90 +20,90 @@ requirement only applies to unclassified systems.
   tag "documentable": false
   tag "check": "This is applicable to unclassified systems. It is NA for others.
 
-Open \"PowerShell\" as an administrator.
+  Open \"PowerShell\" as an administrator.
 
-Execute the following command:
+  Execute the following command:
 
-Get-ChildItem -Path Cert:Localmachine\\disallowed | Where Issuer -Like \"*CCEB
-Interoperability*\" | FL Subject, Issuer, Thumbprint, NotAfter
+  Get-ChildItem -Path Cert:Localmachine\\disallowed | Where Issuer -Like \"*CCEB
+  Interoperability*\" | FL Subject, Issuer, Thumbprint, NotAfter
 
-If the following certificate \"Subject\", \"Issuer\", and \"Thumbprint\"
-information is not displayed, this is finding.
+  If the following certificate \"Subject\", \"Issuer\", and \"Thumbprint\"
+  information is not displayed, this is finding.
 
-If an expired certificate (\"NotAfter\" date) is not listed in the results,
-this is not a finding.
+  If an expired certificate (\"NotAfter\" date) is not listed in the results,
+  this is not a finding.
 
-Subject: CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US
-Issuer: CN=US DoD CCEB Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S.
-Government, C=US
-Thumbprint: DA36FAF56B2F6FBA1604F5BE46D864C9FA013BA3
-NotAfter: 3/9/2019
+  Subject: CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US
+  Issuer: CN=US DoD CCEB Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S.
+  Government, C=US
+  Thumbprint: DA36FAF56B2F6FBA1604F5BE46D864C9FA013BA3
+  NotAfter: 3/9/2019
 
-Subject: CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US
-Issuer: CN=US DoD CCEB Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S.
-Government, C=US
-Thumbprint: 929BF3196896994C0A201DF4A5B71F603FEFBF2E
-NotAfter: 9/27/2019
+  Subject: CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US
+  Issuer: CN=US DoD CCEB Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S.
+  Government, C=US
+  Thumbprint: 929BF3196896994C0A201DF4A5B71F603FEFBF2E
+  NotAfter: 9/27/2019
 
-Alternately, use the Certificates MMC snap-in:
+  Alternately, use the Certificates MMC snap-in:
 
-Run \"MMC\".
+  Run \"MMC\".
 
-Select \"File\", \"Add/Remove Snap-in\".
+  Select \"File\", \"Add/Remove Snap-in\".
 
-Select \"Certificates\" and click \"Add\".
+  Select \"Certificates\" and click \"Add\".
 
-Select \"Computer account\" and click \"Next\".
+  Select \"Computer account\" and click \"Next\".
 
-Select \"Local computer: (the computer this console is running on)\" and click
-\"Finish\".
+  Select \"Local computer: (the computer this console is running on)\" and click
+  \"Finish\".
 
-Click \"OK\".
+  Click \"OK\".
 
-Expand \"Certificates\" and navigate to \"Untrusted Certificates >>
-Certificates\".
+  Expand \"Certificates\" and navigate to \"Untrusted Certificates >>
+  Certificates\".
 
-For each certificate with \"US DoD CCEB Interoperability Root CA …\" under
-\"Issued By\":
+  For each certificate with \"US DoD CCEB Interoperability Root CA …\" under
+  \"Issued By\":
 
-Right-click on the certificate and select \"Open\".
+  Right-click on the certificate and select \"Open\".
 
-Select the \"Details\" Tab.
+  Select the \"Details\" Tab.
 
-Scroll to the bottom and select \"Thumbprint\".
+  Scroll to the bottom and select \"Thumbprint\".
 
-If the certificate below is not listed or the value for the \"Thumbprint\"
-field is not as noted, this is a finding.
+  If the certificate below is not listed or the value for the \"Thumbprint\"
+  field is not as noted, this is a finding.
 
-If an expired certificate (\"Valid to\" date) is not listed in the results,
-this is not a finding.
+  If an expired certificate (\"Valid to\" date) is not listed in the results,
+  this is not a finding.
 
-Issued To: DoD Root CA 2
-Issued By: US DoD CCEB Interoperability Root CA 1
-Thumbprint: DA36FAF56B2F6FBA1604F5BE46D864C9FA013BA3
-Valid to: Saturday, March 9, 2019
+  Issued To: DoD Root CA 2
+  Issued By: US DoD CCEB Interoperability Root CA 1
+  Thumbprint: DA36FAF56B2F6FBA1604F5BE46D864C9FA013BA3
+  Valid to: Saturday, March 9, 2019
 
-Issued To: DoD Root CA 3
-Issuer by: US DoD CCEB Interoperability Root CA 2
-Thumbprint: 929BF3196896994C0A201DF4A5B71F603FEFBF2E
-Valid: Friday, September 27, 2019"
+  Issued To: DoD Root CA 3
+  Issuer by: US DoD CCEB Interoperability Root CA 2
+  Thumbprint: 929BF3196896994C0A201DF4A5B71F603FEFBF2E
+  Valid: Friday, September 27, 2019"
   tag "fix": "Install the US DoD CCEB Interoperability Root CA
-cross-certificate on unclassified systems.
+  cross-certificate on unclassified systems.
 
-Issued To - Issued By - Thumbprint
-DoD Root CA 2 - US DoD CCEB Interoperability Root CA 1 -
-DA36FAF56B2F6FBA1604F5BE46D864C9FA013BA3
+  Issued To - Issued By - Thumbprint
+  DoD Root CA 2 - US DoD CCEB Interoperability Root CA 1 -
+  DA36FAF56B2F6FBA1604F5BE46D864C9FA013BA3
 
-DoD Root CA 3 - US DoD CCEB Interoperability Root CA 2 -
-929BF3196896994C0A201DF4A5B71F603FEFBF2E
+  DoD Root CA 3 - US DoD CCEB Interoperability Root CA 2 -
+  929BF3196896994C0A201DF4A5B71F603FEFBF2E
 
-Administrators should run the Federal Bridge Certification Authority (FBCA)
-Cross-Certificate Removal Tool once as an administrator and once as the current
-user.
+  Administrators should run the Federal Bridge Certification Authority (FBCA)
+  Cross-Certificate Removal Tool once as an administrator and once as the current
+  user.
 
-The FBCA Cross-Certificate Remover Tool and User Guide are available on IASE at
-http://iase.disa.mil/pki-pke/Pages/tools.aspx."
-describe command('Get-ChildItem -Path Cert:Localmachine\\\\disallowed | Where $_.Issuer -Like
+  The FBCA Cross-Certificate Remover Tool and User Guide are available on IASE at
+  http://iase.disa.mil/pki-pke/Pages/tools.aspx."
+  describe command('Get-ChildItem -Path Cert:Localmachine\\\\disallowed | Where $_.Issuer -Like
     "*CCEB Interoperability*" | FL Subject,
     Issuer, Thumbprint') do
     its('stdout') { should eq "\r\n\r\nSubject    : CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nIssuer     : CN=US DoD CCEB Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nThumbprint : 22BBE981F0694D246CC1472ED2B021DC8540A22F\r\n\r\nSubject    : CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nIssuer     : CN=US DoD CCEB Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nThumbprint : FFAD03329B9E527A43EEC66A56F9CBB5393E6E13\r\n\r\n\r\n\r\n" }

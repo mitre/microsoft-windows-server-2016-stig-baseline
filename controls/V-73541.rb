@@ -6,7 +6,7 @@ control "V-73541" do
   desc  "Unauthenticated RPC clients may allow anonymous access to sensitive
   information. Configuring RPC to restrict unauthenticated RPC clients from
   connecting to the RPC server will prevent anonymous connections."
-  if domain_role != '4' || domain_role != '5'
+  if domain_role != '4' && domain_role != '5'
     impact 0.5
   else
     impact 0.0
@@ -38,7 +38,7 @@ control "V-73541" do
   describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc") do
     it { should have_property "RestrictRemoteClients" }
     its("RestrictRemoteClients") { should cmp == 1 }
-  end if domain_role != '4' || domain_role != '5'
+  end if domain_role != '4' && domain_role != '5'
   describe "System is a domain controller, control not applicable" do
     skip "System is a domain controller, control not applicable"
   end if domain_role == '4' || domain_role == '5'

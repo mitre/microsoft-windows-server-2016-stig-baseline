@@ -1,7 +1,7 @@
 control "V-73579" do
   title "Basic authentication for RSS feeds over HTTP must not be used."
   desc  "Basic authentication uses plain-text passwords that could be used to
-compromise a system. Disabling Basic authentication will reduce this potential."
+  compromise a system. Disabling Basic authentication will reduce this potential."
   impact 0.5
   tag "gtitle": "SRG-OS-000095-GPOS-00049"
   tag "gid": "V-73579"
@@ -12,29 +12,29 @@ compromise a system. Disabling Basic authentication will reduce this potential."
   tag "nist": ["CM-7 a", "Rev_4"]
   tag "documentable": false
   tag "check": "The default behavior is for the Windows RSS platform to not use
-Basic authentication over HTTP connections.
+  Basic authentication over HTTP connections.
 
-If the registry value name below does not exist, this is not a finding.
+  If the registry value name below does not exist, this is not a finding.
 
-If it exists and is configured with a value of \"0\", this is not a finding.
+  If it exists and is configured with a value of \"0\", this is not a finding.
 
-If it exists and is configured with a value of \"1\", this is a finding.
+  If it exists and is configured with a value of \"1\", this is a finding.
 
-Registry Hive: HKEY_LOCAL_MACHINE
-Registry Path: \\SOFTWARE\\Policies\\Microsoft\\Internet Explorer\\Feeds\\
+  Registry Hive: HKEY_LOCAL_MACHINE
+  Registry Path: \\SOFTWARE\\Policies\\Microsoft\\Internet Explorer\\Feeds\\
 
-Value Name: AllowBasicAuthInClear
+  Value Name: AllowBasicAuthInClear
 
-Value Type: REG_DWORD
-Value: 0x00000000 (0) (or if the Value Name does not exist)"
+  Value Type: REG_DWORD
+  Value: 0x00000000 (0) (or if the Value Name does not exist)"
   tag "fix": "The default behavior is for the Windows RSS platform to not use
-Basic authentication over HTTP connections.
+  Basic authentication over HTTP connections.
 
-If this needs to be corrected, configure the policy value for Computer
-Configuration >> Administrative Templates >> Windows Components >> RSS Feeds >>
-\"Turn on Basic feed authentication over HTTP\" to \"Not Configured\" or
-\"Disabled\"."
-describe registry_key("HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Internet Explorer\\Feeds") do
+  If this needs to be corrected, configure the policy value for Computer
+  Configuration >> Administrative Templates >> Windows Components >> RSS Feeds >>
+  \"Turn on Basic feed authentication over HTTP\" to \"Not Configured\" or
+  \"Disabled\"."
+  describe registry_key("HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Internet Explorer\\Feeds") do
     it { should have_property "AllowBasicAuthInClear" }
     its("AllowBasicAuthInClear") { should cmp == 0 }
   end

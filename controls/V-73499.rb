@@ -1,8 +1,8 @@
 control "V-73499" do
   title "Internet Protocol version 6 (IPv6) source routing must be configured
-to the highest protection level to prevent IP source routing."
+  to the highest protection level to prevent IP source routing."
   desc  "Configuring the system to disable IPv6 source routing protects against
-spoofing."
+  spoofing."
   impact 0.3
   tag "gtitle": "SRG-OS-000480-GPOS-00227"
   tag "gid": "V-73499"
@@ -13,26 +13,26 @@ spoofing."
   tag "nist": ["CM-6 b", "Rev_4"]
   tag "documentable": false
   tag "check": "If the following registry value does not exist or is not
-configured as specified, this is a finding.
+  configured as specified, this is a finding.
 
-Registry Hive: HKEY_LOCAL_MACHINE
-Registry Path: \\SYSTEM\\CurrentControlSet\\Services\\Tcpip6\\Parameters\\
+  Registry Hive: HKEY_LOCAL_MACHINE
+  Registry Path: \\SYSTEM\\CurrentControlSet\\Services\\Tcpip6\\Parameters\\
 
-Value Name: DisableIPSourceRouting
+  Value Name: DisableIPSourceRouting
 
-Type: REG_DWORD
-Value: 0x00000002 (2)"
+  Type: REG_DWORD
+  Value: 0x00000002 (2)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-Administrative Templates >> MSS (Legacy) >> \"MSS: (DisableIPSourceRouting
-IPv6) IP source routing protection level (protects against packet spoofing)\"
-to \"Enabled\" with \"Highest protection, source routing is completely
-disabled\" selected.
+  Administrative Templates >> MSS (Legacy) >> \"MSS: (DisableIPSourceRouting
+  IPv6) IP source routing protection level (protects against packet spoofing)\"
+  to \"Enabled\" with \"Highest protection, source routing is completely
+  disabled\" selected.
 
-This policy setting requires the installation of the MSS-Legacy custom
-templates included with the STIG package. \"MSS-Legacy.admx\" and
-\"MSS-Legacy.adml\" must be copied to the \\Windows\\PolicyDefinitions and
-\\Windows\\PolicyDefinitions\\en-US directories respectively."
-describe registry_key("HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Tcpip6\\Parameters") do
+  This policy setting requires the installation of the MSS-Legacy custom
+  templates included with the STIG package. \"MSS-Legacy.admx\" and
+  \"MSS-Legacy.adml\" must be copied to the \\Windows\\PolicyDefinitions and
+  \\Windows\\PolicyDefinitions\\en-US directories respectively."
+  describe registry_key("HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Tcpip6\\Parameters") do
     it { should have_property "DisableIPSourceRouting" }
     its("DisableIPSourceRouting") { should cmp == 2 }
   end

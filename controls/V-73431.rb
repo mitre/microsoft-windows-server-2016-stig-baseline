@@ -41,6 +41,6 @@ control "V-73431" do
   Detailed Tracking >> \"Audit PNP Activity\" with \"Success\" selected."
   describe command("AuditPol /get /category:* | Findstr /c:'Plug and Play Events'") do
     its('stdout') { should match /Plug and Play Events                    Success/ }
-    end
+  end
 end
 

@@ -13,7 +13,11 @@ control "V-73629" do
   make all types of man-in-the-middle attacks extremely difficult.
 
   "
-  impact 0.5
+  if domain_role == '4' || domain_role == '5'
+    impact 0.5
+  else
+    impact 0.0
+  end
   tag "gtitle": "SRG-OS-000423-GPOS-00187"
   tag "satisfies": ["SRG-OS-000423-GPOS-00187", "SRG-OS-000424-GPOS-00188"]
   tag "gid": "V-73629"
@@ -45,6 +49,6 @@ control "V-73629" do
   
   describe "System is not a domain controller, control not applicable" do
     skip "System is not a domain controller, control not applicable"
-  end if domain_role != '4' || domain_role != '5'
+  end if domain_role != '4' && domain_role != '5'
 end
 

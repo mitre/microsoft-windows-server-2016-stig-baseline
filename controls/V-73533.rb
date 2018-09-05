@@ -4,7 +4,7 @@ control "V-73533" do
   desc  "The username is one part of logon credentials that could be used to
   gain access to a system. Preventing the enumeration of users limits this
   information to authorized personnel."
-  if domain_role != '4' || domain_role != '5'
+  if domain_role != '4' && domain_role != '5'
     impact 0.5
   else
     impact 0.0
@@ -36,7 +36,7 @@ control "V-73533" do
   describe registry_key("HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\System") do
     it { should have_property "EnumerateLocalUsers" }
     its("EnumerateLocalUsers") { should cmp == 0 }
-  end if domain_role != '4' || domain_role != '5'
+  end if domain_role != '4' && domain_role != '5'
   describe "System is a domain controller, control not applicable" do
     skip "System is a domain controller, control not applicable"
   end if domain_role == '4' || domain_role == '5'

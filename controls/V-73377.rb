@@ -1,3 +1,4 @@
+domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
 control "V-73377" do
   title "Domain-created Active Directory Organizational Unit (OU) objects must
 have proper access control permissions."
@@ -15,7 +16,12 @@ access permissions are defined for OU objects, it could allow an intruder to
 add or delete users in the OU. This could result in unauthorized access to data
 or a denial of service to authorized users.
   "
-  impact 0.7
+
+  if domain_role == '4' || domain_role == '5'
+    impact 0.7
+  else
+    impact 0.0
+  end
   tag "gtitle": "SRG-OS-000324-GPOS-00125"
   tag "gid": "V-73377"
   tag "rid": "SV-88029r1_rule"
@@ -130,5 +136,17 @@ types.
 
 ENTERPRISE DOMAIN CONTROLLERS - Read, Special permissions"
 
-end
+get_netbiosname = command("Get-ADDomain | Findstr NetBIOSName").stdout.strip
+  loc_colon = get_netbiosname.index(':')
+  netbiosname = get_netbiosname[37..-1]
+  get_ou = command("Import-Module ActiveDirectory | Get-ADOrganizationalUnit -LDAPFilter '(name=*)' | Findstr DistinguishedName | Findstr /v Controllers").stdout.strip
+  ou = get_ou[27..70]
+  describe powershell("Import-Module ActiveDirectory; Get-Acl -Path 'AD:#{ou}' | Fl | Findstr All") do
+    its('stdout') { should eq "Access : NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n         NT AUTHORITY\\SYSTEM Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         BUILTIN\\Account Operators Allow  \r\n         BUILTIN\\Account Operators Allow  \r\n         BUILTIN\\Account Operators Allow  \r\n         BUILTIN\\Account Operators Allow  \r\n         BUILTIN\\Print Operators Allow  \r\n         #{netbiosname}\\Administrator Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         #{netbiosname}\\Administrator Allow  \r\n         #{netbiosname}\\Administrator Allow  \r\n         #{netbiosname}\\Key Admins Allow  \r\n         #{netbiosname}\\Enterprise Key Admins Allow  \r\n         CREATOR OWNER Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         #{netbiosname}\\Administrator Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Administrators Allow  \r\n"}
+  end if domain_role == '4' || domain_role == '5'
 
+  describe "System is not a domain controller, control not applicable" do
+    skip "System is not a domain controller, control not applicable"
+  end if domain_role != '4' && domain_role != '5'
+end
+ 

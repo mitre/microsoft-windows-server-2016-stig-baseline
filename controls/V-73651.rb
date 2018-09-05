@@ -8,7 +8,7 @@ control "V-73651" do
   cache is well protected, if a system is attacked, an unauthorized individual
   may isolate the password to a domain user account using a password-cracking
   program and gain access to the domain."
-  if domain_role != '4' || domain_role != '5'
+  if domain_role != '4' && domain_role != '5'
     impact 0.5
   else
     impact 0.0
@@ -41,7 +41,7 @@ control "V-73651" do
   describe registry_key("HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon") do
     it { should have_property "CachedLogonsCount" }
     its("CachedLogonsCount") { should cmp <= 4 }
-  end if domain_role != '4' || domain_role != '5'
+  end if domain_role != '4' && domain_role != '5'
   describe "System is a domain controller, control not applicable" do
     skip "System is a domain controller, control not applicable"
   end if domain_role == '4' || domain_role == '5'
