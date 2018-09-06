@@ -114,7 +114,7 @@ control "V-73387" do
     subject {MaxConnIdleTime}
     it {should cmp <= 300}
   end if domain_role == '4' || domain_role == '5'
-  puts domain_role
+  
   describe "System is not a domain controller, control not applicable" do
     skip "System is not a domain controller, control not applicable"
   end if (domain_role != '4' && domain_role != '5')
