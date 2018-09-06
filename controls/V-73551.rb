@@ -31,5 +31,15 @@ control "V-73551" do
   Administrative Templates >> Windows Components >> Data Collection and Preview
   Builds>> \"Allow Telemetry\" to \"Enabled\" with \"0 - Security [Enterprise
   Only]\" or \"1 - Basic\" selected in \"Options\"."
+  describe.one do
+    describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection") do
+      it { should have_property "AllowTelemetry" }
+      its("NoDriveTypeAutoRun") { should cmp == 0 }
+    end
+    describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection") do
+      it { should have_property "AllowTelemetry" }
+      its("NoDriveTypeAutoRun") { should cmp == 1 }
+    end
+  end
 end
 

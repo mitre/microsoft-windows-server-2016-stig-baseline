@@ -90,7 +90,7 @@ control "V-73513" do
   https://technet.microsoft.com/itpro/windows/keep-secure/credential-guard"
 
 
-  describe registry_key("HKEY_LOCAL_MACHINE\\\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard") do
+  describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard") do
     it { should have_property "EnableVirtualizationBasedSecurity" }
     its("EnableVirtualizationBasedSecurity") { should cmp == 1 }
   end
