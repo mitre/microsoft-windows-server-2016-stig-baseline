@@ -27,7 +27,7 @@ control "V-73689" do
   Settings >> Security Settings >> Local Policies >> Security Options >>
   \"Network security: Force logoff when logon hours expire\" to \"Enabled\"."
    describe security_policy do
-    its("ForceLogoffWhenHourExpire") { should eq 0 }
+    its("ForceLogoffWhenHourExpire") { should eq 1 }
   end
 end
 
