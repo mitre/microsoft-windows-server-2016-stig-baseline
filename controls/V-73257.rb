@@ -1,4 +1,4 @@
-control "V-73257" do
+ control "V-73257" do
   title "Non-administrative accounts or groups must only have print permissions
   on printer shares."
   desc  "Windows shares are a means by which files, folders, printers, and

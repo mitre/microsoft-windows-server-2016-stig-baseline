@@ -1,4 +1,4 @@
-87901control "V-73249" do
+control "V-73249" do
   title "Permissions for the system drive root directory (usually C:\\) must
   conform to minimum requirements."
   desc  "Changing the system's file and directory permissions allows the

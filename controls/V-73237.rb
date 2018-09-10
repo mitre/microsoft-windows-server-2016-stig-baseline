@@ -6,13 +6,17 @@ control "V-73237" do
   system requirements must be met in order for Credential Guard to be configured
   and enabled properly. Without a TPM enabled and ready for use, Credential Guard
   keys are stored in a less secure method using software."
-  impact 0.3
+  is_domain = command("wmic computersystem get domain | FINDSTR /V Domain").stdout.strip
+  if is_domain == "WORKGROUP"
+    impact 0.0
+  else
+    impact 0.3
   tag "gtitle": "SRG-OS-000480-GPOS-00227"
   tag "gid": "V-73237"
   tag "rid": "SV-87889r1_rule"
   tag "stig_id": "WN16-00-000100"
   tag "fix_id": "F-79681r1_fix"
-  tag "cci": ["CCI-000366"]
+  tag "cci": ["CCI-000366"] 
   tag "nist": ["CM-6 b", "Rev_4"]
   tag "documentable": false
   tag "check": "For standalone systems, this is NA.

@@ -10,7 +10,7 @@ control "V-73733" do
   access resources on the system, and this right must be limited to those
   requiring it.
   "
-  if domain_role == '4' || domain_role == '5'
+  if domain_role =! '4' && domain_role != '5'
     impact 0.5
   else
     impact 0.0
@@ -65,10 +65,10 @@ control "V-73733" do
   the Authenticated Users group."
   describe security_policy do
     its('SeNetworkLogonRight') { should eq ['S-1-5-11', 'S-1-5-32-544'] }
-  end if domain_role == '4' || domain_role == '5'
+  end if domain_role =! '4' && domain_role != '5'
   
   describe "System is not a domain controller, control not applicable" do
     skip "System is not a domain controller, control not applicable"
-  end if domain_role != '4' && domain_role != '5'
+  end if domain_role == '4' || domain_role == '5'
 end
 

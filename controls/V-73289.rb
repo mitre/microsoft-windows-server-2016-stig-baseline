@@ -39,7 +39,7 @@ control "V-73289" do
   Deselect \"FTP Server\" under \"Web Server (IIS)\" on the \"Roles\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
-  describe command('Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed') do
+  describe command('Get-WindowsFeature Web-Ftp-Service | Select -Expand Installed') do
     its('stdout') { should eq "False\r\n"}
   end
 end

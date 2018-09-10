@@ -30,7 +30,7 @@ control "V-73695" do
   128-bit encryption\" (all options selected)."
   describe registry_key("HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\MSV1_0") do
     it { should have_property "NTLMMinClientSec" }
-    its("NTLMMinClientSec") { should cmp == 1 }
+    its("NTLMMinClientSec") { should cmp == 537395200 }
   end
 end
 
