@@ -1,5 +1,6 @@
 get = command('Get-WMIObject -Query "SELECT * FROM Win32_Share" | Findstr /V "Name --"').stdout.strip.split("\n")
-
+share_names = []
+  share_paths = []
   get.each do |share|
     loc_space = share.index(' ')
  
@@ -10,7 +11,7 @@ get = command('Get-WMIObject -Query "SELECT * FROM Win32_Share" | Findstr /V "Na
     path = share[40..50]
     share_paths.push(path)
   end
-
+ share_names_string = share_names.join(",")
 
 control "V-73267" do
   title "Non-system-created file shares on a system must limit access to groups
@@ -58,11 +59,10 @@ control "V-73267" do
   accounts that require it.
 
   Remove any unnecessary non-system-created shares."
-  share_names = []
-  share_paths = []
+  
   
 
-  share_names_string = share_names.join(",")
+ 
   if (share_names_string != 'ADMIN$,C$,IPC$')
 
     [share_paths, share_names].each do |path1, name1|

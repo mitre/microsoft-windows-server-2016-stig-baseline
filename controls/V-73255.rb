@@ -102,8 +102,13 @@ control "V-73255" do
   describe command("Get-Acl -Path 'HKLM:\\SECURITY' | Format-List | Findstr All") do
    its('stdout') { should eq "" }
   end
-  describe command("Get-Acl -Path 'HKLM:\\SYSTEM' | Format-List | Findstr All") do
-   its('stdout') { should eq "Access : CREATOR OWNER Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  268435456\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Users Allow  -2147483648\r\n         BUILTIN\\Users Allow  ReadKey\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  ReadKey\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  -2147483648\r\n" }
+  describe.one do
+    describe command("Get-Acl -Path 'HKLM:\\SYSTEM' | Format-List | Findstr All") do
+      its('stdout') { should eq "Access : CREATOR OWNER Allow  268435456\r\n         NT AUTHORITY\\Authenticated Users Allow  -2147483648\r\n         NT AUTHORITY\\Authenticated Users Allow  ReadKey\r\n         NT AUTHORITY\\SYSTEM Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  268435456\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Server Operators Allow  -2147483648\r\n         BUILTIN\\Server Operators Allow  ReadKey\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  ReadKey\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  -2147483648\r\n" }
+    end
+    describe command("Get-Acl -Path 'HKLM:\\SYSTEM' | Format-List | Findstr All") do
+      its('stdout') { should eq "Access : CREATOR OWNER Allow  268435456\r\n         NT AUTHORITY\\Authenticated Users Allow  ReadKey\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  268435456\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Server Operators Allow  ReadKey\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  -2147483648\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  ReadKey\r\n" }
+    end
   end
 end
 

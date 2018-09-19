@@ -20,7 +20,11 @@ control "V-73389" do
   insufficient forensic evidence needed to investigate an incident and prosecute
   the intruder.
   "
-  impact 0.5
+  if domain_role == '4' || domain_role == '5'
+    impact 0.5
+  else
+    impact 0.0
+  end
   tag "gtitle": "SRG-OS-000327-GPOS-00127"
   tag "satisfies": ["SRG-OS-000327-GPOS-00127", "SRG-OS-000458-GPOS-00203",
   "SRG-OS-000463-GPOS-00207", "SRG-OS-000468-GPOS-00212"]

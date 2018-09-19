@@ -100,8 +100,15 @@ control "V-73371" do
   CREATOR OWNER - Full control - Subfolders and files only
   Administrators - Full control - Subfolders and files only
   SYSTEM - Full control - This folder, subfolders, and files"
-  describe command("Get-Acl -Path 'C:\\Windows\\SYSVOL\\sysvol' | Format-List | Findstr All") do
-   its('stdout') { should eq "Access : CREATOR OWNER Allow  -536084480\r\n         NT AUTHORITY\\Authenticated Users Allow  -1610612736\r\n         NT AUTHORITY\\Authenticated Users Allow  ReadAndExecute, Synchronize\r\n         NT AUTHORITY\\SYSTEM Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  -536084480\r\n         BUILTIN\\Administrators Allow  Write, ReadAndExecute, ChangePermissions, TakeOwnership, Synchronize\r\n         BUILTIN\\Server Operators Allow  -1610612736\r\n         BUILTIN\\Server Operators Allow  ReadAndExecute, Synchronize\r\n" }
+
+  describe.one do
+    describe command("Get-Acl -Path 'C:\\Windows\\SYSVOL\\sysvol' | Format-List | Findstr All") do
+     its('stdout') { should eq "Access : CREATOR OWNER Allow  -536084480\r\n         NT AUTHORITY\\Authenticated Users Allow  -1610612736\r\n         NT AUTHORITY\\Authenticated Users Allow  ReadAndExecute, Synchronize\r\n         NT AUTHORITY\\SYSTEM Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  -536084480\r\n         BUILTIN\\Administrators Allow  Write, ReadAndExecute, ChangePermissions, TakeOwnership, Synchronize\r\n         BUILTIN\\Server Operators Allow  -1610612736\r\n         BUILTIN\\Server Operators Allow  ReadAndExecute, Synchronize\r\n" }
+    end
+
+    describe command("Get-Acl -Path 'C:\\Windows\\SYSVOL\\sysvol' | Format-List | Findstr All") do
+     its('stdout') { should eq "Access : CREATOR OWNER Allow  -536084480\r\n         NT AUTHORITY\\Authenticated Users Allow  ReadAndExecute, Synchronize\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  -536084480\r\n         BUILTIN\\Administrators Allow  Write, ReadAndExecute, ChangePermissions, TakeOwnership, Synchronize\r\n         BUILTIN\\Server Operators Allow  -1610612736\r\n         BUILTIN\\Server Operators Allow  ReadAndExecute, Synchronize\r\n" }
+    end 
   end if domain_role == '4' || domain_role == '5'
 
   describe "System is not a domain controller, control not applicable" do

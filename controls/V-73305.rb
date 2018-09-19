@@ -4,6 +4,7 @@ control "V-73305" do
   directories that could provide access to system resources and compromise the
   system, especially if the user can gain access to the root directory of the
   boot drive."
+  is_ftp_installed = command("Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed").stdout.strip
   if (is_ftp_installed == 'False' || is_ftp_installed == '')
     impact 0.0
   else

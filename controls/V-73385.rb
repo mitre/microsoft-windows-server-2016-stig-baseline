@@ -7,7 +7,7 @@ control "V-73385" do
   disabled. If other means of controlling access (such as network restrictions)
   are compromised, there may be nothing else to protect the confidentiality of
   sensitive directory data."
-  iif domain_role == '4' || domain_role == '5'
+  if domain_role == '4' || domain_role == '5'
     impact 0.7
   else
     impact 0.0

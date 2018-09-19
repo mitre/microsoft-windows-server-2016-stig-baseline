@@ -52,5 +52,4 @@ control "V-73491" do
     end
   end
 end
-end
 

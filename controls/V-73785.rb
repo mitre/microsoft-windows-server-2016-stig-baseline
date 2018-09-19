@@ -51,7 +51,7 @@ control "V-73785" do
   - Local Service
   - Network Service"
   describe security_policy do
-    its('SeImpersonatePrivilege') { should eq ['S-1-5-19', 'S-1-5-20', 'S-1-5-32-544', 'S-1-5-32-568', 'S-1-5-6'] }
+    its('SeImpersonatePrivilege') { should eq ['S-1-5-19', 'S-1-5-20', 'S-1-5-32-544', 'S-1-5-6'] }
   end
 end
 

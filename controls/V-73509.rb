@@ -50,18 +50,23 @@ control "V-73509" do
   Value: RequireMutualAuthentication=1, RequireIntegrity=1"
 
   describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths") do
-      it { should have_property "\\\\*\\NETLOGON" }
-    end
-    describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths") do
-      its("\\\\*\\NETLOGON") { should match(/RequireMutualAuthentication=1, RequireIntegrity=1/) }
-    end
-    describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths") do
-      it { should have_property "\\\\*\\SYSVOL" }
-    end
-    describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths") do
-      its("\\\\*\\SYSVOL") { should match(/RequireMutualAuthentication=1, RequireIntegrity=1/) }
-    end
-  end
-   only_if {is_domain != "WORKGROUP"}
+    it { should have_property "\\\\*\\NETLOGON" }
+  end if is_domain != "WORKGROUP"
+
+  describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths") do
+    its("\\\\*\\NETLOGON") { should match(/RequireMutualAuthentication=1, RequireIntegrity=1/) }
+  end if is_domain != "WORKGROUP"
+
+  describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths") do
+    it { should have_property "\\\\*\\SYSVOL" }
+  end if is_domain != "WORKGROUP"
+
+  describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths") do
+    its("\\\\*\\SYSVOL") { should match(/RequireMutualAuthentication=1, RequireIntegrity=1/) }
+  end if is_domain != "WORKGROUP"
+
+  describe "System is not joined to a domain" do
+    skip "System is not joined to a domain"
+  end if is_domain == "WORKGROUP"
 end
 

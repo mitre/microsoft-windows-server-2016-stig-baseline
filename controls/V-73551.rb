@@ -34,11 +34,11 @@ control "V-73551" do
   describe.one do
     describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection") do
       it { should have_property "AllowTelemetry" }
-      its("NoDriveTypeAutoRun") { should cmp == 0 }
+      its("AllowTelemetry") { should cmp == 0 }
     end
     describe registry_key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection") do
       it { should have_property "AllowTelemetry" }
-      its("NoDriveTypeAutoRun") { should cmp == 1 }
+      its("AllowTelemetry") { should cmp == 1 }
     end
   end
 end

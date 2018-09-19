@@ -1,10 +1,10 @@
+domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
 FORREST = attribute(
   'forrest',
   description: 'List of authorized users in the local Admionistrators group',
   default: %w[
             dc=test, dc=com
-           ]
-domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
+           ])
 
 control "V-73387" do
   title "The directory service must be configured to terminate LDAP-based
@@ -117,7 +117,7 @@ control "V-73387" do
   
   describe "System is not a domain controller, control not applicable" do
     skip "System is not a domain controller, control not applicable"
-  end if (domain_role != '4' && domain_role != '5')
+  end if domain_role != '4' && domain_role != '5'
 end
 
 

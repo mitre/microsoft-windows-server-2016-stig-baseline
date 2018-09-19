@@ -32,7 +32,7 @@ control "V-73309" do
   A value of \"0\" is also acceptable, requiring an administrator to unlock the
   account."
   describe security_policy do
-    its("LockoutDuration") { should be > 15 }
+    its("LockoutDuration") { should be >= 15 }
   end
   describe security_policy do
     its("LockoutDuration") { should be >= 0 }

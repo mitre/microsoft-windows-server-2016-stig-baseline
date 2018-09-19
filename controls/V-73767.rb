@@ -58,6 +58,9 @@ control "V-73767" do
   is_domain = command("wmic computersystem get domain | FINDSTR /V Domain").stdout.strip
 
   if is_domain == 'WORKGROUP'
+    describe security_policy do
+    its('SeDenyServiceLogonRight') { should eq [ ] }
+  end
       
   else  
     get_domain_sid = command("wmic useraccount get sid | FINDSTR /V SID | Select -First 2").stdout.strip

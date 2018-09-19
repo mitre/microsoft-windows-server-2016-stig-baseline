@@ -1,10 +1,9 @@
  ADMINISTRATORS = attribute(
   'administrators',
   description: 'List of authorized users in the local Admionistrators group',
-  default: %w[
-            Administrators
-            Admn
-           ]
+  default: ["Admn",
+            "Domain Admins",
+            "Enterprise Admins"]
 )
 
 control "V-73217" do
@@ -30,12 +29,12 @@ control "V-73217" do
   administrative functions and standard user functions, this is a finding."
   tag "fix": "Ensure each user with administrative privileges has a separate
   account for user duties and one for privileged duties."
-  administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split('\n')
+  administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split("\n")
   administrator_group.each do |user|
-    describe "#{user}" do
+   a = user.strip
+    describe "#{a}" do
       it { should be_in ADMINISTRATORS}
     end  
   end 
 end
 
-s

@@ -57,8 +57,14 @@ control "V-73369" do
 
   (I) - permission inherited from parent container
   (F) - full access"
-  describe command("Get-Acl -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters' | Format-List | Findstr All") do
-   its('stdout') { should eq "Access : CREATOR OWNER Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  268435456\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Server Operators Allow  -2147483648\r\n         BUILTIN\\Server Operators Allow  ReadKey\r\n" }
+  describe.one do
+    describe command("Get-Acl -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters' | Format-List | Findstr All") do
+     its('stdout') { should eq "Access : CREATOR OWNER Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  268435456\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Server Operators Allow  -2147483648\r\n         BUILTIN\\Server Operators Allow  ReadKey\r\n" }
+    end 
+
+    describe command("Get-Acl -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters' | Format-List | Findstr All") do
+      its('stdout') { should eq "Access : CREATOR OWNER Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Administrators Allow  268435456\r\n         BUILTIN\\Server Operators Allow  ReadKey\r\n         BUILTIN\\Server Operators Allow  -2147483648\r\n" }
+    end 
   end if domain_role == '4' || domain_role == '5'
 
   describe "System is not a domain controller, control not applicable" do

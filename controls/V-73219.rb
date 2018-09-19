@@ -1,11 +1,11 @@
  domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
 
- ADMINISTRATORS = attribute(
-  'administrators',
-  description: 'List of authorized users in the local Admionistrators group',
-  default: %w[
-            Admn
-           ]
+ ADMINISTRATORS_DOMAIN = attribute(
+  'administrators_domain',
+  description: 'List of authorized users in the local Administrators group',
+  default: ["Admn",
+            "Domain Admins",
+            "Enterprise Admins"]
 )
 
 control "V-73219" do
@@ -53,12 +53,13 @@ control "V-73219" do
   groups or accounts that are responsible for the system.
 
   Remove any standard user accounts."
-  administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split('\n')
+  administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split("\n")
   administrator_group.each do |user|
-    describe "#{user}" do
-      it { should be_in ADMINISTRATORS}
+   a = user.strip
+    describe "#{a}" do
+      it { should be_in ADMINISTRATORS_DOMAIN}
     end  
-  end if domain_role == '4' || domain_role == '5'
+  end  if domain_role == '4' || domain_role == '5'
 
   describe "System is not a domain controller, control not applicable" do
     skip "System is not a domain controller, control not applicable"

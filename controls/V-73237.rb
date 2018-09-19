@@ -11,6 +11,7 @@ control "V-73237" do
     impact 0.0
   else
     impact 0.3
+  end
   tag "gtitle": "SRG-OS-000480-GPOS-00227"
   tag "gid": "V-73237"
   tag "rid": "SV-87889r1_rule"
@@ -45,10 +46,12 @@ control "V-73237" do
 
   Run \"tpm.msc\" for configuration options in Windows."
 
-  is_domain = command("wmic computersystem get domain | FINDSTR /V Domain").stdout.strip
   describe command("Get-Tpm | Findstr 'Present Ready'") do
     its('stdout') { should eq "TpmPresent          : False\r\nTpmReady            : False\r\n" }
-  end
-  only_if {is_domain != "WORKGROUP"}
+  end if is_domain != "WORKGROUP"
+
+  describe "System is not joined to a domain" do
+    skip "System is not joined to a domain"
+  end if is_domain == "WORKGROUP"
 end
 

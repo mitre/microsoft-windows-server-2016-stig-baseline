@@ -121,7 +121,7 @@ control "V-73375" do
 
   Key Admins - Special permissions
 
-  Enterprise Key Admins - Special permissions
+  Enterprise Key Admins - Special permissions 
 
   Administrators - Read, Write, Create all child objects, Generate resultant set
   of policy (logging), Generate resultant set of policy (planning), Special

@@ -57,7 +57,7 @@ control "V-73731" do
   - Authenticated Users
   - Enterprise Domain Controllers"
   describe security_policy do
-    its('SeNetworkLogonRight') { should eq ['S-1-5-9', 'S-1-5-11', 'S-1-5-32-544'] }
+    its('SeNetworkLogonRight') { should eq ['S-1-5-11', 'S-1-5-32-544', 'S-1-5-9'] }
   end if domain_role == '4' || domain_role == '5'
   
   describe "System is not a domain controller, control not applicable" do

@@ -1,3 +1,4 @@
+domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
 control "V-73495" do
   title "Local administrator accounts must have their privileged token filtered
   to prevent elevated privileges from being used over the network on domain

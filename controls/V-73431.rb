@@ -39,8 +39,13 @@ control "V-73431" do
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Advanced Audit Policy Configuration >> System Audit Policies >>
   Detailed Tracking >> \"Audit PNP Activity\" with \"Success\" selected."
-  describe command("AuditPol /get /category:* | Findstr /c:'Plug and Play Events'") do
-    its('stdout') { should match /Plug and Play Events                    Success/ }
+  describe.one do
+    describe command("AuditPol /get /category:* | Findstr /c:'Plug and Play Events'") do
+      its('stdout') { should match /Plug and Play Events                    Success/ }
+    end
+    describe audit_policy do
+      its("Plug and Play Events ") { should eq "Success" }
+    end
   end
 end
 

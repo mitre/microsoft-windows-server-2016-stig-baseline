@@ -47,8 +47,8 @@ control "V-73407" do
   get_system_root = command("env | Findstr SYSTEMROOT").stdout.strip
   system_root = get_system_root[11..get_system_root.length]
 
-  describe command("Get-Acl -Path '#{system_root}\\SYSTEM32\\WINEVT\\LOGS\' | Format-List | Findstr All") do
-   its('stdout') { should eq "Access : NT AUTHORITY\\Authenticated Users Allow  Read, Synchronize\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         NT SERVICE\\EventLog Allow  FullControl\r\n" }
+  describe command("Get-Acl -Path '#{system_root}\\SYSTEM32\\WINEVT\\LOGS\\Security.evtx' | Format-List | Findstr All") do
+   its('stdout') { should eq "Access : NT SERVICE\\EventLog Allow  FullControl\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  FullControl\r\n" }
   end
 end
 

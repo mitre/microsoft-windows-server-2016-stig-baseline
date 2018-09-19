@@ -3,7 +3,7 @@ control "V-73299" do
   desc  "SMBv1 is a legacy protocol that uses the MD5 algorithm as part of SMB.
   MD5 is known to be vulnerable to a number of attacks such as collision and
   preimage attacks and is not FIPS compliant."
-    if (registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters').has_property_value?('SMB1', :dword, 0) && if (registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10').has_property_value?('Start', :dword, 4)
+    if registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters').has_property_value?('SMB1', :dword, 0) && registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10').has_property_value?('Start', :dword, 4)
     impact 0.0
   else
     impact 0.5
@@ -51,11 +51,10 @@ control "V-73299" do
   Deselect \"SMB 1.0/CIFS File Sharing Support\" on the \"Features\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
-  if (registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters').has_property_value?('SMB1', :dword, 0) && if (registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10').has_property_value?('Start', :dword, 4)
+  if registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters').has_property_value?('SMB1', :dword, 0) && registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10').has_property_value?('Start', :dword, 4)
     describe "This control is NA, as V-78123 and V-78125 are set" do
       skip "This control is NA, as V-78123 and V-78125 are set"
     end
-  end
   else
     describe command('Get-WindowsFeature FS-SMB1| Select -Expand Installed') do
       its('stdout') { should eq "False\r\n"}

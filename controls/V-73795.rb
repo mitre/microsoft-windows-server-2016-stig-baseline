@@ -15,7 +15,7 @@ control "V-73795" do
   tag "stig_id": "WN16-UR-000270"
   tag "fix_id": "F-80245r1_fix"
   tag "cci": ["CCI-002235"]
-  tag "nist": ["AC-6 (10)", "Rev_4"]]
+  tag "nist": ["AC-6 (10)", "Rev_4"]
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 

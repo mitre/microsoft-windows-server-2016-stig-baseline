@@ -7,10 +7,10 @@
 # having to adjust the core profile.
 
 # Description: List of authorized users in the local Admionistrators group
-administrators: 'Admn'
+#administrators: 'Admn',Domain Admins",Enterprise Admins
 
 # Description: List of authorized users in the local Administrators domain group
-administrator_domain_group: 'Admn'
+#administrator_domain_group: 'Admn'
 
 # Description: List of authorized users in the Backup Operators Group.
 backup_operators: 'Backup'

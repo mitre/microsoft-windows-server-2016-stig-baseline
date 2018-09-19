@@ -1,4 +1,5 @@
-syncontrol "V-73367" do
+domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
+control "V-73367" do
   title "The computer clock synchronization tolerance must be limited to 5
   minutes or less."
   desc  "This setting determines the maximum time difference (in minutes) that

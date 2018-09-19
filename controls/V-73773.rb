@@ -1,3 +1,4 @@
+domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
 control "V-73773" do
   title "The Deny log on through Remote Desktop Services user right on domain
   controllers must be configured to prevent unauthenticated access."

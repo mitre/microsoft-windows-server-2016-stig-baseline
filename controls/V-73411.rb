@@ -43,9 +43,13 @@ control "V-73411" do
   The default location is the \"%SystemRoot%\\ System32\" folder."
   get_system_root = command("env | Findstr SYSTEMROOT").stdout.strip
   system_root = get_system_root[11..get_system_root.length]
-
-  describe command("Get-Acl -Path '#{system_root}\\SYSTEM32\\Eventvwr.exe' | Format-List | Findstr All") do
-   its('stdout') { should eq "Access : NT AUTHORITY\\SYSTEM Allow  ReadAndExecute, Synchronize\r\n         BUILTIN\\Administrators Allow  ReadAndExecute, Synchronize\r\n         BUILTIN\\Users Allow  ReadAndExecute, Synchronize\r\n         NT SERVICE\\TrustedInstaller Allow  FullControl\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  ReadAndExecute, Synchronize\r\n" }
+  describe.one do
+    describe command("Get-Acl -Path '#{system_root}\\SYSTEM32\\Eventvwr.exe' | Format-List | Findstr All") do
+      its('stdout') { should eq "Access : NT AUTHORITY\\SYSTEM Allow  ReadAndExecute, Synchronize\r\n         BUILTIN\\Administrators Allow  ReadAndExecute, Synchronize\r\n         BUILTIN\\Users Allow  ReadAndExecute, Synchronize\r\n         NT SERVICE\\TrustedInstaller Allow  FullControl\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  ReadAndExecute, Synchronize\r\n" }
+    end
+    describe command("Get-Acl -Path '#{system_root}\\SYSTEM32\\Eventvwr.exe' | Format-List | Findstr All") do
+      its('stdout') { should eq "Access : NT AUTHORITY\\SYSTEM Allow  ReadAndExecute, Synchronize\r\n         BUILTIN\\Administrators Allow  ReadAndExecute, Synchronize\r\n         BUILTIN\\Users Allow  ReadAndExecute, Synchronize\r\n         NT SERVICE\\TrustedInstaller Allow  FullControl\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  ReadAndExecute, Synchronize\r\n         APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES Allow  ReadAndExecute, Synchronize\r\n" }
+    end
   end
 end
 

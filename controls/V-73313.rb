@@ -31,7 +31,7 @@ control "V-73313" do
   Settings >> Security Settings >> Account Policies >> Account Lockout Policy >>
   \"Reset account lockout counter after\" to at least \"15\" minutes."
   describe security_policy do
-    its("ResetLockoutCount") { should be > 15 }
+    its("ResetLockoutCount") { should be >= 15 }
   end
 end
 

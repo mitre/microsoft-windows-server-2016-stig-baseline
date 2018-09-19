@@ -1,4 +1,4 @@
-hcontrol "V-73279" do
+control "V-73279" do
   title "A host-based firewall must be installed and enabled on the system."
   desc  "A firewall provides a line of defense against attack, allowing or
   blocking inbound and outbound connections based on a set of rules."
