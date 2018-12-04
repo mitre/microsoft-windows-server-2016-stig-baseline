@@ -1,4 +1,4 @@
-# windows_server_2016_v1r4_stig_baseline
+# windows-server-2016-v1r4-stig-baseline
 
 InSpec profile testing secure configuration of Windows 2016 servers.
 
