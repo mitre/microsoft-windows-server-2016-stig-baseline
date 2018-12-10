@@ -1,16 +1,16 @@
-control "V-73291" do
-  title "The Peer Name Resolution Protocol must not be installed."
+control 'V-73291' do
+  title 'The Peer Name Resolution Protocol must not be installed.'
   desc  "Unnecessary services increase the attack surface of a system. Some of
   these services may not support required levels of authentication or encryption
   or may provide unauthorized access to the system."
   impact 0.5
-  tag "gtitle": "SRG-OS-000095-GPOS-00049"
-  tag "gid": "V-73291"
-  tag "rid": "SV-87943r1_rule"
-  tag "stig_id": "WN16-00-000370"
-  tag "fix_id": "F-80269r1_fix"
-  tag "cci": ["CCI-000381"]
-  tag "nist": ["CM-7", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000095-GPOS-00049'
+  tag "gid": 'V-73291'
+  tag "rid": 'SV-87943r1_rule'
+  tag "stig_id": 'WN16-00-000370'
+  tag "fix_id": 'F-80269r1_fix'
+  tag "cci": ['CCI-000381']
+  tag "nist": ['CM-7', 'Rev_4']
   tag "documentable": false
   tag "check": "Open \"PowerShell\".
 
@@ -35,15 +35,7 @@ control "V-73291" do
   Deselect \"Peer Name Resolution Protocol\" on the \"Features\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
-  is_pnrp_installed = command("Get-Service pnrp").stdout.strip
-  if (is_p2pimsvc_installed == '')
-    describe 'pnrp not installed' do
-      skip "control NA, pnrp is not installed"
-    end
-  else
-    describe wmi({:namespace=>"root\\cimv2", :query=>"SELECT startmode FROM Win32_Service WHERE name='p2pimsvc'"}).params.values do
-      its("join") { should eq "Disabled" }
-    end
+  describe windows_feature('PNRP') do
+    it { should_not be_installed }
   end
 end
-

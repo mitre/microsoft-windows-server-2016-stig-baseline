@@ -1,7 +1,7 @@
-control "V-73251" do
+control 'V-73251' do
   title "Permissions for program file directories must conform to minimum
   requirements."
-  desc  "Changing the system's file and directory permissions allows the
+  desc "Changing the system's file and directory permissions allows the
   possibility of unauthorized and anonymous modification to the operating system
   and installed applications.
 
@@ -10,15 +10,15 @@ control "V-73251" do
   \"Disabled\" (WN16-SO-000290).
   "
   impact 0.5
-  tag "gtitle": "SRG-OS-000312-GPOS-00122"
-  tag "satisfies": ["SRG-OS-000312-GPOS-00122", "SRG-OS-000312-GPOS-00123",
-  "SRG-OS-000312-GPOS-00124"]
-  tag "gid": "V-73251"
-  tag "rid": "SV-87903r1_rule"
-  tag "stig_id": "WN16-00-000170"
-  tag "fix_id": "F-79695r1_fix"
-  tag "cci": ["CCI-002165"]
-  tag "nist": ["AC-3 (4)", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000312-GPOS-00122'
+  tag "satisfies": ['SRG-OS-000312-GPOS-00122', 'SRG-OS-000312-GPOS-00123',
+                    'SRG-OS-000312-GPOS-00124']
+  tag "gid": 'V-73251'
+  tag "rid": 'SV-87903r1_rule'
+  tag "stig_id": 'WN16-00-000170'
+  tag "fix_id": 'F-79695r1_fix'
+  tag "cci": ['CCI-002165']
+  tag "nist": ['AC-3 (4)', 'Rev_4']
   tag "documentable": false
   tag "check": "The default permissions are adequate when the Security Option
   \"Network access: Let everyone permissions apply to anonymous users\" is set to
@@ -104,18 +104,42 @@ control "V-73251" do
   ALL APPLICATION PACKAGES - Read & execute - This folder, subfolders, and files
   ALL RESTRICTED APPLICATION PACKAGES - Read & execute - This folder, subfolders,
   and files"
-  describe command('Get-Acl -Path "C:\\Program Files" | Format-List | Findstr All | Findstr /V 2') do
-    its('stdout') { should eq "         NT AUTHORITY\\SYSTEM Allow  Modify, Synchronize\r\n         BUILTIN\\Administrators Allow  Modify, Synchronize\r\n         BUILTIN\\Users Allow  ReadAndExecute, Synchronize\r\n         NT SERVICE\\TrustedInstaller Allow  FullControl\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  ReadAndExecute, Synchronize\r\n" }
-  end
-  describe command('Get-Acl -Path "C:\\Program Files" | Format-List | Findstr All | Findstr CREATOR') do
-    its('stdout') { should eq "Access : CREATOR OWNER Allow  268435456\r\n" }
-  end 
 
-  describe command('Get-Acl -Path "C:\\Program Files (x86)" | Format-List | Findstr All | Findstr /V 2') do
-    its('stdout') { should eq "         NT AUTHORITY\\SYSTEM Allow  Modify, Synchronize\r\n         BUILTIN\\Administrators Allow  Modify, Synchronize\r\n         BUILTIN\\Users Allow  ReadAndExecute, Synchronize\r\n         NT SERVICE\\TrustedInstaller Allow  FullControl\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  ReadAndExecute, Synchronize\r\n" }
+  describe file('C:\\Program Files') do
+    it { should be_allowed('modify', by_user: 'NT AUTHORITY\\SYSTEM') }
+    it { should be_allowed('modify', by_user: 'BUILTIN\\Administrators') }
+    it { should be_allowed('read', by_user: 'BUILTIN\\Users') }
+    it { should be_allowed('full-control', by_user: 'NT SERVICE\\TrustedInstaller') }
+    it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES') }
+    it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES') }
   end
-  describe command('Get-Acl -Path "C:\\Program Files (x86)" | Format-List | Findstr All | Findstr CREATOR') do
-    its('stdout') { should eq "Access : CREATOR OWNER Allow  268435456\r\n" }
+
+  describe "The file permissions on C:\\Program Files for user: CREATOR OWNER" do
+    subject { command('Get-Acl -Path "C:\\Program Files" | Format-List | Findstr CREATOR').stdout }
+    it { should eq "Access : CREATOR OWNER Allow  268435456\r\n" }
+  end
+
+  describe "The file permissions on C:\\Program Files for user: BUILTIN\\Administrators" do
+    subject { command('Get-Acl -Path "C:\\Program Files" | Format-List | Findstr Administrators | findstr 2').stdout }
+    it { should cmp "         BUILTIN\\Administrators Allow  268435456\r\n" }
+  end
+
+  describe file('C:\\Program Files (x86)') do
+    it { should be_allowed('modify', by_user: 'NT AUTHORITY\\SYSTEM') }
+    it { should be_allowed('modify', by_user: 'BUILTIN\\Administrators') }
+    it { should be_allowed('read', by_user: 'BUILTIN\\Users') }
+    it { should be_allowed('full-control', by_user: 'NT SERVICE\\TrustedInstaller') }
+    it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES') }
+    it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES') }
+  end
+
+  describe "The file permissions on C:\\Program Files (x86) for user: CREATOR OWNER" do
+    subject { command('Get-Acl -Path "C:\\Program Files (x86)" | Format-List | Findstr CREATOR').stdout }
+    it { should eq "Access : CREATOR OWNER Allow  268435456\r\n" }
+  end
+
+  describe "The file permissions on C:\\Program Files (x86) for user: BUILTIN\\Administrators" do
+  subject { command('Get-Acl -Path "C:\\Program Files (x86)" | Format-List | Findstr Administrators | findstr 2').stdout }
+    it { should cmp "         BUILTIN\\Administrators Allow  268435456\r\n" }
   end
 end
-

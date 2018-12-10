@@ -1,18 +1,9 @@
- domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
+ADMINISTRATORS_DOMAIN = attribute('administrators_domain')
 
- ADMINISTRATORS = attribute(
-  'administrators',
-  description: 'List of authorized users in the local Admionistrators group',
-  default: %w[
-            Administrators
-            Admn
-           ]
-)
-
-control "V-73219" do
+control 'V-73219' do
   title "Only administrators responsible for the domain controller must have
   Administrator rights on the system."
-  desc  "An account that does not have Administrator duties must not have
+  desc "An account that does not have Administrator duties must not have
   Administrator rights. Such rights would allow the account to bypass or modify
   required security restrictions on that machine and make it vulnerable to attack.
 
@@ -22,19 +13,15 @@ control "V-73219" do
   Standard user accounts must not be members of the built-in Administrators
   group.
   "
-  if domain_role == '4' || domain_role == '5'
-    impact 0.7
-  else
-    impact 0.0
-  end
-  tag "gtitle": "SRG-OS-000324-GPOS-00125"
-  tag "gid": "V-73219"
-  tag "rid": "SV-87871r1_rule"
-  tag "stig_id": "WN16-DC-000010"
-  tag "fix_id": "F-79665r1_fix"
-  tag "cci": ["CCI-002235"]
-  tag "nist": ["AC-6 (10)", "Rev_4"]
-  tag "nist": ["CCI-002235"]
+  impact 0.7
+  tag "gtitle": 'SRG-OS-000324-GPOS-00125'
+  tag "gid": 'V-73219'
+  tag "rid": 'SV-87871r1_rule'
+  tag "stig_id": 'WN16-DC-000010'
+  tag "fix_id": 'F-79665r1_fix'
+  tag "cci": ['CCI-002235']
+  tag "nist": ['AC-6 (10)', 'Rev_4']
+  tag "nist": ['CCI-002235']
   tag "documentable": false
   tag "check": "This applies to domain controllers. A separate version applies
   to other systems.
@@ -54,15 +41,28 @@ control "V-73219" do
   groups or accounts that are responsible for the system.
 
   Remove any standard user accounts."
-  administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split('\n')
-  administrator_group.each do |user|
-    describe "#{user}" do
-      it { should be_in ADMINISTRATORS}
-    end  
-  end if domain_role == '4' || domain_role == '5'
-  
-  describe "System is not a domain controller, control not applicable" do
-    skip "System is not a domain controller, control not applicable"
-  end if domain_role != '4' || domain_role != '5'
-end
+  domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
+  administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split("\n")
+  administrator_group.each do |user|
+    a = user.strip
+    describe a.to_s do
+      it { should be_in ADMINISTRATORS_DOMAIN }
+    end
+  end if [4, 5].include? domain_role
+
+  if ![4, 5].include? domain_role
+    impact 0.0
+    desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
+      skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    end
+  end
+  if administrator_group.empty?
+    impact 0.0
+    desc 'There are no users with administrative privileges on this system, therefore this control is not applicable'
+    describe 'There are no users with administrative privileges on this system, therefore this control is not applicable' do
+      skip 'There are no users with administrative privileges on this system, therefore this control is not applicable'
+    end
+  end
+end

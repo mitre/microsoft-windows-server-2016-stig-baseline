@@ -1,5 +1,5 @@
-control "V-73307" do
-  title "The time service must synchronize with an appropriate DoD time source."
+control 'V-73307' do
+  title 'The time service must synchronize with an appropriate DoD time source.'
   desc  "The Windows Time Service controls time synchronization settings. Time
   synchronization is essential for authentication and auditing purposes. If the
   Windows Time Service is used, it must synchronize with a secure, authorized
@@ -7,13 +7,13 @@ control "V-73307" do
   with domain controllers. If an NTP server is configured, it must synchronize
   with a secure, authorized time source."
   impact 0.3
-  tag "gtitle": "SRG-OS-000355-GPOS-00143"
-  tag "gid": "V-73307"
-  tag "rid": "SV-87959r1_rule"
-  tag "stig_id": "WN16-00-000450"
-  tag "fix_id": "F-79749r1_fix"
-  tag "cci": ["CCI-001891"]
-  tag "nist": ["AU-8 (1) (a)", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000355-GPOS-00143'
+  tag "gid": 'V-73307'
+  tag "rid": 'SV-87959r1_rule'
+  tag "stig_id": 'WN16-00-000450'
+  tag "fix_id": 'F-79749r1_fix'
+  tag "cci": ['CCI-001891']
+  tag "nist": ['AU-8 (1) (a)', 'Rev_4']
   tag "documentable": false
   tag "check": "Review the Windows time service configuration.
 
@@ -54,5 +54,15 @@ control "V-73307" do
   http://tycho.usno.navy.mil/ntp.html. Time synchronization will occur through a
   hierarchy of time servers down to the local level. Clients and lower-level
   servers will synchronize with an authorized time server in the hierarchy."
-end
+  is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
 
+  describe command(' W32tm /query /configuration | Findstr Type') do
+    its('stdout') { should eq "Type: NT5DS (Local)\r\n" }
+  end if is_domain != 'WORKGROUP'
+
+  get_type = command('W32tm /query /configuration | Findstr Type').stdout.strip
+
+  describe registry_key('HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32time\Parameters') do
+    its('NTPServer') { should_not cmp 'time.windows.com,0x9' }
+  end if is_domain == 'WORKGROUP'
+end

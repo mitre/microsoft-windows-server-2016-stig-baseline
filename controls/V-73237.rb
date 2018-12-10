@@ -1,19 +1,19 @@
-control "V-73237" do
+control 'V-73237' do
   title "Domain-joined systems must have a Trusted Platform Module (TPM)
   enabled and ready for use."
-  desc  "Credential Guard uses virtualization-based security to protect data
+  desc "Credential Guard uses virtualization-based security to protect data
   that could be used in credential theft attacks if compromised. A number of
   system requirements must be met in order for Credential Guard to be configured
   and enabled properly. Without a TPM enabled and ready for use, Credential Guard
   keys are stored in a less secure method using software."
   impact 0.3
-  tag "gtitle": "SRG-OS-000480-GPOS-00227"
-  tag "gid": "V-73237"
-  tag "rid": "SV-87889r1_rule"
-  tag "stig_id": "WN16-00-000100"
-  tag "fix_id": "F-79681r1_fix"
-  tag "cci": ["CCI-000366"]
-  tag "nist": ["CM-6 b", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000480-GPOS-00227'
+  tag "gid": 'V-73237'
+  tag "rid": 'SV-87889r1_rule'
+  tag "stig_id": 'WN16-00-000100'
+  tag "fix_id": 'F-79681r1_fix'
+  tag "cci": ['CCI-000366']
+  tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
   tag "check": "For standalone systems, this is NA.
 
@@ -40,11 +40,23 @@ control "V-73237" do
   The TPM must be enabled in the firmware.
 
   Run \"tpm.msc\" for configuration options in Windows."
+  is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
 
-  is_domain = command("wmic computersystem get domain | FINDSTR /V Domain").stdout.strip
-  describe command("Get-Tpm | Findstr 'Present Ready'") do
-    its('stdout') { should eq "TpmPresent          : False\r\nTpmReady            : False\r\n" }
+  if is_domain == 'WORKGROUP'
+    impact 0.0
+    desc 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems'
   end
-  only_if {is_domain != "WORKGROUP"}
-end
 
+  if is_domain != 'WORKGROUP'
+    tpm_ready = command('Get-Tpm | select -expand TpmReady').stdout.strip
+    tmp_present = command('Get-Tpm | select -expand TpmPresent').stdout.strip
+    describe 'Trusted Platform Module (TPM) TmpReady' do
+      subject { tpm_ready }
+      it { should eq 'True' }
+    end
+    describe 'Trusted Platform Module (TPM) TmpPresent' do
+      subject { tmp_present }
+      it { should eq 'True' }
+    end
+  end
+end

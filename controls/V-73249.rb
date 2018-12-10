@@ -1,7 +1,7 @@
-87901control "V-73249" do
+control 'V-73249' do
   title "Permissions for the system drive root directory (usually C:\\) must
   conform to minimum requirements."
-  desc  "Changing the system's file and directory permissions allows the
+  desc "Changing the system's file and directory permissions allows the
   possibility of unauthorized and anonymous modification to the operating system
   and installed applications.
 
@@ -10,15 +10,15 @@
   \"Disabled\" (WN16-SO-000290).
   "
   impact 0.5
-  tag "gtitle": "SRG-OS-000312-GPOS-00122"
-  tag "satisfies": ["SRG-OS-000312-GPOS-00122", "SRG-OS-000312-GPOS-00123",
-  "SRG-OS-000312-GPOS-00124"]
-  tag "gid": "V-73249"
-  tag "rid": "SV-87901r1_rule"
-  tag "stig_id": "WN16-00-000160"
-  tag "fix_id": "F-79693r1_fix"
-  tag "cci": ["CCI-002165"]
-  tag "nist": ["AC-3 (4)", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000312-GPOS-00122'
+  tag "satisfies": ['SRG-OS-000312-GPOS-00122', 'SRG-OS-000312-GPOS-00123',
+                    'SRG-OS-000312-GPOS-00124']
+  tag "gid": 'V-73249'
+  tag "rid": 'SV-87901r1_rule'
+  tag "stig_id": 'WN16-00-000160'
+  tag "fix_id": 'F-79693r1_fix'
+  tag "cci": ['CCI-002165']
+  tag "nist": ['AC-3 (4)', 'Rev_4']
   tag "documentable": false
   tag "check": "The default permissions are adequate when the Security Option
   \"Network access: Let everyone permissions apply to anonymous users\" is set to
@@ -87,14 +87,22 @@
   Users - Create folders/append data - This folder and subfolders
   Users - Create files/write data - Subfolders only
   CREATOR OWNER - Full Control - Subfolders and files only"
+  describe file('C:\\') do
+    it { should be_allowed('full-control', by_user: 'NT AUTHORITY\\SYSTEM') }
+    it { should be_allowed('full-control', by_user: 'BUILTIN\\Administrators') }
+    it { should be_allowed('read', by_user: 'BUILTIN\\Users') }
+  end
+  get_perms = command('Get-Acl -Path "C:\\" | Format-List | Findstr CREATOR').stdout
+  get_perms_full = command('Get-Acl -Path "C:\\" | Format-List | Findstr CREATOR').stdout
   describe.one do
-    describe command('Get-Acl -Path "C:\\" | Format-List | Findstr All') do
-      its('stdout') { should eq "Access : CREATOR OWNER Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Users Allow  AppendData\r\n         BUILTIN\\Users Allow  CreateFiles\r\n         BUILTIN\\Users Allow  ReadAndExecute, Synchronize\r\n" }
-    end
 
-    describe command('Get-Acl -Path "C:\\" | Format-List | Findstr All') do
-      its('stdout') { should eq "Access : CREATOR OWNER Allow  FullControl\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Users Allow  CreateFiles, AppendData, ReadAndExecute, Synchronize\r\n" }
+    describe "The file permissions on C:\\ for user: CREATOR OWNER" do
+    subject { get_perms }
+      it { should eq "Access : CREATOR OWNER Allow  268435456\r\n" }
     end
-  end 
+    describe "The file permissions on C:\\ for user: CREATOR OWNER" do
+    subject { get_perms_full }
+      it { should eq "Access : CREATOR OWNER Allow  FullControl\r\n" }
+    end
+  end
 end
-

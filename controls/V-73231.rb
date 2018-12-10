@@ -1,19 +1,19 @@
-control "V-73231" do
+control 'V-73231' do
   title "Manually managed application account passwords must be changed at
   least annually or when a system administrator with knowledge of the password
   leaves the organization."
-    desc  "Setting application account passwords to expire may cause applications
-  to stop functioning. However, not changing them on a regular basis exposes them
-  to attack. If managed service accounts are used, this alleviates the need to
-  manually change application account passwords."
+  desc  "Setting application account passwords to expire may cause applications
+to stop functioning. However, not changing them on a regular basis exposes them
+to attack. If managed service accounts are used, this alleviates the need to
+manually change application account passwords."
   impact 0.5
-  tag "gtitle": "SRG-OS-000480-GPOS-00227"
-  tag "gid": "V-73231"
-  tag "rid": "SV-87883r2_rule"
-  tag "stig_id": "WN16-00-000070"
-  tag "fix_id": "F-79675r1_fix"
-  tag "cci": ["CCI-000366"]
-  tag "nist": ["CM-6 b", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000480-GPOS-00227'
+  tag "gid": 'V-73231'
+  tag "rid": 'SV-87883r2_rule'
+  tag "stig_id": 'WN16-00-000070'
+  tag "fix_id": 'F-79675r1_fix'
+  tag "cci": ['CCI-000366']
+  tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
   tag "check": "Determine if manually managed application/service accounts
   exist. If none exist, this is NA.
@@ -51,5 +51,29 @@ control "V-73231" do
 
   It is recommended that system-managed service accounts be used whenever
   possible."
-end
+  users = command("net user | Findstr /V 'command -- accounts'").stdout.strip.split(' ')
 
+  users.each do |user|
+
+    get_password_last_set = command("Net User #{user}  | Findstr /i 'Password Last Set' | Findstr /v 'expires changeable required may logon'").stdout.strip
+
+    month = get_password_last_set[27..29]
+    day = get_password_last_set[31..32]
+    year = get_password_last_set[34..38]
+
+    date = day + '/' + month + '/' + year
+
+    date_password_last_set = DateTime.now.mjd - DateTime.parse(date).mjd
+    describe "The user: #{user} days since password last set" do
+      describe date_password_last_set do
+        it { should cmp <= 365 }
+      end
+    end
+  end
+  if users.empty?
+    desc 'There are no users configured on this system, therefore this control is not applicable'
+    describe 'There are no users configured on this system, therefore this control is not applicable' do
+      skip 'There are no users configured on this system, therefore this control is not applicable'
+    end
+  end
+end

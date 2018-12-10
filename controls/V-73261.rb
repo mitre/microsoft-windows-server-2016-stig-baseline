@@ -1,17 +1,17 @@
-control "V-73261" do
-  title "Accounts must require passwords."
+control 'V-73261' do
+  title 'Accounts must require passwords.'
   desc  "The lack of password protection enables anyone to gain access to the
   information system, which opens a backdoor opportunity for intruders to
   compromise the system as well as other resources. Accounts on a system must
   require passwords."
   impact 0.5
-  tag "gtitle": "SRG-OS-000104-GPOS-00051"
-  tag "gid": "V-73261"
-  tag "rid": "SV-87913r2_rule"
-  tag "stig_id": "WN16-00-000220"
-  tag "fix_id": "F-79705r1_fix"
-  tag "cci": ["CCI-000764"]
-  tag "nist": ["IA-2", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000104-GPOS-00051'
+  tag "gid": 'V-73261'
+  tag "rid": 'SV-87913r2_rule'
+  tag "stig_id": 'WN16-00-000220'
+  tag "fix_id": 'F-79705r1_fix'
+  tag "cci": ['CCI-000764']
+  tag "nist": ['IA-2', 'Rev_4']
   tag "documentable": false
   tag "check": "Review the password required status for enabled user accounts.
 
@@ -49,5 +49,10 @@ control "V-73261" do
       its('stdout') { should_not eq "Password required            No\r\n" }
     end
   end
+  if users.empty?
+    desc 'There are no users configured on this system, therefore this control is not applicable'
+    describe 'There are no users configured on this system, therefore this control is not applicable' do
+      skip 'There are no users configured on this system, therefore this control is not applicable'
+    end
+  end
 end
-

@@ -1,27 +1,23 @@
-control "V-73773" do
+control 'V-73773' do
   title "The Deny log on through Remote Desktop Services user right on domain
   controllers must be configured to prevent unauthenticated access."
-  desc  "Inappropriate granting of user rights can provide system,
+  desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-    The \"Deny log on through Remote Desktop Services\" user right defines the
+  The \"Deny log on through Remote Desktop Services\" user right defines the
   accounts that are prevented from logging on using Remote Desktop Services.
 
-    The Guests group must be assigned this right to prevent unauthenticated
+  The Guests group must be assigned this right to prevent unauthenticated
   access.
   "
-  if domain_role == '4' || domain_role == '5'
-    impact 0.5
-  else
-    impact 0.0
-  end
-  tag "gtitle": "SRG-OS-000297-GPOS-00115"
-  tag "gid": "V-73773"
-  tag "rid": "SV-88437r1_rule"
-  tag "stig_id": "WN16-DC-000410"
-  tag "fix_id": "F-80223r1_fix"
-  tag "cci": ["CCI-002314"]
-  tag "nist": ["AC-17 (1)", "Rev_4"]
+  impact 0.5
+  tag "gtitle": 'SRG-OS-000297-GPOS-00115'
+  tag "gid": 'V-73773'
+  tag "rid": 'SV-88437r1_rule'
+  tag "stig_id": 'WN16-DC-000410'
+  tag "fix_id": 'F-80223r1_fix'
+  tag "cci": ['CCI-002314']
+  tag "nist": ['AC-17 (1)', 'Rev_4']
   tag "documentable": false
   tag "check": "This applies to domain controllers. A separate version applies
   to other systems.
@@ -42,13 +38,24 @@ control "V-73773" do
   \"Deny log on through Remote Desktop Services\" to include the following:
 
   - Guests Group"
-  describe security_policy do
-    its('SeDenyRemoteInteractiveLogonRight') { should eq ['S-1-5-32-546'] }
-  end if domain_role == '4' || domain_role == '5'
-  
-  describe "System is not a domain controller, control not applicable" do
-    skip "System is not a domain controller, control not applicable"
-  end if domain_role != '4' || domain_role != '5'
+  domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
+
+  if [4, 5].include? domain_role
+    describe.one do
+      describe security_policy do
+        its('SeDenyRemoteInteractiveLogonRight') { should eq ['S-1-5-32-546'] }
+      end
+      describe security_policy do
+        its('SeDenyRemoteInteractiveLogonRight') { should eq [] }
+      end
+    end
+  end
+
+  if ![4, 5].include? domain_role
+    impact 0.0
+    desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
+      skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    end
+  end
 end
-
-

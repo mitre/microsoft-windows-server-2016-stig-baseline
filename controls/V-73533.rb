@@ -1,21 +1,16 @@
-domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
-control "V-73533" do
-  title "Local users on domain-joined computers must not be enumerated."
+control 'V-73533' do
+  title 'Local users on domain-joined computers must not be enumerated.'
   desc  "The username is one part of logon credentials that could be used to
   gain access to a system. Preventing the enumeration of users limits this
   information to authorized personnel."
-  if domain_role != '4' || domain_role != '5'
-    impact 0.5
-  else
-    impact 0.0
-  end
-  tag "gtitle": "SRG-OS-000095-GPOS-00049"
-  tag "gid": "V-73533"
-  tag "rid": "SV-88187r1_rule"
-  tag "stig_id": "WN16-MS-000030"
-  tag "fix_id": "F-79975r1_fix"
-  tag "cci": ["CCI-000381"]
-  tag "nist": ["CM-7 a", "Rev_4"]
+  impact 0.5
+  tag "gtitle": 'SRG-OS-000095-GPOS-00049'
+  tag "gid": 'V-73533'
+  tag "rid": 'SV-88187r1_rule'
+  tag "stig_id": 'WN16-MS-000030'
+  tag "fix_id": 'F-79975r1_fix'
+  tag "cci": ['CCI-000381']
+  tag "nist": ['CM-7 a', 'Rev_4']
   tag "documentable": false
   tag "check": "This applies to member servers. For domain controllers and
   standalone systems, this is NA.
@@ -33,12 +28,15 @@ control "V-73533" do
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> System >> Logon >> \"Enumerate local users on
   domain-joined computers\" to \"Disabled\"."
-  describe registry_key("HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\System") do
-    it { should have_property "EnumerateLocalUsers" }
-    its("EnumerateLocalUsers") { should cmp == 0 }
-  end if domain_role != '4' || domain_role != '5'
-  describe "System is a domain controller, control not applicable" do
-    skip "System is a domain controller, control not applicable"
-  end if domain_role == '4' || domain_role == '5'
-end
+  domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
+  describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\System') do
+    it { should have_property 'EnumerateLocalUsers' }
+    its('EnumerateLocalUsers') { should cmp 0 }
+  end if ![4, 5].include? domain_role
+
+  if [4, 5].include? domain_role
+    impact 0.0
+    desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
+  end
+end

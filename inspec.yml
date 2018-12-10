@@ -1,21 +1,69 @@
-# encoding: utf-8 
-# 
-=begin 
------------------ 
-Benchmark: Windows Server 2016 Security Technical Implementation Guide  
-Status: accepted 
+name: windows_server_2016_v1r4_stig_baseline
+title: Windows 2016 Server STIG
+maintainer: MITRE InSpec Team
+copyright: MITRE InSpec Team
+copyright_email: inspec@mitre.org
+license: Apache-2.0
+summary: Inspec profile testing STIG compliance of Windows Server 2016
+description: >
+  Inspec testing for Windows 2016 servers per the IASE DISA Windows
+  2016 v1r4 STIG at 
+version: 0.1.0
 
-Description: This Security Technical Implementation Guide is published as a tool to improve
-the security of Department of Defense (DoD) information systems. The
-requirements are derived from the National Institute of Standards and
-Technology (NIST) 800-53 and related documents. Comments or proposed revisions
-to this document should be sent via email to the following address:
-disa.stig_spt@mail.mil.
-Release Date: 2018-05-23 
-Version: 1 
-Publisher: DISA 
-Source: STIG.DOD.MIL 
-uri: http://iase.disa.mil 
------------------ 
-=end 
+attributes:
+
+  - name: backup_operators
+    description: 'List of authorized users in the Backup Operators Group'
+    default: []
+
+  - name: administrators
+    description: 'List of authorized users in the local Administrators group'
+    default: ["Admn",
+            "Domain Admins",
+            "Enterprise Admins"]
+
+  - name: administrators_domain
+    description: 'List of authorized users in the local Administrators domain group'
+    default: ["Admn",
+            "Domain Admins",
+            "Enterprise Admins"]
+
+  - name: temp_account
+    description: 'List of temporary accounts on the system'
+    default: []
+
+  - name: emergency_account
+    description: 'List of emergency accounts on the system'
+    default: []
+
+  - name: administrator_domain_group
+    description: 'List of authorized users in the local Administrators domain group'
+    default: ["Admn"]
+
+  - name: shared_accounts
+    description: 'List of shared accounts on the system'
+    default: []
+
+  - name: has_ftp_server_role
+    description: 'Set to true server has the ftp server role'
+    type: boolean
+    default: true
+
+  - name: forrest
+    description: 'Domain Controller forrest name'
+    default: 'dc=testing, dc=com'
+
+  - name: admin_account
+    description: 'Default administator account'
+    default: 'admn'
+
+  - name: site_banner
+    description: 'Default site banner'
+    default: 'Default site banner'
+
+  - name: is_site_banner_used
+    description: 'Set to true if a site banner is being used'
+    type: boolean
+    default: false
+
 

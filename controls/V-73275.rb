@@ -1,9 +1,9 @@
-control "V-73275" do
+control 'V-73275' do
   title "Protection methods such as TLS, encrypted VPNs, or IPsec must be
   implemented if the data owner has a strict requirement for ensuring data
   integrity and confidentiality is maintained at every step of the data transfer
   and handling process."
-  desc  "Information can be either unintentionally or maliciously disclosed or
+  desc "Information can be either unintentionally or maliciously disclosed or
   modified during preparation for transmission, for example, during aggregation,
   at protocol transformation points, and during packing/unpacking. These
   unauthorized disclosures or modifications compromise the confidentiality or
@@ -20,14 +20,14 @@ control "V-73275" do
   mechanisms such as TLS, encrypted VPNs, or IPsec.
   "
   impact 0.5
-  tag "gtitle": "SRG-OS-000425-GPOS-00189"
-  tag "satisfies": ["SRG-OS-000425-GPOS-00189", "SRG-OS-000426-GPOS-00190"]
-  tag "gid": "V-73275"
-  tag "rid": "SV-87927r1_rule"
-  tag "stig_id": "WN16-00-000290"
-  tag "fix_id": "F-79719r1_fix"
-  tag "cci": ["CCI-002420", "CCI-002422"]
-  tag "nist": ["SC-8 (2)", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000425-GPOS-00189'
+  tag "satisfies": ['SRG-OS-000425-GPOS-00189', 'SRG-OS-000426-GPOS-00190']
+  tag "gid": 'V-73275'
+  tag "rid": 'SV-87927r1_rule'
+  tag "stig_id": 'WN16-00-000290'
+  tag "fix_id": 'F-79719r1_fix'
+  tag "cci": ['CCI-002420', 'CCI-002422']
+  tag "nist": ['SC-8 (2)', 'Rev_4']
   tag "documentable": false
   tag "check": "If the data owner has a strict requirement for ensuring data
   integrity and confidentiality is maintained at every step of the data transfer
@@ -39,11 +39,13 @@ control "V-73275" do
   IPsec when the data owner has a strict requirement for ensuring data integrity
   and confidentiality is maintained at every step of the data transfer and
   handling process."
-  describe "Protection methods such as TLS, encrypted VPNs, or IPSEC must be
+  describe "A manual review is required to verify that protection methods such as TLS, encrypted VPNs, or IPSEC are
   implemented if the data owner has a strict requirement for ensuring data
   integrity and confidentiality is maintained at every step of the data transfer
   and handling process." do
-    skip "is a manual check"
+    skip "A manual review is required to verify that protection methods such as TLS, encrypted VPNs, or IPSEC are
+  implemented if the data owner has a strict requirement for ensuring data
+  integrity and confidentiality is maintained at every step of the data transfer
+  and handling process."
   end
 end
-

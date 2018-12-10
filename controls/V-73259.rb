@@ -1,20 +1,20 @@
-control "V-73259" do
+control 'V-73259' do
   title "Outdated or unused accounts must be removed from the system or
   disabled."
-  desc  "Outdated or unused accounts provide penetration points that may go
+  desc "Outdated or unused accounts provide penetration points that may go
   undetected. Inactive accounts must be deleted if no longer necessary or, if
   still required, disabled until needed.
   "
   impact 0.5
-  tag "gtitle": "SRG-OS-000104-GPOS-00051"
-  tag "satisfies": ["SRG-OS-000104-GPOS-00051", "SRG-OS-000118-GPOS-00060"]
-  tag "gid": "V-73259"
-  tag "rid": "SV-87911r2_rule"
-  tag "stig_id": "WN16-00-000210"
-  tag "fix_id": "F-79703r1_fix"
-  tag "cci": ["CCI-000764", "CCI-000795"]
-  tag "nist": ["IA-2", "Rev_4"]
-  tag "nist": ["IA-5 e", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000104-GPOS-00051'
+  tag "satisfies": ['SRG-OS-000104-GPOS-00051', 'SRG-OS-000118-GPOS-00060']
+  tag "gid": 'V-73259'
+  tag "rid": 'SV-87911r2_rule'
+  tag "stig_id": 'WN16-00-000210'
+  tag "fix_id": 'F-79703r1_fix'
+  tag "cci": ['CCI-000764', 'CCI-000795']
+  tag "nist": ['IA-2', 'Rev_4']
+  tag "nist": ['IA-5 e', 'Rev_4']
   tag "documentable": false
   tag "check": "Open \"Windows PowerShell\".
 
@@ -67,18 +67,17 @@ control "V-73259" do
   get_sids = []
   get_names = []
   names = []
-  sids = []
   inactive_accounts = []
- 
+
   users.each do |user|
     get_sids = command("wmic useraccount where \"Name='#{user}'\" get name',' sid',' Disabled | Findstr /v SID").stdout.strip
     get_last = get_sids[get_sids.length-3, 3]
-    get_disabled = get_sids[0,4]
+    get_disabled = get_sids[0, 4]
     loc_colon = get_sids.index(' ')
-    names = get_sids[0,loc_colon]
-    if (get_last != '500'  && get_last != '501' && get_disabled != 'TRUE')
+    names = get_sids[0, loc_colon]
+    if get_last != '500' && get_last != '501' && get_disabled != 'TRUE'
       get_names.push(names)
-     end
+    end
   end
 
   if get_names != []
@@ -88,47 +87,48 @@ control "V-73259" do
 
       last_logon = get_last_logon[29..33]
 
-      if (last_logon != 'Never')
+      if last_logon != 'Never'
         month = get_last_logon[28..29]
         day = get_last_logon[31..32]
         year = get_last_logon[34..37]
 
-        if (get_last_logon[32] == '/')
+        if get_last_logon[32] == '/'
           month = get_last_logon[28..29]
           day = get_last_logon[31]
           year = get_last_logon[33..37]
         end
-        date = day +  "/" + month + "/" + year
+        date = day + '/' + month + '/' + year
 
         date_last_logged_on = DateTime.now.mjd - DateTime.parse(date).mjd
         if date_last_logged_on >35
           inactive_accounts.push(user)
         end
 
-        describe "#{user}'s last logon" do
-          describe date_last_logged_on do
-            it { should cmp <= 35 }
-          end 
-        end if inactive_accountsac != []
-      end
-
-      if (last_logon == 'Never')
-        date_last_logged_on = 'Never'
-        describe "#{user}'s last logon" do
-          describe date_last_logged_on do
-            it { should_not == 'Never' }
-          end 
+        if !inactive_accounts.empty?
+          describe "#{user}'s last logon" do
+            describe date_last_logged_on do
+              it { should cmp <= 35 }
+            end
+          end
         end
-      end if inactive_accountsac != []
+
+        if last_logon == 'Never'
+          date_last_logged_on = 'Never'
+          describe "#{user}'s last logon" do
+            describe date_last_logged_on do
+              it { should_not == 'Never' }
+            end
+          end
+        end
+      end
     end
-  end 
+  end
 
-  describe "The system does not have any inactive_accounts, control is NA" do
-    skip "The system does not have any inactive_accounts, controls is NA"
-  end if inactive_accounts == []
-
-  if inactive_accounts == []
+  if inactive_accounts.empty?
     impact 0.0
-  end 
+    desc 'This system does not have any inactive_accounts, therefore this control is not applicable'
+    describe 'This system does not have any inactive_accounts, therefore this control is not applicable' do
+      skip 'This system does not have any inactive_accounts, therefore this control is not applicable'
+    end
+  end
 end
-

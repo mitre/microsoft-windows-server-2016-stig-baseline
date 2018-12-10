@@ -1,16 +1,16 @@
-control "V-73295" do
-  title "The Telnet Client must not be installed."
+control 'V-73295' do
+  title 'The Telnet Client must not be installed.'
   desc  "Unnecessary services increase the attack surface of a system. Some of
   these services may not support required levels of authentication or encryption
   or may provide unauthorized access to the system."
   impact 0.5
-  tag "gtitle": "SRG-OS-000096-GPOS-00050"
-  tag "gid": "V-73295"
-  tag "rid": "SV-87947r1_rule"
-  tag "stig_id": "WN16-00-000390"
-  tag "fix_id": "F-79737r1_fix"
-  tag "cci": ["CCI-000382"]
-  tag "nist": ["CM-7", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000096-GPOS-00050'
+  tag "gid": 'V-73295'
+  tag "rid": 'SV-87947r1_rule'
+  tag "stig_id": 'WN16-00-000390'
+  tag "fix_id": 'F-79737r1_fix'
+  tag "cci": ['CCI-000382']
+  tag "nist": ['CM-7', 'Rev_4']
   tag "documentable": false
   tag "check": "Open \"PowerShell\".
 
@@ -35,5 +35,7 @@ control "V-73295" do
   Deselect \"Telnet Client\" on the \"Features\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
+  describe windows_feature('Telnet-Client') do
+    it { should_not be_installed }
+  end
 end
-

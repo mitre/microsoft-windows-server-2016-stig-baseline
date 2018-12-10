@@ -1,15 +1,9 @@
-TEMP_ACCOUNT = attribute(
-  'temp_account',
-  description: 'List of temporary accounts on the system',
-  default: %w[
-         
-           ]
-)
+TEMP_ACCOUNT = attribute('temp_account')
 
-control "V-73283" do
+control 'V-73283' do
   title "Windows Server 2016 must automatically remove or disable temporary
   user accounts after 72 hours."
-  desc  "If temporary user accounts remain active when no longer needed or for
+  desc "If temporary user accounts remain active when no longer needed or for
   an excessive period, these accounts may be used to gain unauthorized access. To
   mitigate this risk, automated termination of all temporary accounts must be set
   upon account creation.
@@ -27,13 +21,13 @@ control "V-73283" do
   access control policy requirements.
   "
   impact 0.5
-  tag "gtitle": "SRG-OS-000002-GPOS-00002"
-  tag "gid": "V-73283"
-  tag "rid": "SV-87935r1_rule"
-  tag "stig_id": "WN16-00-000330"
-  tag "fix_id": "F-79727r1_fix"
-  tag "cci": ["CCI-000016"]
-  tag "nist": ["AC-2 (2)", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000002-GPOS-00002'
+  tag "gid": 'V-73283'
+  tag "rid": 'SV-87935r1_rule'
+  tag "stig_id": 'WN16-00-000330'
+  tag "fix_id": 'F-79727r1_fix'
+  tag "cci": ['CCI-000016']
+  tag "nist": ['AC-2 (2)', 'Rev_4']
   tag "documentable": false
   tag "check": "Review temporary user accounts for expiration dates.
 
@@ -70,76 +64,71 @@ control "V-73283" do
 
   Delete any temporary user accounts that are no longer necessary."
   temp_accounts = TEMP_ACCOUNT
-    
+
   if temp_accounts != []
-  temp_accounts.each do |user|
+    temp_accounts.each do |user|
 
-  get_account_expires = command("Net User #{user} | Findstr /i 'expires' | Findstr /v 'password'").stdout.strip
+      get_account_expires = command("Net User #{user} | Findstr /i 'expires' | Findstr /v 'password'").stdout.strip
+      month_account_expires = get_account_expires[28..30]
+      day_account_expires = get_account_expires[32..33]
+      year_account_expires = get_account_expires[35..39]
 
-  month_account_expires = get_account_expires[28..30]
-  day_account_expires = get_account_expires[32..33]
-  year_account_expires = get_account_expires[35..39]
-
-  if (get_account_expires[30] == '/')
-        month_account_expires = get_account_expires[28..29] 
-        if (get_account_expires[32] == '/')
+      if get_account_expires[30] == '/'
+        month_account_expires = get_account_expires[28..29]
+        if get_account_expires[32] == '/'
           day_account_expires = get_account_expires[31]
         end
-        if (get_account_expires[32] != '/')
-        day_account_expires = get_account_expires[31..32]
+        if get_account_expires[32] != '/'
+          day_account_expires = get_account_expires[31..32]
         end
-        if (get_account_expires[33] == '/')
+        if get_account_expires[33] == '/'
           year_account_expires = get_account_expires[34..37]
         end
-        if (get_account_expires[33] != '/')
+        if get_account_expires[33] != '/'
           year_account_expires = get_account_expires[33..37]
         end
-        
-  end
+      end
 
-  date_expires = day_account_expires +  "/" + month_account_expires + "/" + year_account_expires
+      date_expires = day_account_expires + '/' + month_account_expires + '/' + year_account_expires
 
-  get_password_last_set = command("Net User #{user}  | Findstr /i 'Password Last Set' | Findstr /v 'expires changeable required may logon'").stdout.strip
+      get_password_last_set = command("Net User #{user}  | Findstr /i 'Password Last Set' | Findstr /v 'expires changeable required may logon'").stdout.strip
 
-  month = get_password_last_set[27..29]
-  day = get_password_last_set[31..32]
-  year = get_password_last_set[34..38]
-
-  if (get_password_last_set[32] == '/')
       month = get_password_last_set[27..29]
-      day = get_password_last_set[31]
-      year = get_password_last_set[33..37]
-  end
-  date = day +  "/" + month + "/" + year
+      day = get_password_last_set[31..32]
+      year = get_password_last_set[34..38]
 
-  date_expires_minus_password_last_set = DateTime.parse(date_expires).mjd - DateTime.parse(date).mjd
+      if get_password_last_set[32] == '/'
+        month = get_password_last_set[27..29]
+        day = get_password_last_set[31]
+        year = get_password_last_set[33..37]
+      end
+      date = day + '/' + month + '/' + year
 
-  account_expires = get_account_expires[27..33]
+      date_expires_minus_password_last_set = DateTime.parse(date_expires).mjd - DateTime.parse(date).mjd
 
-  if (account_expires == 'Never')
-      describe "#{user}'s account expires" do
-        describe account_expires do
-          it { should_not == 'Never' }
-        end 
+      account_expires = get_account_expires[27..33]
+
+      if account_expires == 'Never'
+        describe "#{user}'s account expires" do
+          describe account_expires do
+            it { should_not == 'Never' }
+          end
+        end
+      end
+      if account_expires != 'Never'
+        describe "#{user}'s account expires" do
+          describe date_expires_minus_password_last_set do
+            it { should cmp <= 72 }
+          end
+        end
       end
     end
-    if (account_expires != 'Never')
-      describe "#{user}'s account expires" do
-        describe date_expires_minus_password_last_set do
-          it { should cmp <= 72 }
-        end 
-      end
+  end
+  if temp_accounts.empty?
+    impact 0.0
+    desc 'There are no temporary accounts on this system, therefore this control is not applicable'
+    describe 'There are no temporary accounts on this system, therefore this control is not applicable' do
+      skip 'There are no temporary accounts on this system, therefore this control is not applicable'
     end
   end
-
-
 end
-
-
-else
-  describe "No temp accounts exist" do
-    skip "check not applicable"
-  end
-
-end
-

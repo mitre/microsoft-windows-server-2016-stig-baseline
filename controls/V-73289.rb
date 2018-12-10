@@ -1,16 +1,17 @@
-is_ftp_installed = command("Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed").stdout.strip
-control "V-73289" do
-  title "The Microsoft FTP service must not be installed unless required."
+has_ftp_server_role = attribute('has_ftp_server_role')
+
+control 'V-73289' do
+  title 'The Microsoft FTP service must not be installed unless required.'
   desc  "Unnecessary services increase the attack surface of a system. Some of
   these services may not support required levels of authentication or encryption."
   impact 0.5
-  tag "gtitle": "SRG-OS-000096-GPOS-00050"
-  tag "gid": "V-73289"
-  tag "rid": "SV-87941r1_rule"
-  tag "stig_id": "WN16-00-000360"
-  tag "fix_id": "F-79733r1_fix"
-  tag "cci": ["CCI-000382"]
-  tag "nist": ["CM-7", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000096-GPOS-00050'
+  tag "gid": 'V-73289'
+  tag "rid": 'SV-87941r1_rule'
+  tag "stig_id": 'WN16-00-000360'
+  tag "fix_id": 'F-79733r1_fix'
+  tag "cci": ['CCI-000382']
+  tag "nist": ['CM-7', 'Rev_4']
   tag "documentable": false
   tag "check": "If the server has the role of an FTP server, this is NA.
 
@@ -40,15 +41,11 @@ control "V-73289" do
   Deselect \"FTP Server\" under \"Web Server (IIS)\" on the \"Roles\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
-  is_ftp_installed = command("Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed").stdout.strip
-  if (is_ftp_installed == 'False' || is_ftp_installed == '')
-    describe 'Ftp not installed' do
-      skip "control NA, Ftp is not installed"
-    end
-  else
-    describe wmi({:namespace=>"root\\cimv2", :query=>"SELECT startmode FROM Win32_Service WHERE name='ftpsvc'"}).params.values do
-      its("join") { should eq "Disabled" }
-    end
+  describe windows_feature('Web-Ftp-Service') do
+    it { should_not be_installed }
+  end
+  if has_ftp_server_role == 'True'
+    impact 0.0
+    desc 'This server has the role of an FTP server, therefore this control is not applicable'
   end
 end
-

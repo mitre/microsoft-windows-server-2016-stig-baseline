@@ -1,7 +1,7 @@
-control "V-73235" do
+control 'V-73235' do
   title "Windows Server 2016 must employ a deny-all, permit-by-exception policy
   to allow the execution of authorized software programs."
-  desc  "Using a whitelist provides a configuration management method to allow
+  desc "Using a whitelist provides a configuration management method to allow
   the execution of only authorized software. Using only authorized software
   decreases risk by limiting the number of potential vulnerabilities.
 
@@ -11,13 +11,13 @@ control "V-73235" do
   is commonly referred to as whitelisting.
   "
   impact 0.5
-  tag "gtitle": "SRG-OS-000370-GPOS-00155"
-  tag "gid": "V-73235"
-  tag "rid": "SV-87887r2_rule"
-  tag "stig_id": "WN16-00-000090"
-  tag "fix_id": "F-79679r2_fix"
-  tag "cci": ["CCI-001774"]
-  tag "nist": ["CM-7 (5) (b)", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000370-GPOS-00155'
+  tag "gid": 'V-73235'
+  tag "rid": 'SV-87887r2_rule'
+  tag "stig_id": 'WN16-00-000090'
+  tag "fix_id": 'F-79679r2_fix'
+  tag "cci": ['CCI-001774']
+  tag "nist": ['CM-7 (5) (b)', 'Rev_4']
   tag "documentable": false
   tag "check": "This is applicable to unclassified systems. For other systems,
   this is NA.
@@ -71,9 +71,9 @@ control "V-73235" do
   \"Application Whitelisting using Microsoft AppLocker\" at the following link:
 
   https://www.iad.gov/iad/library/ia-guidance/tech-briefs/application-whitelisting-using-microsoft-applocker.cfm"
-  describe "he operating system must employ a deny-all, permit-by-exception
+  describe "A manual review is required to verify the operating system employs a deny-all, permit-by-exception
   policy to allow the execution of authorized software programs" do
-    skip "is a manual check"
+    skip "A manual review is required to verify the operating system employs a deny-all, permit-by-exception
+  policy to allow the execution of authorized software programs"
   end
 end
-

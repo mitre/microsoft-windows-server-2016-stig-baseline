@@ -1,17 +1,17 @@
-control "V-73301" do
-  title "Windows PowerShell 2.0 must not be installed."
+control 'V-73301' do
+  title 'Windows PowerShell 2.0 must not be installed.'
   desc  "Windows PowerShell 5.0 added advanced logging features that can
   provide additional detail when malware has been run on a system. Disabling the
   Windows PowerShell 2.0 mitigates against a downgrade attack that evades the
   Windows PowerShell 5.0 script block logging feature."
   impact 0.5
-  tag "gtitle": "SRG-OS-000095-GPOS-00049"
-  tag "gid": "V-73301"
-  tag "rid": "SV-87953r1_rule"
-  tag "stig_id": "WN16-00-000420"
-  tag "fix_id": "F-79743r1_fix"
-  tag "cci": ["CCI-000381"]
-  tag "nist": ["CM-7", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000095-GPOS-00049'
+  tag "gid": 'V-73301'
+  tag "rid": 'SV-87953r1_rule'
+  tag "stig_id": 'WN16-00-000420'
+  tag "fix_id": 'F-79743r1_fix'
+  tag "cci": ['CCI-000381']
+  tag "nist": ['CM-7', 'Rev_4']
   tag "documentable": false
   tag "check": "Open \"PowerShell\".
 
@@ -37,5 +37,7 @@ control "V-73301" do
   \"Features\" page.
 
   Click \"Next\" and \"Remove\" as prompted."
+  describe windows_feature('PowerShell-v2') do
+    it { should_not be_installed }
   end
-
+end

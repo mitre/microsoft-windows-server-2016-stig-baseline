@@ -1,4 +1,4 @@
-control "V-73225" do
+control 'V-73225' do
   title "Administrative accounts must not be used with applications that access
   the Internet, such as web browsers, or with potential Internet sources, such as
   email."
@@ -11,7 +11,7 @@ control "V-73225" do
 
   Since administrative accounts may generally change or work around technical
   restrictions for running a web browser or other applications, it is essential
-  that policy require administrative accounts to not access the Internet or use
+  that the policy require administrative accounts to not access the Internet or use
   applications such as email.
 
   The policy should define specific exceptions for local service
@@ -21,13 +21,13 @@ control "V-73225" do
   Whitelisting can be used to enforce the policy to ensure compliance.
   "
   impact 0.7
-  tag "gtitle": "SRG-OS-000480-GPOS-00227"
-  tag "gid": "V-73225"
-  tag "rid": "SV-87877r1_rule"
-  tag "stig_id": "WN16-00-000040"
-  tag "fix_id": "F-79669r1_fix"
-  tag "cci": ["CCI-000366"]
-  tag "nist": ["CM-6 b", "Rev_4"]
+  tag "gtitle": 'SRG-OS-000480-GPOS-00227'
+  tag "gid": 'V-73225'
+  tag "rid": 'SV-87877r1_rule'
+  tag "stig_id": 'WN16-00-000040'
+  tag "fix_id": 'F-79669r1_fix'
+  tag "cci": ['CCI-000366']
+  tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
   tag "check": "Determine whether organization policy, at a minimum, prohibits
   administrative accounts from using applications that access the Internet, such
@@ -45,10 +45,9 @@ control "V-73225" do
 
   The organization may use technical means such as whitelisting to prevent the
   use of browsers and mail applications to enforce this requirement."
-  describe "Administrative accounts must not be used with applications that access
-  the Internet, such as web browsers, or with potential Internet sources, such as
-  email" do
-    skip "is a manual check"
+  describe "A manual review is required to verify that administrative accounts are not being used with applications that access
+  the Internet, such as web browsers, or with potential Internet sources, such as email" do
+    skip "A manual review is required to verify that administrative accounts are not being used with applications that access
+  the Internet, such as web browsers, or with potential Internet sources, such as email"
   end
 end
-

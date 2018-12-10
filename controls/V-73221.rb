@@ -1,25 +1,15 @@
-  domain_role = command("wmic computersystem get domainrole | Findstr /v DomainRole").stdout.strip
-
- ADMINISTRATORS = attribute(
-  'administrators',
-  description: 'List of authorized users in the local Admionistrators group',
-  default: %w[
-            Administrators
-            Admn
-           ]
-)
-
-control "V-73221" do
+administrators = attribute('administrators')
+control 'V-73221' do
   title "Only administrators responsible for the member server or standalone
   system must have Administrator rights on the system."
-  desc  "An account that does not have Administrator duties must not have
+  desc "An account that does not have Administrator duties must not have
   Administrator rights. Such rights would allow the account to bypass or modify
   required security restrictions on that machine and make it vulnerable to attack.
 
   System administrators must log on to systems using only accounts with the
   minimum level of authority necessary.
 
-  For domain-joined member servers, the Domain Admins group must be replaced
+    For domain-joined member servers, the Domain Admins group must be replaced
   by a domain member server administrator group (see V-36433 in the Active
   Directory Domain STIG). Restricting highly privileged accounts from the local
   Administrators group helps mitigate the risk of privilege escalation resulting
@@ -34,18 +24,14 @@ control "V-73221" do
   Standard user accounts must not be members of the built-in Administrators
   group.
   "
-  if domain_role != '4' || domain_role != '5'
-    impact 0.7
-  else
-    impact 0.0
-  end
-  tag "gtitle": "SRG-OS-000324-GPOS-00125"
-  tag "gid": "V-73221"
-  tag "rid": "SV-87873r1_rule"
-  tag "stig_id": "WN16-MS-000010"
-  tag "fix_id": "F-80263r1_fix"
-  tag "cci": ["CCI-002235"]
-  tag "nist": ["AC-6 (10)", "Rev_4"]
+  impact 0.7
+  tag "gtitle": 'SRG-OS-000324-GPOS-00125'
+  tag "gid": 'V-73221'
+  tag "rid": 'SV-87873r1_rule'
+  tag "stig_id": 'WN16-MS-000010'
+  tag "fix_id": 'F-80263r1_fix'
+  tag "cci": ['CCI-002235']
+  tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
   tag "check": "This applies to member servers and standalone systems. A
   separate version applies to domain controllers.
@@ -88,15 +74,26 @@ control "V-73221" do
   Directory Domain STIG).
 
   Remove any standard user accounts."
+  domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split('\n')
   administrator_group.each do |user|
-    describe "#{user}" do
-      it { should be_in ADMINISTRATORS}
-    end  
-  end if domain_role != '4' || domain_role != '5'
-  describe "System is a domain controller, control not applicable" do
-    skip "System is a domain controller, control not applicable"
-  end if domain_role == '4' || domain_role == '5'
+    describe user.to_s do
+      it { should be_in administrators }
+    end
+  end if ![4, 5].include? domain_role
 
+  if [4, 5].include? domain_role
+    impact 0.0
+    desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
+      skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    end
+  end
+  if administrator_group.empty?
+    impact 0.0
+    desc 'There are no users with administrative privileges on this system, therefore this control is not applicable'
+    describe 'There are no users with administrative privileges on this system, therefore this control is not applicable' do
+      skip 'There are no users with administrative privileges on this system, therefore this control is not applicable'
+    end
+  end
 end
-
