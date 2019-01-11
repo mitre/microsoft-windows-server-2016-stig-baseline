@@ -3,9 +3,9 @@ control 'V-73231' do
   least annually or when a system administrator with knowledge of the password
   leaves the organization."
   desc  "Setting application account passwords to expire may cause applications
-to stop functioning. However, not changing them on a regular basis exposes them
-to attack. If managed service accounts are used, this alleviates the need to
-manually change application account passwords."
+  to stop functioning. However, not changing them on a regular basis exposes them
+  to attack. If managed service accounts are used, this alleviates the need to
+  manually change application account passwords."
   impact 0.5
   tag "gtitle": 'SRG-OS-000480-GPOS-00227'
   tag "gid": 'V-73231'

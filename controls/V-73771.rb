@@ -42,9 +42,6 @@ control 'V-73771' do
   - Enterprise Admins Group
   - Domain Admins Group
 
-  Systems dedicated to the management of Active Directory (AD admin platforms,
-  see V-36436 in the Active Directory Domain STIG) are exempt from this.
-
   All Systems:
   - Guests Group"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
@@ -54,9 +51,6 @@ control 'V-73771' do
   Domain Systems Only:
   - Enterprise Admins Group
   - Domain Admins Group
-
-  Systems dedicated to the management of Active Directory (AD admin platforms,
-  see V-36436 in the Active Directory Domain STIG) are exempt from this.
 
   All Systems:
   - Guests Group"

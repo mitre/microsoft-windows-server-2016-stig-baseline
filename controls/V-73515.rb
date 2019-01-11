@@ -14,7 +14,7 @@ control 'V-73515' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "For standalone systems, this is NA.
+  tag "check": "For domain controllers and standalone systems, this is NA.
 
   Current hardware and virtual environments may not support virtualization-based
   security features, including Credential Guard, due to specific supporting
@@ -66,10 +66,11 @@ control 'V-73515' do
   \"Enabled without lock\" will allow this to be turned off remotely while
   testing for issues.
 
-  A Microsoft TechNet article on Credential Guard, including system requirement
-  details, can be found at the following link:
+  A Microsoft article on Credential Guard system requirement can be found at the following link:
 
-  https://technet.microsoft.com/itpro/windows/keep-secure/credential-guard"
+  https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-requirements"
+  domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
+
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
   describe.one do
     describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard') do
@@ -88,6 +89,13 @@ control 'V-73515' do
     desc 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems'
     describe 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems' do
       skip 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems'
+    end
+  end
+
+  if [4, 5].include? domain_role
+    impact 0.0
+    desc 'This system is a domain controller, therefore this control is not applicable' do
+      skip 'This system is a domain controller, therefore this control is not applicable'
     end
   end
 end

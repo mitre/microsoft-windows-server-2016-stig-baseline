@@ -34,10 +34,6 @@ control 'V-73733' do
   - Administrators
   - Authenticated Users
 
-  Systems dedicated to managing Active Directory (AD admin platforms, see V-36436
-  in the Active Directory Domain STIG), must only allow Administrators, removing
-  the Authenticated Users group.
-
   If an application requires this user right, this would not be a finding.
 
   Vendor documentation must support the requirement for having the user right.
@@ -53,11 +49,7 @@ control 'V-73733' do
   accounts or groups:
 
   - Administrators
-  - Authenticated Users
-
-  Systems dedicated to managing Active Directory (AD admin platforms, see V-36436
-  in the Active Directory Domain STIG), must only allow Administrators, removing
-  the Authenticated Users group."
+  - Authenticated Users"
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   if ![4, 5].include? domain_role
     describe.one do

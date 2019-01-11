@@ -7,7 +7,7 @@ license: Apache-2.0
 summary: Inspec profile testing STIG compliance of Windows Server 2016
 description: >
   Inspec testing for Windows 2016 servers per the IASE DISA Windows
-  2016 v1r4 STIG at 
+  2016 v1r6 STIG at 
 version: 0.1.0
 
 attributes:

@@ -50,11 +50,7 @@ control 'V-73775' do
   All Systems:
   - Guests group
 
-  Note: \"Local account\" is referring to the Windows built-in security group.
-
-  Systems dedicated to the management of Active Directory (AD admin platforms,
-  see V-36436 in the Active Directory Domain STIG) are exempt from denying the
-  Enterprise Admins and Domain Admins groups."
+  Note: \"Local account\" is referring to the Windows built-in security group."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
   \"Deny log on through Remote Desktop Services\" to include the following:
@@ -67,11 +63,7 @@ control 'V-73775' do
   All Systems:
   - Guests group
 
-  Note: \"Local account\" is referring to the Windows built-in security group.
-
-  Systems dedicated to the management of Active Directory (AD admin platforms,
-  see V-36436 in the Active Directory Domain STIG) are exempt from denying the
-  Enterprise Admins and Domain Admins groups."
+  Note: \"Local account\" is referring to the Windows built-in security group."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip

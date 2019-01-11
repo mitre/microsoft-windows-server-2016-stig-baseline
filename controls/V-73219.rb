@@ -65,4 +65,4 @@ control 'V-73219' do
       skip 'There are no users with administrative privileges on this system, therefore this control is not applicable'
     end
   end
-end
+end 

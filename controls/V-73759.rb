@@ -51,10 +51,6 @@ control 'V-73759' do
   All Systems:
   - Guests group
 
-  Systems dedicated to the management of Active Directory (AD admin platforms,
-  see V-36436 in the Active Directory Domain STIG) are exempt from denying the
-  Enterprise Admins and Domain Admins groups.
-
   Note: These are built-in security groups. \"Local account\" is more restrictive
   but may cause issues on servers such as systems that provide failover
   clustering."
@@ -70,10 +66,6 @@ control 'V-73759' do
 
   All Systems:
   - Guests group
-
-  Systems dedicated to the management of Active Directory (AD admin platforms,
-  see V-36436 in the Active Directory Domain STIG) are exempt from denying the
-  Enterprise Admins and Domain Admins groups.
 
   Note: These are built-in security groups. \"Local account\" is more restrictive
   but may cause issues on servers such as systems that provide failover

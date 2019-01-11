@@ -15,12 +15,6 @@ control 'V-73221' do
   Administrators group helps mitigate the risk of privilege escalation resulting
   from credential theft attacks.
 
-  Systems dedicated to the management of Active Directory (AD admin
-  platforms, see V-36436 in the Active Directory Domain STIG) are exempt from
-  this. AD admin platforms may use the Domain Admins group or a domain
-  administrative group created specifically for AD admin platforms (see V-43711
-  in the Active Directory Domain STIG).
-
   Standard user accounts must not be members of the built-in Administrators
   group.
   "
@@ -33,45 +27,28 @@ control 'V-73221' do
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to member servers and standalone systems. A
-  separate version applies to domain controllers.
+  tag "check": "This applies to member servers and standalone systems. A separate version applies to domain controllers.
 
-  Open \"Computer Management\".
+  Open Computer Management.
 
-  Navigate to \"Groups\" under \"Local Users and Groups\".
+  Navigate to Groups under Local Users and Groups.
 
-  Review the local \"Administrators\" group.
+  Review the local Administrators group.
 
-  Only administrator groups or accounts responsible for administration of the
-  system may be members of the group.
+  Only administrator groups or accounts responsible for administration of the system may be members of the group.
 
-  For domain-joined member servers, the Domain Admins group must be replaced by a
-  domain member server administrator group.
-
-  Systems dedicated to the management of Active Directory (AD admin platforms,
-  see V-36436 in the Active Directory Domain STIG) are exempt from this. AD admin
-  platforms may use the Domain Admins group or a domain administrative group
-  created specifically for AD admin platforms (see V-43711 in the Active
-  Directory Domain STIG).
+  For domain-joined member servers, the Domain Admins group must be replaced by a domain member server administrator group.
 
   Standard user accounts must not be members of the local Administrator group.
 
-  If accounts that do not have responsibility for administration of the system
-  are members of the local Administrators group, this is a finding.
+  If accounts that do not have responsibility for administration of the system are members of the local Administrators group, this is a finding.
 
-  If the built-in Administrator account or other required administrative accounts
-  are found on the system, this is not a finding."
+  If the built-in Administrator account or other required administrative accounts are found on the system, this is not a finding."
   tag "fix": "Configure the local \"Administrators\" group to include only
   administrator groups or accounts responsible for administration of the system.
 
   For domain-joined member servers, replace the Domain Admins group with a domain
   member server administrator group.
-
-  Systems dedicated to the management of Active Directory (AD admin platforms,
-  see V-36436 in the Active Directory Domain STIG) are exempt from this. AD admin
-  platforms may use the Domain Admins group or a domain administrative group
-  created specifically for AD admin platforms (see V-43711 in the Active
-  Directory Domain STIG).
 
   Remove any standard user accounts."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
@@ -84,9 +61,8 @@ control 'V-73221' do
 
   if [4, 5].include? domain_role
     impact 0.0
-    desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
-    describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
-      skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems' do
+      skip 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
     end
   end
   if administrator_group.empty?

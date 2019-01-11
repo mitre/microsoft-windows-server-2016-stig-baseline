@@ -37,7 +37,7 @@ control 'V-73447' do
 
   Logon/Logoff >> Group Membership - Success"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
-  Settings >> Advanced Audit Policy Configuration >> System Audit Policies >>
+  Settings >> Security Settings >> Advanced Audit Policy Configuration >> System Audit Policies >>
   Logon/Logoff >> \"Audit Group Membership\" with \"Success\" selected."
   describe.one do
     describe audit_policy do
