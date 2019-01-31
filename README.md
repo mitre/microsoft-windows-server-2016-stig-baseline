@@ -17,7 +17,7 @@ Runs this profile over winrm to the host at IP address <hostip> as a privileged 
     
 The following is an example of using this command. 
 
-    inspec exec https://github.com/mitre/stig-microsoft-windows-server-2016-v1r4-baselinearchive/master.tar.gz -t winrm://$winhostip --user 'Administrator' --password=Pa55w0rd --reporter cli json:iis-site-results.json
+    inspec exec https://github.com/mitre/stig-microsoft-windows-server-2016-v1r4-baselinearchive/master.tar.gz -t winrm://$winhostip --user 'Administrator' --password=Pa55w0rd --reporter cli json:win-2016-server-results.json
 
 ## Viewing the JSON Results
 
@@ -26,7 +26,7 @@ The JSON results output file can be loaded into __[heimdall-lite](https://mitre.
 The JSON InSpec results file may also be loaded into a __full heimdall server__, allowing for additional functionality such as to store and compare multiple profile runs.
 
 ## Contributing and Getting Help
-To report a bug or feature request, please open an [issue](https://github.com/mitre/microsoft-iis-8.5-site-stig-baseline/issues/new).
+To report a bug or feature request, please open an [issue](https://github.com/mitre/stig-microsoft-windows-server-2016-v1r4-baseline/issues/new).
 
 For other help, please send a message to [inspec@mitre.org](mailto:inspec@mitre.org).
 
@@ -42,7 +42,7 @@ To contribute, please review the [contribution guidelines](https://github.com/mi
 
 ## License 
 
-This project is licensed under the terms of the [Apache 2.0 license](https://github.com/mitre/microsoft-iis-8.5-site-stig-baseline/blob/master/LICENSE.md).
+This project is licensed under the terms of the [Apache 2.0 license](https://github.com/mitre/stig-microsoft-windows-server-2016-v1r4-baseline/blob/master/LICENSE.md).
 
 ### NOTICE  
 
