@@ -27,8 +27,8 @@ control 'V-73549' do
   Type: REG_DWORD
   Value: 0x000000ff (255)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> Windows Components >> AutoPlay Policies >> \"Turn
-  off AutoPlay\" to \"Enabled\" with \"All Drives\" selected."
+  Administrative Templates >> Windows Components >> AutoPlay Policies >> Turn
+  off AutoPlay to Enabled with All Drives selected."
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer') do
     it { should have_property 'NoDriveTypeAutoRun' }
     its('NoDriveTypeAutoRun') { should cmp 255 }

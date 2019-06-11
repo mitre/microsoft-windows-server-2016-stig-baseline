@@ -22,16 +22,16 @@ control 'V-73461' do
   tag "nist": ['AU-12 c', 'Rev_4']
   tag "nist": ['AC-6 (9)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Security Option \"Audit: Force audit policy subcategory
-  settings (Windows Vista or later) to override audit policy category settings\"
-  must be set to \"Enabled\" (WN16-SO-000050) for the detailed auditing
+  tag "check": "Security Option Audit: Force audit policy subcategory
+  settings (Windows Vista or later) to override audit policy category settings
+  must be set to Enabled (WN16-SO-000050) for the detailed auditing
   subcategories to be effective.
 
   Use the AuditPol tool to review the current Audit Policy configuration:
 
-  Open an elevated \"Command Prompt\" (run as administrator).
+  Open an elevated Command Prompt (run as administrator).
 
-  Enter \"AuditPol /get /category:*\".
+  Enter AuditPol /get /category:*.
 
   Compare the AuditPol settings with the following.
 
@@ -40,8 +40,8 @@ control 'V-73461' do
   Policy Change >> Audit Policy Change - Success"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Advanced Audit Policy Configuration >> System
-  Audit Policies >> Policy Change >> \"Audit Audit Policy Change\" with
-  \"Success\" selected."
+  Audit Policies >> Policy Change >> Audit Audit Policy Change with
+  Success selected."
   describe.one do
     describe audit_policy do
       its('Audit Policy Change') { should eq 'Success' }

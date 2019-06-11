@@ -29,8 +29,8 @@ control 'V-73663' do
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Microsoft network server: Digitally sign communications (if client agrees)\"
-  to \"Enabled\"."
+  Microsoft network server: Digitally sign communications (if client agrees)
+  to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanManServer\\Parameters') do
     it { should have_property 'EnableSecuritySignature' }
     its('EnableSecuritySignature') { should cmp 1 }

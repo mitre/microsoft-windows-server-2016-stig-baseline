@@ -34,18 +34,18 @@ control 'V-73391' do
 
   Review the auditing configuration for the Domain object.
 
-  Open \"Active Directory Users and Computers\" (available from various menus or
-  run \"dsa.msc\").
+  Open Active Directory Users and Computers (available from various menus or
+  run dsa.msc).
 
-  Ensure \"Advanced Features\" is selected in the \"View\" menu.
+  Ensure Advanced Features is selected in the View menu.
 
   Select the domain being reviewed in the left pane.
 
-  Right-click the domain name and select \"Properties\".
+  Right-click the domain name and select Properties.
 
-  Select the \"Security\" tab.
+  Select the Security tab.
 
-  Select the \"Advanced\" button and then the \"Auditing\" tab.
+  Select the Advanced button and then the Auditing tab.
 
   If the audit settings on the Domain object are not at least as inclusive as
   those below, this is a finding.
@@ -87,18 +87,18 @@ control 'V-73391' do
   Applies to - This object only
   (Access - Special = Permissions: Write all properties, Modify permissions,
   Modify owner)"
-  tag "fix": "Open \"Active Directory Users and Computers\" (available from
-  various menus or run \"dsa.msc\").
+  tag "fix": "Open Active Directory Users and Computers (available from
+  various menus or run dsa.msc).
 
-  Ensure \"Advanced Features\" is selected in the \"View\" menu.
+  Ensure Advanced Features is selected in the View menu.
 
   Select the domain being reviewed in the left pane.
 
-  Right-click the domain name and select \"Properties\".
+  Right-click the domain name and select Properties.
 
-  Select the \"Security\" tab.
+  Select the Security tab.
 
-  Select the \"Advanced\" button and then the \"Auditing\" tab.
+  Select the Advanced button and then the Auditing tab.
 
   Configure the audit settings for Domain object to include the following.
 

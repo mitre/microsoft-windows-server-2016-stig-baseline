@@ -37,9 +37,9 @@ control 'V-73699' do
   Type:  REG_DWORD
   Value:  0x00000002 (2)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
-  Settings >> Security Settings >> Local Policies >> Security Options >> \"System
+  Settings >> Security Settings >> Local Policies >> Security Options >> System
   cryptography: Force strong key protection for user keys stored on the
-  computer\" to \"User must enter a password each time they use a key\"."
+  computer to User must enter a password each time they use a key."
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Cryptography') do
     it { should have_property 'ForceKeyProtection' }
     its('ForceKeyProtection') { should cmp 2 }

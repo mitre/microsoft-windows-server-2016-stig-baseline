@@ -26,49 +26,49 @@ control 'V-73617' do
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
-  Open \"PowerShell\".
+  Open PowerShell.
 
   Enter the following:
 
-  \"Get-ADUser -Filter {(Enabled -eq $True) -and (SmartcardLogonRequired -eq
-  $False)} | FT Name\"
-  (\"DistinguishedName\" may be substituted for \"Name\" for more detailed
+  Get-ADUser -Filter {(Enabled -eq $True) -and (SmartcardLogonRequired -eq
+  $False)} | FT Name
+  (DistinguishedName may be substituted for Name for more detailed
   output.)
 
   If any user accounts, including administrators, are listed, this is a finding.
 
   Alternately:
 
-  To view sample accounts in \"Active Directory Users and Computers\" (available
-  from various menus or run \"dsa.msc\"):
+  To view sample accounts in Active Directory Users and Computers (available
+  from various menus or run dsa.msc):
 
   Select the Organizational Unit (OU) where the user accounts are located. (By
   default, this is the Users node; however, accounts may be under other
   organization-defined OUs.)
 
-  Right-click the sample user account and select \"Properties\".
+  Right-click the sample user account and select Properties.
 
-  Select the \"Account\" tab.
+  Select the Account tab.
 
-  If any user accounts, including administrators, do not have \"Smart card is
-  required for interactive logon\" checked in the \"Account Options\" area, this
+  If any user accounts, including administrators, do not have Smart card is
+  required for interactive logon checked in the Account Options area, this
   is a finding."
   tag "fix": "Configure all user accounts, including administrator accounts, in
-  Active Directory to enable the option \"Smart card is required for interactive
-  logon\".
+  Active Directory to enable the option Smart card is required for interactive
+  logon.
 
-  Run \"Active Directory Users and Computers\" (available from various menus or
-  run \"dsa.msc\"):
+  Run Active Directory Users and Computers (available from various menus or
+  run dsa.msc):
 
   Select the OU where the user accounts are located. (By default this is the
   Users node; however, accounts may be under other organization-defined OUs.)
 
-  Right-click the user account and select \"Properties\".
+  Right-click the user account and select Properties.
 
-  Select the \"Account\" tab.
+  Select the Account tab.
 
-  Check \"Smart card is required for interactive logon\" in the \"Account
-  Options\" area."
+  Check Smart card is required for interactive logon in the Account
+  Options area."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   describe command("Get-ADUser -Filter {(Enabled -eq $True) -and (SmartcardLogonRequired -eq $False)} | FT Name | Findstr /v 'Name ---'") do
     its('stdout') { should eq '' }

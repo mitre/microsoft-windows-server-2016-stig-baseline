@@ -23,16 +23,16 @@ control 'V-73379' do
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
-  Run \"Regedit\".
+  Run Regedit.
 
   Navigate to
-  \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters\".
+  HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters.
 
-  Note the directory locations in the values for \"DSA Database file\".
+  Note the directory locations in the values for DSA Database file.
 
-  Open \"Command Prompt\".
+  Open Command Prompt.
 
-  Enter \"net share\".
+  Enter net share.
 
   Note the logical drive(s) or file system partition for any organization-created
   data shares.

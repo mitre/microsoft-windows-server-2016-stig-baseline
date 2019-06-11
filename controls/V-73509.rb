@@ -34,9 +34,9 @@ control 'V-73509' do
 
   Additional entries would not be a finding."
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> Network >> Network Provider >> \"Hardened UNC
-  Paths\" to \"Enabled\" with at least the following configured in \"Hardened UNC
-  Paths\": (click the \"Show\" button to display)
+  Administrative Templates >> Network >> Network Provider >> Hardened UNC
+  Paths to Enabled with at least the following configured in Hardened UNC
+  Paths: (click the Show button to display)
 
   Value Name: \\\\*\\SYSVOL
   Value: RequireMutualAuthentication=1, RequireIntegrity=1

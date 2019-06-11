@@ -26,9 +26,9 @@ control 'V-73705' do
   Value Type: REG_DWORD
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
-  Settings >> Security Settings >> Local Policies >> Security Options >> \"System
+  Settings >> Security Settings >> Local Policies >> Security Options >> System
   objects: Strengthen default permissions of internal system objects (e.g.,
-  Symbolic Links)\" to \"Enabled\"."
+  Symbolic Links) to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager') do
     it { should have_property 'ProtectionMode' }
     its('ProtectionMode') { should cmp 1 }

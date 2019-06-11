@@ -31,12 +31,12 @@ control 'V-73711' do
   Value: 0x00000002 (2) (Prompt for consent on the secure desktop)
   0x00000001 (1) (Prompt for credentials on the secure desktop)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
-  Settings >> Security Settings >> Local Policies >> Security Options >> \"User
+  Settings >> Security Settings >> Local Policies >> Security Options >> User
   Account Control: Behavior of the elevation prompt for administrators in Admin
-  Approval Mode\" to \"Prompt for consent on the secure desktop\".
+  Approval Mode to Prompt for consent on the secure desktop.
 
-  The more secure option for this setting, \"Prompt for credentials on the secure
-  desktop\", would also be acceptable."
+  The more secure option for this setting, Prompt for credentials on the secure
+  desktop, would also be acceptable."
   if registry_key('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Server\ServerLevels').has_property_value?('ServerCore', :dword, 1) && registry_key('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Server\ServerLevels').has_property_value?('Server-Gui-Mgmt', :dword, 1) && registry_key('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Server\ServerLevels').has_property_value?('Server-Gui-Shell', :dword, 1)
     impact 0.0
     desc 'This system is a Server Core Installation, therefore this control is not applicable'

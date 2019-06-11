@@ -4,7 +4,7 @@ control 'V-73735' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-    Accounts with the \"Act as part of the operating system\" user right can
+    Accounts with the Act as part of the operating system user right can
   assume the identity of any user and gain access to resources that the user is
   authorized to access. Any accounts with this right can take complete control of
   a system.
@@ -20,13 +20,13 @@ control 'V-73735' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups (to include administrators), are granted the \"Act as
-  part of the operating system\" user right, this is a finding.
+  If any accounts or groups (to include administrators), are granted the Act as
+  part of the operating system user right, this is a finding.
 
   If an application requires this user right, this would not be a finding.
 
@@ -42,7 +42,7 @@ control 'V-73735' do
   privileged accounts."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Act as part of the operating system\" to be defined but containing no entries
+  Act as part of the operating system to be defined but containing no entries
   (blank)."
   describe security_policy do
     its('SeTcbPrivilege') { should eq [] }

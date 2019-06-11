@@ -17,9 +17,9 @@ control 'V-73563' do
 
   If the registry Value Name below does not exist, this is not a finding.
 
-  If it exists and is configured with a value of \"0\", this is not a finding.
+  If it exists and is configured with a value of 0, this is not a finding.
 
-  If it exists and is configured with a value of \"1\", this is a finding.
+  If it exists and is configured with a value of 1, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
   Registry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer\\
@@ -33,8 +33,8 @@ control 'V-73563' do
 
   If this needs to be corrected, configure the policy value for Computer
   Configuration >> Administrative Templates >> Windows Components >> File
-  Explorer >> \"Turn off heap termination on corruption\" to \"Not Configured\"
-  or \"Disabled\"."
+  Explorer >> Turn off heap termination on corruption to Not Configured
+  or Disabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Explorer') do
     it { should have_property 'NoHeapTerminationOnCorruption' }
     its('NoHeapTerminationOnCorruption') { should cmp 0 }

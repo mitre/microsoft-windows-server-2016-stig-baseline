@@ -16,12 +16,12 @@ control 'V-73521' do
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
   tag "check": "The default behavior is for Early Launch Antimalware -
-  Boot-Start Driver Initialization policy to enforce \"Good, unknown and bad but
-  critical\" (preventing \"bad\").
+  Boot-Start Driver Initialization policy to enforce Good, unknown and bad but
+  critical (preventing bad).
 
   If the registry value name below does not exist, this is not a finding.
 
-  If it exists and is configured with a value of \"0x00000007 (7)\", this is a
+  If it exists and is configured with a value of 0x00000007 (7), this is a
   finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
@@ -37,16 +37,16 @@ control 'V-73521' do
   8 - Good only
   1 - Good and unknown
   3 - Good, unknown and bad but critical
-  7 - All (which includes \"bad\" and would be a finding)"
+  7 - All (which includes bad and would be a finding)"
   tag "fix": "The default behavior is for Early Launch Antimalware - Boot-Start
-  Driver Initialization policy to enforce \"Good, unknown and bad but critical\"
-  (preventing \"bad\").
+  Driver Initialization policy to enforce Good, unknown and bad but critical
+  (preventing bad).
 
   If this needs to be corrected or a more secure setting is desired, configure
   the policy value for Computer Configuration >> Administrative Templates >>
-  System >> Early Launch Antimalware >> \"Boot-Start Driver Initialization
-  Policy\" to \"Not Configured\" or \"Enabled\" with any option other than
-  \"All\" selected."
+  System >> Early Launch Antimalware >> Boot-Start Driver Initialization
+  Policy to Not Configured or Enabled with any option other than
+  All selected."
   describe.one do
     describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Policies\\EarlyLaunch') do
       it { should have_property 'DriverLoadPolicy' }

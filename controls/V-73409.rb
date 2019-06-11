@@ -21,10 +21,10 @@ control 'V-73409' do
   tag "documentable": false
   tag "check": "Navigate to the System event log file.
 
-  The default location is the \"%SystemRoot%\\System32\\winevt\\Logs\" folder.
+  The default location is the %SystemRoot%\\System32\\winevt\\Logs folder.
   However, the logs may have been moved to another folder.
 
-  If the permissions for the \"System.evtx\" file are not as restrictive as the
+  If the permissions for the System.evtx file are not as restrictive as the
   default permissions listed below, this is a finding.
 
   Eventlog - Full Control
@@ -38,10 +38,10 @@ control 'V-73409' do
   SYSTEM - Full Control
   Administrators - Full Control
 
-  The default location is the \"%SystemRoot%\\ System32\\winevt\\Logs\" folder.
+  The default location is the %SystemRoot%\\ System32\\winevt\\Logs folder.
 
   If the location of the logs has been changed, when adding Eventlog to the
-  permissions, it must be entered as \"NT Service\\Eventlog\"."
+  permissions, it must be entered as NT Service\\Eventlog."
   system_root = command('$env:SystemRoot').stdout.strip
 
   describe file("#{system_root}\\SYSTEM32\\WINEVT\\LOGS\\System.evtx") do

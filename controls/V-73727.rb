@@ -17,9 +17,9 @@ control 'V-73727' do
 
   If the registry Value Name below does not exist, this is not a finding.
 
-  If it exists and is configured with a value of \"2\", this is not a finding.
+  If it exists and is configured with a value of 2, this is not a finding.
 
-  If it exists and is configured with a value of \"1\", this is a finding.
+  If it exists and is configured with a value of 1, this is a finding.
 
   Registry Hive: HKEY_CURRENT_USER
   Registry Path:
@@ -34,8 +34,8 @@ control 'V-73727' do
 
   If this needs to be corrected, configure the policy value for User
   Configuration >> Administrative Templates >> Windows Components >> Attachment
-  Manager >> \"Do not preserve zone information in file attachments\" to \"Not
-  Configured\" or \"Disabled\"."
+  Manager >> Do not preserve zone information in file attachments to Not
+  Configured or Disabled."
   describe.one do
     describe registry_key('HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Attachments') do
       it { should_not have_property 'SaveZoneInformation' }

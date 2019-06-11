@@ -28,11 +28,11 @@ control 'V-73505' do
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> MSS (Legacy) >> \"MSS: (NoNameReleaseOnDemand)
   Allow the computer to ignore NetBIOS name release requests except from WINS
-  servers\" to \"Enabled\".
+  servers to Enabled.
 
   This policy setting requires the installation of the MSS-Legacy custom
-  templates included with the STIG package. \"MSS-Legacy.admx\" and
-  \"MSS-Legacy.adml\" must be copied to the \\Windows\\PolicyDefinitions and
+  templates included with the STIG package. MSS-Legacy.admx and
+  MSS-Legacy.adml must be copied to the \\Windows\\PolicyDefinitions and
   \\Windows\\PolicyDefinitions\\en-US directories respectively."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Netbt\\Parameters') do
     it { should have_property 'NoNameReleaseOnDemand' }

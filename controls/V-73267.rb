@@ -13,25 +13,25 @@ control 'V-73267' do
   tag "cci": ['CCI-001090']
   tag "nist": ['SC-4', 'Rev_4']
   tag "documentable": false
-  tag "check": "If only system-created shares such as \"ADMIN$\", \"C$\", and
-  \"IPC$\" exist on the system, this is NA. (System-created shares will display a
-  message that it has been shared for administrative purposes when \"Properties\"
+  tag "check": "If only system-created shares such as ADMIN$, C$, and
+  IPC$ exist on the system, this is NA. (System-created shares will display a
+  message that it has been shared for administrative purposes when Properties
   is selected.)
 
-  Run \"Computer Management\".
+  Run Computer Management.
 
   Navigate to System Tools >> Shared Folders >> Shares.
 
   Right-click any non-system-created shares.
 
-  Select \"Properties\".
+  Select Properties.
 
-  Select the \"Share Permissions\" tab.
+  Select the Share Permissions tab.
 
   If the file shares have not been configured to restrict permissions to the
   specific groups or accounts that require access, this is a finding.
 
-  Select the \"Security\" tab.
+  Select the Security tab.
 
   If the permissions have not been configured to restrict permissions to the
   specific groups or accounts that require access, this is a finding."

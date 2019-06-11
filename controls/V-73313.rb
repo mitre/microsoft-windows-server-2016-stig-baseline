@@ -20,16 +20,16 @@ control 'V-73313' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Account Policies >> Account Lockout Policy.
 
-  If the \"Reset account lockout counter after\" value is less than \"15\"
+  If the Reset account lockout counter after value is less than 15
   minutes, this is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Account Lockout Policy >>
-  \"Reset account lockout counter after\" to at least \"15\" minutes."
+  Reset account lockout counter after to at least 15 minutes."
   describe security_policy do
     its('ResetLockoutCount') { should be >= 15 }
   end

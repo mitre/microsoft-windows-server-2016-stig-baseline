@@ -20,19 +20,19 @@ control 'V-73411' do
   tag "cci": ['CCI-001494', 'CCI-001495']
   tag "nist": ['AU-9', 'Rev_4']
   tag "documentable": false
-  tag "check": "Navigate to \"%SystemRoot%\\System32\".
+  tag "check": "Navigate to %SystemRoot%\\System32.
 
-  View the permissions on \"Eventvwr.exe\".
+  View the permissions on Eventvwr.exe.
 
-  If any groups or accounts other than TrustedInstaller have \"Full control\" or
-  \"Modify\" permissions, this is a finding.
+  If any groups or accounts other than TrustedInstaller have Full control or
+  Modify permissions, this is a finding.
 
   The default permissions below satisfy this requirement:
 
   TrustedInstaller - Full Control
   Administrators, SYSTEM, Users, ALL APPLICATION PACKAGES, ALL RESTRICTED
   APPLICATION PACKAGES - Read & Execute"
-  tag "fix": "Configure the permissions on the \"Eventvwr.exe\" file to prevent
+  tag "fix": "Configure the permissions on the Eventvwr.exe file to prevent
   modification by any groups or accounts other than TrustedInstaller. The default
   permissions listed below satisfy this requirement:
 
@@ -40,7 +40,7 @@ control 'V-73411' do
   Administrators, SYSTEM, Users, ALL APPLICATION PACKAGES, ALL RESTRICTED
   APPLICATION PACKAGES - Read & Execute
 
-  The default location is the \"%SystemRoot%\\ System32\" folder."
+  The default location is the %SystemRoot%\\ System32 folder."
 
   system_root = command('$env:SystemRoot').stdout.strip
 

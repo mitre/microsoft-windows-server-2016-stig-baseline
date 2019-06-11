@@ -30,8 +30,8 @@ control 'V-73529' do
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> System >> Internet Communication Management >>
-  Internet Communication settings >> \"Turn off printing over HTTP\" to
-  \"Enabled\"."
+  Internet Communication settings >> Turn off printing over HTTP to
+  Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers') do
     it { should have_property 'DisableHTTPPrinting' }
     its('DisableHTTPPrinting') { should cmp 1 }

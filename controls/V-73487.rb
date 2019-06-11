@@ -26,7 +26,7 @@ control 'V-73487' do
   Value: 0x00000000 (0)"
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> Credential User Interface >>
-  \"Enumerate administrator accounts on elevation\" to \"Disabled\"."
+  Enumerate administrator accounts on elevation to Disabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\CredUI') do
     it { should have_property 'EnumerateAdministrators' }
     its('EnumerateAdministrators') { should cmp 0 }

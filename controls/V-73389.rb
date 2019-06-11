@@ -34,21 +34,21 @@ control 'V-73389' do
 
   Review the auditing configuration for all Group Policy objects.
 
-  Open \"Group Policy Management\" (available from various menus or run
-  \"gpmc.msc\").
+  Open Group Policy Management (available from various menus or run
+  gpmc.msc).
 
-  Navigate to \"Group Policy Objects\" in the domain being reviewed (Forest >>
+  Navigate to Group Policy Objects in the domain being reviewed (Forest >>
   Domains >> Domain).
 
   For each Group Policy object:
 
   Select the Group Policy object item in the left pane.
 
-  Select the \"Delegation\" tab in the right pane.
+  Select the Delegation tab in the right pane.
 
-  Select the \"Advanced\" button.
+  Select the Advanced button.
 
-  Select the \"Advanced\" button again and then the \"Auditing\" tab.
+  Select the Advanced button again and then the Auditing tab.
 
   If the audit settings for any Group Policy object are not at least as inclusive
   as those below, this is a finding.
@@ -66,7 +66,7 @@ control 'V-73389' do
   Type - Success
   Principal - Everyone
   Access - Special (Permissions: Write all properties, Modify permissions;
-  Properties: all \"Write\" type selected)
+  Properties: all Write type selected)
   Inherited from - Parent Object
   Applies to - Descendant groupPolicyContainer objects
 
@@ -84,20 +84,20 @@ control 'V-73389' do
   This can be done at the Policy level in Active Directory to apply to all group
   policies.
 
-  Open \"Active Directory Users and Computers\" (available from various menus or
-  run \"dsa.msc\").
+  Open Active Directory Users and Computers (available from various menus or
+  run dsa.msc).
 
-  Select \"Advanced Features\" from the \"View\" Menu.
+  Select Advanced Features from the View Menu.
 
   Navigate to [Domain] >> System >> Policies in the left panel.
 
-  Right click \"Policies\", select \"Properties\".
+  Right click Policies, select Properties.
 
-  Select the \"Security\" tab.
+  Select the Security tab.
 
-  Select the \"Advanced\" button.
+  Select the Advanced button.
 
-  Select the \"Auditing\" tab.
+  Select the Auditing tab.
 
   Type - Fail
   Principal - Everyone
@@ -112,7 +112,7 @@ control 'V-73389' do
   Type - Success
   Principal - Everyone
   Access - Special (Permissions: Write all properties, Modify permissions;
-  Properties: all \"Write\" type selected)
+  Properties: all Write type selected)
   Inherited from - Parent Object
   Applies to - Descendant groupPolicyContainer objects
 

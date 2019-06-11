@@ -22,25 +22,25 @@ control 'V-73361' do
 
   Verify the following is configured in the Default Domain Policy.
 
-  Open \"Group Policy Management\".
+  Open Group Policy Management.
 
-  Navigate to \"Group Policy Objects\" in the Domain being reviewed (Forest >>
+  Navigate to Group Policy Objects in the Domain being reviewed (Forest >>
   Domains >> Domain).
 
-  Right-click on the \"Default Domain Policy\".
+  Right-click on the Default Domain Policy.
 
-  Select \"Edit\".
+  Select Edit.
 
   Navigate to Computer Configuration >> Policies >> Windows Settings >> Security
   Settings >> Account Policies >> Kerberos Policy.
 
-  If the value for \"Maximum lifetime for service ticket\" is \"0\" or greater
-  than \"600\" minutes, this is a finding."
+  If the value for Maximum lifetime for service ticket is 0 or greater
+  than 600 minutes, this is a finding."
   tag "fix": "Configure the policy value in the Default Domain Policy for
   Computer Configuration >> Policies >> Windows Settings >> Security Settings >>
-  Account Policies >> Kerberos Policy >> \"Maximum lifetime for service ticket\"
-  to a maximum of \"600\" minutes, but not \"0\", which equates to \"Ticket
-  doesn't expire\"."
+  Account Policies >> Kerberos Policy >> Maximum lifetime for service ticket
+  to a maximum of 600 minutes, but not 0, which equates to Ticket
+  doesn't expire."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   describe.one do

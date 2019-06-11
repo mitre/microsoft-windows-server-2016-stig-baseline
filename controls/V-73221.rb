@@ -1,4 +1,3 @@
-administrators = attribute('administrators')
 control 'V-73221' do
   title "Only administrators responsible for the member server or standalone
   system must have Administrator rights on the system."
@@ -36,11 +35,11 @@ control 'V-73221' do
   tag "check": "This applies to member servers and standalone systems. A
   separate version applies to domain controllers.
 
-  Open \"Computer Management\".
+  Open Computer Management.
 
-  Navigate to \"Groups\" under \"Local Users and Groups\".
+  Navigate to Groups under Local Users and Groups.
 
-  Review the local \"Administrators\" group.
+  Review the local Administrators group.
 
   Only administrator groups or accounts responsible for administration of the
   system may be members of the group.
@@ -74,6 +73,7 @@ control 'V-73221' do
   Directory Domain STIG).
 
   Remove any standard user accounts."
+  administrators = attribute('administrators')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split('\n')
   administrator_group.each do |user|

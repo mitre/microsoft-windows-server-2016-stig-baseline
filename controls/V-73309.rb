@@ -15,21 +15,21 @@ control 'V-73309' do
   tag "nist": ['AC-7 b', 'Rev_4']
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Account Policies >> Account Lockout Policy.
 
-  If the \"Account lockout duration\" is less than \"15\" minutes (excluding
-  \"0\"), this is a finding.
+  If the Account lockout duration is less than 15 minutes (excluding
+  0), this is a finding.
 
-  Configuring this to \"0\", requiring an administrator to unlock the account, is
+  Configuring this to 0, requiring an administrator to unlock the account, is
   more restrictive and is not a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Account Lockout Policy >>
-  \"Account lockout duration\" to \"15\" minutes or greater.
+  Account lockout duration to 15 minutes or greater.
 
-  A value of \"0\" is also acceptable, requiring an administrator to unlock the
+  A value of 0 is also acceptable, requiring an administrator to unlock the
   account."
   describe.one do
     describe security_policy do

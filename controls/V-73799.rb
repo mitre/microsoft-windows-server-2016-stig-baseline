@@ -4,7 +4,7 @@ control 'V-73799' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-  Accounts with the \"Profile single process\" user right can monitor
+  Accounts with the Profile single process user right can monitor
   non-system processes performance. An attacker could use this to identify
   processes to attack.
   "
@@ -19,18 +19,18 @@ control 'V-73799' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups other than the following are granted the \"Profile
-  single process\" user right, this is a finding.
+  If any accounts or groups other than the following are granted the Profile
+  single process user right, this is a finding.
 
   - Administrators"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Profile single process\" to include only the following accounts or groups:
+  Profile single process to include only the following accounts or groups:
 
   - Administrators"
   describe.one do

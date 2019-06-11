@@ -4,7 +4,7 @@ control 'V-73765' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-    The \"Deny log on as a service\" user right defines accounts that are
+    The Deny log on as a service user right defines accounts that are
   denied logon as a service.
 
     Incorrect configurations could prevent services from starting and result in
@@ -24,16 +24,16 @@ control 'V-73765' do
 
   Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups are defined for the \"Deny log on as a service\" user
+  If any accounts or groups are defined for the Deny log on as a service user
   right, this is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Deny log on as a service\" to include no entries (blank)."
+  Deny log on as a service to include no entries (blank)."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   if [4, 5].include? domain_role

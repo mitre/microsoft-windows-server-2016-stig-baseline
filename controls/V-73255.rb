@@ -22,24 +22,24 @@ control 'V-73255' do
   If permissions are not as restrictive as the default permissions listed below,
   this is a finding.
 
-  Run \"Regedit\".
+  Run Regedit.
 
   Right-click on the registry areas noted below.
 
-  Select \"Permissions...\" and the \"Advanced\" button.
+  Select Permissions... and the Advanced button.
 
   HKEY_LOCAL_MACHINE\\SECURITY
 
-  Type - \"Allow\" for all
-  Inherited from - \"None\" for all
+  Type - Allow for all
+  Inherited from - None for all
   Principal - Access - Applies to
   SYSTEM - Full Control - This key and subkeys
   Administrators - Special - This key and subkeys
 
   HKEY_LOCAL_MACHINE\\SOFTWARE
 
-  Type - \"Allow\" for all
-  Inherited from - \"None\" for all
+  Type - Allow for all
+  Inherited from - None for all
   Principal - Access - Applies to
   Users - Read - This key and subkeys
   Administrators - Full Control - This key and subkeys
@@ -49,8 +49,8 @@ control 'V-73255' do
 
   HKEY_LOCAL_MACHINE\\SYSTEM
 
-  Type - \"Allow\" for all
-  Inherited from - \"None\" for all
+  Type - Allow for all
+  Inherited from - None for all
   Principal - Access - Applies to
   Users - Read - This key and subkeys
   Administrators - Full Control - This key and subkeys
@@ -69,16 +69,16 @@ control 'V-73255' do
 
   HKEY_LOCAL_MACHINE\\SECURITY
 
-  Type - \"Allow\" for all
-  Inherited from - \"None\" for all
+  Type - Allow for all
+  Inherited from - None for all
   Principal - Access - Applies to
   SYSTEM - Full Control - This key and subkeys
   Administrators - Special - This key and subkeys
 
   HKEY_LOCAL_MACHINE\\SOFTWARE
 
-  Type - \"Allow\" for all
-  Inherited from - \"None\" for all
+  Type - Allow for all
+  Inherited from - None for all
   Principal - Access - Applies to
   Users - Read - This key and subkeys
   Administrators - Full Control - This key and subkeys
@@ -88,8 +88,8 @@ control 'V-73255' do
 
   HKEY_LOCAL_MACHINE\\SYSTEM
 
-  Type - \"Allow\" for all
-  Inherited from - \"None\" for all
+  Type - Allow for all
+  Inherited from - None for all
   Principal - Access - Applies to
   Users - Read - This key and subkeys
   Administrators - Full Control - This key and subkeys
@@ -114,4 +114,4 @@ control 'V-73255' do
     subject { hklm_system_perms }
     it { should eq "Access : CREATOR OWNER Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  268435456\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Users Allow  -2147483648\r\n         BUILTIN\\Users Allow  ReadKey\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  ReadKey\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  -2147483648\r\n" }
   end
-end 
+end  

@@ -16,37 +16,37 @@ control 'V-73299' do
   2016.  This is the preferred method, however if V-78123 and V-78125 are
   configured, this is NA.
 
-  Open \"Windows PowerShell\" with elevated privileges (run as administrator).
+  Open Windows PowerShell with elevated privileges (run as administrator).
 
-  Enter \"Get-WindowsFeature -Name FS-SMB1\".
+  Enter Get-WindowsFeature -Name FS-SMB1.
 
-  If \"Installed State\" is \"Installed\", this is a finding.
+  If Installed State is Installed, this is a finding.
 
-  An Installed State of \"Available\" or \"Removed\" is not a finding."
+  An Installed State of Available or Removed is not a finding."
   tag "fix": "Uninstall the SMBv1 protocol.
 
-  Open \"Windows PowerShell\" with elevated privileges (run as administrator).
+  Open Windows PowerShell with elevated privileges (run as administrator).
 
-  Enter \"Uninstall-WindowsFeature -Name FS-SMB1 -Restart\".
+  Enter Uninstall-WindowsFeature -Name FS-SMB1 -Restart.
   (Omit the Restart parameter if an immediate restart of the system cannot be
   done.)
 
   Alternately:
 
-  Start \"Server Manager\".
+  Start Server Manager.
 
   Select the server with the feature.
 
-  Scroll down to \"ROLES AND FEATURES\" in the right pane.
+  Scroll down to ROLES AND FEATURES in the right pane.
 
-  Select \"Remove Roles and Features\" from the drop-down \"TASKS\" list.
+  Select Remove Roles and Features from the drop-down TASKS list.
 
-  Select the appropriate server on the \"Server Selection\" page and click
-  \"Next\".
+  Select the appropriate server on the Server Selection page and click
+  Next.
 
-  Deselect \"SMB 1.0/CIFS File Sharing Support\" on the \"Features\" page.
+  Deselect SMB 1.0/CIFS File Sharing Support on the Features page.
 
-  Click \"Next\" and \"Remove\" as prompted."
+  Click Next and Remove as prompted."
   if registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters').has_property_value?('SMB1', :dword, 0) && registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10').has_property_value?('Start', :dword, 4)
     impact 0.0
     desc 'This control is not applicable, as controls V-78123 and V-78125 are configured'

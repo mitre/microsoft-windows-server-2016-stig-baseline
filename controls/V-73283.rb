@@ -1,5 +1,3 @@
-TEMP_ACCOUNT = attribute('temp_account')
-
 control 'V-73283' do
   title "Windows Server 2016 must automatically remove or disable temporary
   user accounts after 72 hours."
@@ -36,39 +34,40 @@ control 'V-73283' do
 
   Domain Controllers:
 
-  Open \"PowerShell\".
+  Open PowerShell.
 
-  Enter \"Search-ADAccount -AccountExpiring | FT Name, AccountExpirationDate\".
+  Enter Search-ADAccount -AccountExpiring | FT Name, AccountExpirationDate.
 
-  If \"AccountExpirationDate\" has not been defined within 72 hours for any
+  If AccountExpirationDate has not been defined within 72 hours for any
   temporary user account, this is a finding.
 
   Member servers and standalone systems:
 
-  Open \"Command Prompt\".
+  Open Command Prompt.
 
-  Run \"Net user [username]\", where [username] is the name of the temporary user
+  Run Net user [username], where [username] is the name of the temporary user
   account.
 
-  If \"Account expires\" has not been defined within 72 hours for any temporary
+  If Account expires has not been defined within 72 hours for any temporary
   user account, this is a finding."
   tag "fix": "Configure temporary user accounts to automatically expire within
   72 hours.
 
   Domain accounts can be configured with an account expiration date, under
-  \"Account\" properties.
+  Account properties.
 
-  Local accounts can be configured to expire with the command \"Net user
-  [username] /expires:[mm/dd/yyyy]\", where username is the name of the temporary
+  Local accounts can be configured to expire with the command Net user
+  [username] /expires:[mm/dd/yyyy], where username is the name of the temporary
   user account.
 
   Delete any temporary user accounts that are no longer necessary."
-  temp_accounts = TEMP_ACCOUNT
 
-  if temp_accounts != []
-    temp_accounts.each do |user|
+  temp_account = attribute('temp_account')
+  if temp_account.empty?
+    temp_account.each do |user|
 
       get_account_expires = command("Net User #{user} | Findstr /i 'expires' | Findstr /v 'password'").stdout.strip
+
       month_account_expires = get_account_expires[28..30]
       day_account_expires = get_account_expires[32..33]
       year_account_expires = get_account_expires[35..39]
@@ -87,6 +86,7 @@ control 'V-73283' do
         if get_account_expires[33] != '/'
           year_account_expires = get_account_expires[33..37]
         end
+
       end
 
       date_expires = day_account_expires + '/' + month_account_expires + '/' + year_account_expires
@@ -115,20 +115,18 @@ control 'V-73283' do
           end
         end
       end
-      if account_expires != 'Never'
-        describe "#{user}'s account expires" do
-          describe date_expires_minus_password_last_set do
-            it { should cmp <= 72 }
-          end
+      next unless account_expires != 'Never'
+      describe "#{user}'s account expires" do
+        describe date_expires_minus_password_last_set do
+          it { should cmp <= 72 }
         end
       end
     end
-  end
-  if temp_accounts.empty?
+
+  else
     impact 0.0
-    desc 'There are no temporary accounts on this system, therefore this control is not applicable'
-    describe 'There are no temporary accounts on this system, therefore this control is not applicable' do
-      skip 'There are no temporary accounts on this system, therefore this control is not applicable'
+    describe 'No temporary accounts on this system, control not applicable' do
+      skip 'No temporary accounts on this system, control not applicable'
     end
   end
 end

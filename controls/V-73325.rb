@@ -14,16 +14,16 @@ control 'V-73325' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Account Policies >> Password Policy.
 
-  If the value for \"Store passwords using reversible encryption\" is not set to
-  \"Disabled\", this is a finding."
+  If the value for Store passwords using reversible encryption is not set to
+  Disabled, this is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
-  Settings >> Security Settings >> Account Policies >> Password Policy >> \"Store
-  passwords using reversible encryption\" to \"Disabled\"."
+  Settings >> Security Settings >> Account Policies >> Password Policy >> Store
+  passwords using reversible encryption to Disabled."
   describe security_policy do
     its('ClearTextPassword') { should eq 0 }
   end

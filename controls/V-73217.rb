@@ -1,4 +1,3 @@
-ADMINISTRATORS = attribute('administrators')
 control 'V-73217' do
   title "Users with Administrative privileges must have separate accounts for
   administrative duties and normal operational tasks."
@@ -23,10 +22,11 @@ control 'V-73217' do
   tag "fix": "Ensure each user with administrative privileges has a separate
   account for user duties and one for privileged duties."
   administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split("\n")
+  administrators = attribute('administrators')
   administrator_group.each do |user|
     a = user.strip
     describe a.to_s do
-      it { should be_in ADMINISTRATORS }
+      it { should be_in administrators }
     end
   end
   if administrator_group.empty?

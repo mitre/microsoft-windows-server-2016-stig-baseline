@@ -6,7 +6,7 @@ control 'V-73759' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-    The \"Deny access to this computer from the network\" user right defines
+    The Deny access to this computer from the network user right defines
   the accounts that are prevented from logging on from the network.
 
     In an Active Directory Domain, denying logons to the Enterprise Admins and
@@ -34,18 +34,18 @@ control 'V-73759' do
 
   Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If the following accounts or groups are not defined for the \"Deny access to
-  this computer from the network\" user right, this is a finding.
+  If the following accounts or groups are not defined for the Deny access to
+  this computer from the network user right, this is a finding.
 
   Domain Systems Only:
   - Enterprise Admins group
   - Domain Admins group
-  - \"Local account and member of Administrators group\" or \"Local account\"
+  - Local account and member of Administrators group or Local account
   (see Note below)
 
   All Systems:
@@ -55,17 +55,17 @@ control 'V-73759' do
   see V-36436 in the Active Directory Domain STIG) are exempt from denying the
   Enterprise Admins and Domain Admins groups.
 
-  Note: These are built-in security groups. \"Local account\" is more restrictive
+  Note: These are built-in security groups. Local account is more restrictive
   but may cause issues on servers such as systems that provide failover
   clustering."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Deny access to this computer from the network\" to include the following:
+  Deny access to this computer from the network to include the following:
 
   Domain Systems Only:
   - Enterprise Admins group
   - Domain Admins group
-  - \"Local account and member of Administrators group\" or \"Local account\"
+  - Local account and member of Administrators group or Local account
   (see Note below)
 
   All Systems:
@@ -75,7 +75,7 @@ control 'V-73759' do
   see V-36436 in the Active Directory Domain STIG) are exempt from denying the
   Enterprise Admins and Domain Admins groups.
 
-  Note: These are built-in security groups. \"Local account\" is more restrictive
+  Note: These are built-in security groups. Local account is more restrictive
   but may cause issues on servers such as systems that provide failover
   clustering."
 

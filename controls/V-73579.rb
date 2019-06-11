@@ -16,9 +16,9 @@ control 'V-73579' do
 
   If the registry value name below does not exist, this is not a finding.
 
-  If it exists and is configured with a value of \"0\", this is not a finding.
+  If it exists and is configured with a value of 0, this is not a finding.
 
-  If it exists and is configured with a value of \"1\", this is a finding.
+  If it exists and is configured with a value of 1, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
   Registry Path: \\SOFTWARE\\Policies\\Microsoft\\Internet Explorer\\Feeds\\
@@ -32,8 +32,8 @@ control 'V-73579' do
 
   If this needs to be corrected, configure the policy value for Computer
   Configuration >> Administrative Templates >> Windows Components >> RSS Feeds >>
-  \"Turn on Basic feed authentication over HTTP\" to \"Not Configured\" or
-  \"Disabled\"."
+  Turn on Basic feed authentication over HTTP to Not Configured or
+  Disabled."
   describe.one do
     describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Internet Explorer\\Feeds') do
       it { should_not have_property 'AllowBasicAuthInClear' }

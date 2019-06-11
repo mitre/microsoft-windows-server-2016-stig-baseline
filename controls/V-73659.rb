@@ -31,8 +31,8 @@ control 'V-73659' do
   Value:  0x0000000f (15) (or less)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Microsoft Network Server: Amount of idle time required before suspending
-  session\" to \"15\" minutes or less."
+  Microsoft Network Server: Amount of idle time required before suspending
+  session to 15 minutes or less."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\LanmanServer\\Parameters') do
     it { should have_property 'AutoDisconnect' }
     its('AutoDisconnect') { should be <= 15 }

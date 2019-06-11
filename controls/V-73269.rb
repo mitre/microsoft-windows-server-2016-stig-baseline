@@ -12,14 +12,14 @@ control 'V-73269' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "Run \"Services.msc\".
+  tag "check": "Run Services.msc.
   Verify the service is running, depending on the McAfee Agent version installed.
 
   McAfee Agent v5.x - McAfee Agent Service
 
   McAfee Agent v4.x - McAfee Framework Service
 
-  If the service is not listed or does not have a Status of \"Started\", this is
+  If the service is not listed or does not have a Status of Started, this is
   a finding."
   tag "fix": "Deploy the McAfee Agent as detailed in accordance with the DoD
   HBSS STIG."

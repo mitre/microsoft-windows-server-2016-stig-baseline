@@ -27,8 +27,8 @@ control 'V-73541' do
   Type:  REG_DWORD
   Value:  0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> System >> Remote Procedure Call >> \"Restrict
-  Unauthenticated RPC clients\" to \"Enabled\" with \"Authenticated\" selected."
+  Administrative Templates >> System >> Remote Procedure Call >> Restrict
+  Unauthenticated RPC clients to Enabled with Authenticated selected."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc') do

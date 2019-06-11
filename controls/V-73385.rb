@@ -17,27 +17,27 @@ control 'V-73385' do
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
-  Open \"Command Prompt\" (not elevated).
+  Open Command Prompt (not elevated).
 
-  Run \"ldp.exe\".
+  Run ldp.exe.
 
-  From the \"Connection menu\", select \"Bind\".
+  From the Connection menu, select Bind.
 
   Clear the User, Password, and Domain fields.
 
-  Select \"Simple bind\" for the Bind type and click \"OK\".
+  Select Simple bind for the Bind type and click OK.
 
   Confirmation of anonymous access will be displayed at the end:
 
   res = ldap_simple_bind_s
   Authenticated as: 'NT AUTHORITY\\ANONYMOUS LOGON'
 
-  From the \"Browse\" menu, select \"Search\".
+  From the Browse menu, select Search.
 
   In the Search dialog, enter the DN of the domain naming context (generally
-  something like \"dc=disaost,dc=mil\") in the Base DN field.
+  something like dc=disaost,dc=mil) in the Base DN field.
 
-  Clear the Attributes field and select \"Run\".
+  Clear the Attributes field and select Run.
 
   Error messages should display related to Bind and user not authenticated.
 

@@ -5,9 +5,9 @@ control 'V-73249' do
   possibility of unauthorized and anonymous modification to the operating system
   and installed applications.
 
-  The default permissions are adequate when the Security Option \"Network
-  access: Let everyone permissions apply to anonymous users\" is set to
-  \"Disabled\" (WN16-SO-000290).
+  The default permissions are adequate when the Security Option Network
+  access: Let everyone permissions apply to anonymous users is set to
+  Disabled (WN16-SO-000290).
   "
   impact 0.5
   tag "gtitle": 'SRG-OS-000312-GPOS-00122'
@@ -21,12 +21,12 @@ control 'V-73249' do
   tag "nist": ['AC-3 (4)', 'Rev_4']
   tag "documentable": false
   tag "check": "The default permissions are adequate when the Security Option
-  \"Network access: Let everyone permissions apply to anonymous users\" is set to
-  \"Disabled\" (WN16-SO-000290).
+  Network access: Let everyone permissions apply to anonymous users is set to
+  Disabled (WN16-SO-000290).
 
   Review the permissions for the system drive's root directory (usually C:\\).
   Non-privileged groups such as Users or Authenticated Users must not have
-  greater than \"Read & execute\" permissions except where noted as defaults.
+  greater than Read & execute permissions except where noted as defaults.
   (Individual accounts must not be used to assign permissions.)
 
   If permissions are not as restrictive as the default permissions listed below,
@@ -36,12 +36,12 @@ control 'V-73249' do
 
   View the Properties of the system drive's root directory.
 
-  Select the \"Security\" tab, and the \"Advanced\" button.
+  Select the Security tab, and the Advanced button.
 
   Default permissions:
   C:\\
-  Type - \"Allow\" for all
-  Inherited from - \"None\" for all
+  Type - Allow for all
+  Inherited from - None for all
 
   Principal - Access - Applies to
 
@@ -54,11 +54,11 @@ control 'V-73249' do
 
   Alternately, use icacls:
 
-  Open \"Command Prompt (Admin)\".
+  Open Command Prompt (Admin).
 
-  Enter \"icacls\" followed by the directory:
+  Enter icacls followed by the directory:
 
-  \"icacls c:\\\"
+  icacls c:\\
 
   The following results should be displayed:
 
@@ -71,13 +71,13 @@ control 'V-73249' do
   CREATOR OWNER:(OI)(CI)(IO)(F)
   Successfully processed 1 files; Failed processing 0 files"
   tag "fix": "Maintain the default permissions for the system drive's root
-  directory and configure the Security Option \"Network access: Let everyone
-  permissions apply to anonymous users\" to \"Disabled\" (WN16-SO-000290).
+  directory and configure the Security Option Network access: Let everyone
+  permissions apply to anonymous users to Disabled (WN16-SO-000290).
 
   Default Permissions
   C:\\
-  Type - \"Allow\" for all
-  Inherited from - \"None\" for all
+  Type - Allow for all
+  Inherited from - None for all
 
   Principal - Access - Applies to
 

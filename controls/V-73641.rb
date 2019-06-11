@@ -29,8 +29,8 @@ control 'V-73641' do
   tag "fix": "This is the default configuration for this setting (30 days).
 
   Configure the policy value for Computer Configuration >> Windows Settings >>
-  Security Settings >> Local Policies >> Security Options >> \"Domain member:
-  Maximum machine account password age\" to \"30\" or less (excluding \"0\",
+  Security Settings >> Local Policies >> Security Options >> Domain member:
+  Maximum machine account password age to 30 or less (excluding 0,
   which is unacceptable)."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters') do
     it { should have_property 'MaximumPasswordAge' }

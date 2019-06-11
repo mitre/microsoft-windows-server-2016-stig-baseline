@@ -1,5 +1,3 @@
-FORREST = attribute('forrest')
-
 control 'V-73387' do
   title "The directory service must be configured to terminate LDAP-based
   network connections to the directory server after 5 minutes of inactivity."
@@ -22,67 +20,68 @@ control 'V-73387' do
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
-  Open an elevated \"Command Prompt\" (run as administrator).
+  Open an elevated Command Prompt (run as administrator).
 
-  Enter \"ntdsutil\".
+  Enter ntdsutil.
 
-  At the \"ntdsutil:\" prompt, enter \"LDAP policies\".
+  At the ntdsutil: prompt, enter LDAP policies.
 
-  At the \"ldap policy:\" prompt, enter \"connections\".
+  At the ldap policy: prompt, enter connections.
 
-  At the \"server connections:\" prompt, enter \"connect to server [host-name]\"
+  At the server connections: prompt, enter connect to server [host-name]
   (where [host-name] is the computer name of the domain controller).
 
-  At the \"server connections:\" prompt, enter \"q\".
+  At the server connections: prompt, enter q.
 
-  At the \"ldap policy:\" prompt, enter \"show values\".
+  At the ldap policy: prompt, enter show values.
 
-  If the value for MaxConnIdleTime is greater than \"300\" (5 minutes) or is not
+  If the value for MaxConnIdleTime is greater than 300 (5 minutes) or is not
   specified, this is a finding.
 
-  Enter \"q\" at the \"ldap policy:\" and \"ntdsutil:\" prompts to exit.
+  Enter q at the ldap policy: and ntdsutil: prompts to exit.
 
   Alternately, Dsquery can be used to display MaxConnIdleTime:
 
-  Open \"Command Prompt (Admin)\".
+  Open Command Prompt (Admin).
   Enter the following command (on a single line).
 
-  dsquery * \"cn=Default Query Policy,cn=Query-Policies,cn=Directory Service,
-  cn=Windows NT,cn=Services,cn=Configuration,dc=[forest-name]\" -attr
+  dsquery * cn=Default Query Policy,cn=Query-Policies,cn=Directory Service,
+  cn=Windows NT,cn=Services,cn=Configuration,dc=[forest-name] -attr
   LDAPAdminLimits
 
   The quotes are required and dc=[forest-name] is the fully qualified LDAP name
   of the domain being reviewed (e.g., dc=disaost,dc=mil).
 
-  If the results do not specify a \"MaxConnIdleTime\" or it has a value greater
-  than \"300\" (5 minutes), this is a finding."
+  If the results do not specify a MaxConnIdleTime or it has a value greater
+  than 300 (5 minutes), this is a finding."
   tag "fix": "Configure the directory service to terminate LDAP-based network
   connections to the directory server after 5 minutes of inactivity.
 
-  Open an elevated \"Command prompt\" (run as administrator).
+  Open an elevated Command prompt (run as administrator).
 
-  Enter \"ntdsutil\".
+  Enter ntdsutil.
 
-  At the \"ntdsutil:\" prompt, enter \"LDAP policies\".
+  At the ntdsutil: prompt, enter LDAP policies.
 
-  At the \"ldap policy:\" prompt, enter \"connections\".
+  At the ldap policy: prompt, enter connections.
 
-  At the \"server connections:\" prompt, enter \"connect to server [host-name]\"
+  At the server connections: prompt, enter connect to server [host-name]
   (where [host-name] is the computer name of the domain controller).
 
-  At the \"server connections:\" prompt, enter \"q\".
+  At the server connections: prompt, enter q.
 
-  At the \"ldap policy:\" prompt, enter \"Set MaxConnIdleTime to 300\".
+  At the ldap policy: prompt, enter Set MaxConnIdleTime to 300.
 
-  Enter \"Commit Changes\" to save.
+  Enter Commit Changes to save.
 
-  Enter \"Show values\" to verify changes.
+  Enter Show values to verify changes.
 
-  Enter \"q\" at the \"ldap policy:\" and \"ntdsutil:\" prompts to exit."
+  Enter q at the ldap policy: and ntdsutil: prompts to exit."
+  forrest = attribute('forrest')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   names = []
   query = command("dsquery * 'cn=Default Query Policy,cn=Query-Policies,cn=Directory Service,
-  cn=Windows NT,cn=Services,cn=Configuration,#{FORREST}' -attr LDAPAdminLimits").stdout.strip.split(';')
+  cn=Windows NT,cn=Services,cn=Configuration,#{forrest}' -attr LDAPAdminLimits").stdout.strip.split(';')
   query.each do |data|
     loc_equalsign = data.index('=')
     name = data[0..loc_equalsign-1]

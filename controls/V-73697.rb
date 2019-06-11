@@ -25,9 +25,9 @@ control 'V-73697' do
   Value: 0x20080000 (537395200)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Network security: Minimum session security for NTLM SSP based (including
-  secure RPC) servers\" to \"Require NTLMv2 session security\" and \"Require
-  128-bit encryption\" (all options selected)."
+  Network security: Minimum session security for NTLM SSP based (including
+  secure RPC) servers to Require NTLMv2 session security and Require
+  128-bit encryption (all options selected)."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\MSV1_0') do
     it { should have_property 'NTLMMinServerSec' }
     its('NTLMMinServerSec') { should cmp 537395200 }

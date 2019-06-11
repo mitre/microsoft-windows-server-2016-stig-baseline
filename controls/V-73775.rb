@@ -6,7 +6,7 @@ control 'V-73775' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-  The \"Deny log on through Remote Desktop Services\" user right defines the
+  The Deny log on through Remote Desktop Services user right defines the
   accounts that are prevented from logging on using Remote Desktop Services.
 
   In an Active Directory Domain, denying logons to the Enterprise Admins and
@@ -34,13 +34,13 @@ control 'V-73775' do
 
   Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If the following accounts or groups are not defined for the \"Deny log on
-  through Remote Desktop Services\" user right, this is a finding.
+  If the following accounts or groups are not defined for the Deny log on
+  through Remote Desktop Services user right, this is a finding.
 
   Domain Systems Only:
   - Enterprise Admins group
@@ -50,14 +50,14 @@ control 'V-73775' do
   All Systems:
   - Guests group
 
-  Note: \"Local account\" is referring to the Windows built-in security group.
+  Note: Local account is referring to the Windows built-in security group.
 
   Systems dedicated to the management of Active Directory (AD admin platforms,
   see V-36436 in the Active Directory Domain STIG) are exempt from denying the
   Enterprise Admins and Domain Admins groups."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Deny log on through Remote Desktop Services\" to include the following:
+  Deny log on through Remote Desktop Services to include the following:
 
   Domain Systems Only:
   - Enterprise Admins group
@@ -67,7 +67,7 @@ control 'V-73775' do
   All Systems:
   - Guests group
 
-  Note: \"Local account\" is referring to the Windows built-in security group.
+  Note: Local account is referring to the Windows built-in security group.
 
   Systems dedicated to the management of Active Directory (AD admin platforms,
   see V-36436 in the Active Directory Domain STIG) are exempt from denying the

@@ -32,8 +32,8 @@ control 'V-73643' do
   This setting may prevent a system from being joined to a domain if not
   configured consistently between systems."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
-  Settings >> Security Settings >> Local Policies >> Security Options >> \"Domain
-  member: Require strong (Windows 2000 or Later) session key\" to \"Enabled\"."
+  Settings >> Security Settings >> Local Policies >> Security Options >> Domain
+  member: Require strong (Windows 2000 or Later) session key to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters') do
     it { should have_property 'RequireStrongKey' }
     its('RequireStrongKey') { should cmp 1 }

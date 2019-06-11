@@ -27,16 +27,16 @@ control 'V-73417' do
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
-  Security Option \"Audit: Force audit policy subcategory settings (Windows Vista
-  or later) to override audit policy category settings\" must be set to
-  \"Enabled\" (WN16-SO-000050) for the detailed auditing subcategories to be
+  Security Option Audit: Force audit policy subcategory settings (Windows Vista
+  or later) to override audit policy category settings must be set to
+  Enabled (WN16-SO-000050) for the detailed auditing subcategories to be
   effective.
 
   Use the AuditPol tool to review the current Audit Policy configuration:
 
-  Open an elevated \"Command Prompt\" (run as administrator).
+  Open an elevated Command Prompt (run as administrator).
 
-  Enter \"AuditPol /get /category:*\".
+  Enter AuditPol /get /category:*.
 
   Compare the AuditPol settings with the following.
 
@@ -45,8 +45,8 @@ control 'V-73417' do
   Account Management >> Computer Account Management - Success"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Advanced Audit Policy Configuration >> System
-  Audit Policies >> Account Management >> \"Audit Computer Account Management\"
-  with \"Success\" selected."
+  Audit Policies >> Account Management >> Audit Computer Account Management
+  with Success selected."
   describe.one do
     describe audit_policy do
       its('Computer Account Management') { should eq 'Success' }

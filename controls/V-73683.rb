@@ -24,8 +24,8 @@ control 'V-73683' do
   Value: 0x00000000 (0)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Network security: Allow PKU2U authentication requests to this computer to use
-  online identities\" to \"Disabled\"."
+  Network security: Allow PKU2U authentication requests to this computer to use
+  online identities to Disabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\LSA\\pku2u') do
     it { should have_property 'AllowOnlineID' }
     its('AllowOnlineID') { should cmp 0 }

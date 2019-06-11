@@ -4,7 +4,7 @@ control 'V-73789' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-  The \"Load and unload device drivers\" user right allows a user to load
+  The Load and unload device drivers user right allows a user to load
   device drivers dynamically on a system. This could be used by an attacker to
   install malicious code.
   "
@@ -19,18 +19,18 @@ control 'V-73789' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups other than the following are granted the \"Load and
-  unload device drivers\" user right, this is a finding.
+  If any accounts or groups other than the following are granted the Load and
+  unload device drivers user right, this is a finding.
 
   - Administrators"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Load and unload device drivers\" to include only the following accounts or
+  Load and unload device drivers to include only the following accounts or
   groups:
 
   - Administrators"

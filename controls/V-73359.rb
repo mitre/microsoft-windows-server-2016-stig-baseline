@@ -21,24 +21,24 @@ control 'V-73359' do
 
   Verify the following is configured in the Default Domain Policy.
 
-  Open \"Group Policy Management\".
+  Open Group Policy Management.
 
-  Navigate to \"Group Policy Objects\" in the Domain being reviewed (Forest >>
+  Navigate to Group Policy Objects in the Domain being reviewed (Forest >>
   Domains >> Domain).
 
-  Right-click on the \"Default Domain Policy\".
+  Right-click on the Default Domain Policy.
 
-  Select \"Edit\".
+  Select Edit.
 
   Navigate to Computer Configuration >> Policies >> Windows Settings >> Security
   Settings >> Account Policies >> Kerberos Policy.
 
-  If the \"Enforce user logon restrictions\" is not set to \"Enabled\", this is a
+  If the Enforce user logon restrictions is not set to Enabled, this is a
   finding."
   tag "fix": "Configure the policy value in the Default Domain Policy for
   Computer Configuration >> Policies >> Windows Settings >> Security Settings >>
-  Account Policies >> Kerberos Policy >> \"Enforce user logon restrictions\" to
-  \"Enabled\"."
+  Account Policies >> Kerberos Policy >> Enforce user logon restrictions to
+  Enabled."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   describe security_policy do

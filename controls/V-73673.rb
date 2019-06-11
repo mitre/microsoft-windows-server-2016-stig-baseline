@@ -25,8 +25,8 @@ control 'V-73673' do
   Value: 0x00000000 (0)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Network access: Let everyone permissions apply to anonymous users\" to
-  \"Disabled\"."
+  Network access: Let everyone permissions apply to anonymous users to
+  Disabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa') do
     it { should have_property 'EveryoneIncludesAnonymous' }
     its('EveryoneIncludesAnonymous') { should cmp 0 }

@@ -25,16 +25,16 @@ control 'V-73435' do
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
-  Security Option \"Audit: Force audit policy subcategory settings (Windows Vista
-  or later) to override audit policy category settings\" must be set to
-  \"Enabled\" (WN16-SO-000050) for the detailed auditing subcategories to be
+  Security Option Audit: Force audit policy subcategory settings (Windows Vista
+  or later) to override audit policy category settings must be set to
+  Enabled (WN16-SO-000050) for the detailed auditing subcategories to be
   effective.
 
   Use the AuditPol tool to review the current Audit Policy configuration:
 
-  Open an elevated \"Command Prompt\" (run as administrator).
+  Open an elevated Command Prompt (run as administrator).
 
-  Enter \"AuditPol /get /category:*\".
+  Enter AuditPol /get /category:*.
 
   Compare the AuditPol settings with the following.
 
@@ -43,7 +43,7 @@ control 'V-73435' do
   DS Access >> Directory Service Access - Success"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Advanced Audit Policy Configuration >> System
-  Audit Policies >> DS Access >> \"Directory Service Access\" with \"Success\"
+  Audit Policies >> DS Access >> Directory Service Access with Success
   selected."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 

@@ -22,37 +22,37 @@ control 'V-73513' do
   requirements, including a TPM, UEFI with Secure Boot, and the capability to run
   the Hyper-V feature within a virtual machine.
 
-  Open \"PowerShell\" with elevated privileges (run as administrator).
+  Open PowerShell with elevated privileges (run as administrator).
 
   Enter the following:
 
-  \"Get-CimInstance -ClassName Win32_DeviceGuard -Namespace
-  root\\Microsoft\\Windows\\DeviceGuard\"
+  Get-CimInstance -ClassName Win32_DeviceGuard -Namespace
+  root\\Microsoft\\Windows\\DeviceGuard
 
-  If \"RequiredSecurityProperties\" does not include a value of \"2\" indicating
-  \"Secure Boot\" (e.g., \"{1, 2}\"), this is a finding.
+  If RequiredSecurityProperties does not include a value of 2 indicating
+  Secure Boot (e.g., {1, 2}), this is a finding.
 
-  If \"Secure Boot and DMA Protection\" is configured, \"3\" will also be
-  displayed in the results (e.g., \"{1, 2, 3}\").
+  If Secure Boot and DMA Protection is configured, 3 will also be
+  displayed in the results (e.g., {1, 2, 3}).
 
-  If \"VirtualizationBasedSecurityStatus\" is not a value of \"2\" indicating
-  \"Running\", this is a finding.
+  If VirtualizationBasedSecurityStatus is not a value of 2 indicating
+  Running, this is a finding.
 
   Alternately:
 
-  Run \"System Information\".
+  Run System Information.
 
-  Under \"System Summary\", verify the following:
+  Under System Summary, verify the following:
 
-  If \"Device Guard Virtualization based security\" does not display \"Running\",
+  If Device Guard Virtualization based security does not display Running,
   this is finding.
 
-  If \"Device Guard Required Security Properties\" does not display \"Base
-  Virtualization Support, Secure Boot\", this is finding.
+  If Device Guard Required Security Properties does not display Base
+  Virtualization Support, Secure Boot, this is finding.
 
-  If \"Secure Boot and DMA Protection\" is configured, \"DMA Protection\" will
-  also be displayed (e.g., \"Base Virtualization Support, Secure Boot, DMA
-  Protection\").
+  If Secure Boot and DMA Protection is configured, DMA Protection will
+  also be displayed (e.g., Base Virtualization Support, Secure Boot, DMA
+  Protection).
 
   The policy settings referenced in the Fix section will configure the following
   registry values. However, due to hardware requirements, the registry values
@@ -75,9 +75,9 @@ control 'V-73513' do
 
   https://technet.microsoft.com/itpro/windows/keep-secure/credential-guard"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> System >> Device Guard >> \"Turn On Virtualization
-  Based Security\" to \"Enabled\" with \"Secure Boot\" or \"Secure Boot and DMA
-  Protection\" selected.
+  Administrative Templates >> System >> Device Guard >> Turn On Virtualization
+  Based Security to Enabled with Secure Boot or Secure Boot and DMA
+  Protection selected.
 
   A Microsoft TechNet article on Credential Guard, including system requirement
   details, can be found at the following link:

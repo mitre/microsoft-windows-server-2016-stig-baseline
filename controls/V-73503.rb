@@ -25,12 +25,12 @@ control 'V-73503' do
   Value Type: REG_DWORD
   Value: 0x00000000 (0)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> MSS (Legacy) >> \"MSS: (EnableICMPRedirect) Allow
-  ICMP redirects to override OSPF generated routes\" to \"Disabled\".
+  Administrative Templates >> MSS (Legacy) >> MSS: (EnableICMPRedirect) Allow
+  ICMP redirects to override OSPF generated routes to Disabled.
 
   This policy setting requires the installation of the MSS-Legacy custom
-  templates included with the STIG package. \"MSS-Legacy.admx\" and
-  \"MSS-Legacy.adml\" must be copied to the \\Windows\\PolicyDefinitions and
+  templates included with the STIG package. MSS-Legacy.admx and
+  MSS-Legacy.adml must be copied to the \\Windows\\PolicyDefinitions and
   \\Windows\\PolicyDefinitions\\en-US directories respectively."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Tcpip\\Parameters') do
     it { should have_property 'EnableICMPRedirect' }

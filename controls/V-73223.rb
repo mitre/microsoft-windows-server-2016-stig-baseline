@@ -1,5 +1,3 @@
-admin_account = attribute('admin_account')
-
 control 'V-73223' do
   title "Passwords for the built-in Administrator account must be changed at
   least every 60 days."
@@ -11,7 +9,7 @@ control 'V-73223' do
 
   Organizations that use an automated tool, such as Microsoft's Local
   Administrator Password Solution (LAPS), on domain-joined systems can configure
-  this to occur more frequently. LAPS will change the password every \"30\" days
+  this to occur more frequently. LAPS will change the password every 30 days
   by default.
   "
   impact 0.5
@@ -28,50 +26,49 @@ control 'V-73223' do
  
   Domain controllers:
 
-  Open \"PowerShell\".
+  Open PowerShell.
 
-  Enter \"Get-ADUser -Filter * -Properties SID, PasswordLastSet | Where SID -Like
-  \"*-500\" | Ft Name, SID, PasswordLastSet\".
+  Enter Get-ADUser -Filter * -Properties SID, PasswordLastSet | Where SID -Like
+  *-500 | Ft Name, SID, PasswordLastSet.
 
-  If the \"PasswordLastSet\" date is greater than \"60\" days old, this is a
+  If the PasswordLastSet date is greater than 60 days old, this is a
   finding.
 
   Member servers and standalone systems:
 
-  Open \"Command Prompt\".
+  Open Command Prompt.
 
-  Enter 'Net User [account name] | Find /i \"Password Last Set\"', where [account
+  Enter 'Net User [account name] | Find /i Password Last Set', where [account
   name] is the name of the built-in administrator account.
 
   (The name of the built-in Administrator account must be changed to something
-  other than \"Administrator\" per STIG requirements.)
+  other than Administrator per STIG requirements.)
 
-  If the \"PasswordLastSet\" date is greater than \"60\" days old, this is a
+  If the PasswordLastSet date is greater than 60 days old, this is a
   finding."
   tag "fix": "Change the built-in Administrator account password at least every
-  \"60\" days.
+  60 days.
 
   Automated tools, such as Microsoft's LAPS, may be used on domain-joined member
   servers to accomplish this."
   require 'date'
-  get_password_last_set = command("Net User #{admin_account} | Findstr /i 'Password Last Set' | Findstr /v 'expires changeable required may logon'").stdout.strip
+  administrators = attribute('administrators')
 
-  month = get_password_last_set[27..29]
-  day = get_password_last_set[31..32]
-  year = get_password_last_set[34..38]
+  if !administrators.empty?
+    administrators.each do |admin|
+      password_age = json({ command:"NEW-TIMESPAN –End (GET-DATE) –Start ([datetime]((net user #{admin} | \
+                        Select-String \"Password last set\").Line.Substring(29,10))) | convertto-json"}).Days
 
-  if get_password_last_set[32] == '/'
-    month = get_password_last_set[27..29]
-    day = get_password_last_set[31]
-    year = get_password_last_set[33..37]
+      describe "Administrator Password age for #{admin}" do
+        subject { password_age }
+        it { should cmp <= 60 }
+      end
+    end
   end
 
-  date = day + '/' + month + '/' + year
-
-  date_password_last_set = DateTime.now.mjd - DateTime.parse(date).mjd
-  describe "Administrator account's password last set" do
-    describe date_password_last_set do
-      it { should cmp <= 60 }
+  if administrators.empty?
+    describe 'There are no administrative accounts on this system' do
+      skip 'There are no administrative accounts on this system'
     end
   end
 end 

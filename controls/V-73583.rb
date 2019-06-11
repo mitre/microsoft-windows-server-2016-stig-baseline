@@ -23,8 +23,8 @@ control 'V-73583' do
   Type: REG_DWORD
   Value: 0x00000000 (0)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> Windows Components >> Windows Installer >> \"Allow
-  user control over installs\" to \"Disabled\"."
+  Administrative Templates >> Windows Components >> Windows Installer >> Allow
+  user control over installs to Disabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Installer') do
     it { should have_property 'EnableUserControl' }
     its('EnableUserControl') { should cmp 0 }

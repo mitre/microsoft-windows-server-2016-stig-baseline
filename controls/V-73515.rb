@@ -21,24 +21,24 @@ control 'V-73515' do
   requirements, including a TPM, UEFI with Secure Boot, and the capability to run
   the Hyper-V feature within a virtual machine.
 
-  Open \"PowerShell\" with elevated privileges (run as administrator).
+  Open PowerShell with elevated privileges (run as administrator).
 
   Enter the following:
 
-  \"Get-CimInstance -ClassName Win32_DeviceGuard -Namespace
-  root\\Microsoft\\Windows\\DeviceGuard\"
+  Get-CimInstance -ClassName Win32_DeviceGuard -Namespace
+  root\\Microsoft\\Windows\\DeviceGuard
 
-  If \"SecurityServicesRunning\" does not include a value of \"1\" (e.g., \"{1,
-  2}\"), this is a finding.
+  If SecurityServicesRunning does not include a value of 1 (e.g., {1,
+  2}), this is a finding.
 
   Alternately:
 
-  Run \"System Information\".
+  Run System Information.
 
-  Under \"System Summary\", verify the following:
+  Under System Summary, verify the following:
 
-  If \"Device Guard Security Services Running\" does not list \"Credential
-  Guard\", this is finding.
+  If Device Guard Security Services Running does not list Credential
+  Guard, this is finding.
 
   The policy settings referenced in the Fix section will configure the following
   registry value. However due to hardware requirements, the registry value alone
@@ -57,13 +57,13 @@ control 'V-73515' do
 
   https://technet.microsoft.com/itpro/windows/keep-secure/credential-guard"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> System >> Device Guard >> \"Turn On Virtualization
-  Based Security\" to \"Enabled\" with \"Enabled with UEFI lock\" or \"Enabled
-  without lock\" selected for \"Credential Guard Configuration\".
+  Administrative Templates >> System >> Device Guard >> Turn On Virtualization
+  Based Security to Enabled with Enabled with UEFI lock or Enabled
+  without lock selected for Credential Guard Configuration.
 
-  \"Enabled with UEFI lock\" is preferred as more secure; however, it cannot be
+  Enabled with UEFI lock is preferred as more secure; however, it cannot be
   turned off remotely through a group policy change if there is an issue.
-  \"Enabled without lock\" will allow this to be turned off remotely while
+  Enabled without lock will allow this to be turned off remotely while
   testing for issues.
 
   A Microsoft TechNet article on Credential Guard, including system requirement

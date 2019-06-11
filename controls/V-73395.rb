@@ -35,19 +35,19 @@ control 'V-73395' do
 
   Review the auditing configuration for the Domain Controller OU object.
 
-  Open \"Active Directory Users and Computers\" (available from various menus or
-  run \"dsa.msc\").
+  Open Active Directory Users and Computers (available from various menus or
+  run dsa.msc).
 
-  Ensure \"Advanced Features\" is selected in the \"View\" menu.
+  Ensure Advanced Features is selected in the View menu.
 
-  Select the \"Domain Controllers OU\" under the domain being reviewed in the
+  Select the Domain Controllers OU under the domain being reviewed in the
   left pane.
 
-  Right-click the \"Domain Controllers OU\" object and select \"Properties\".
+  Right-click the Domain Controllers OU object and select Properties.
 
-  Select the \"Security\" tab.
+  Select the Security tab.
 
-  Select the \"Advanced\" button and then the \"Auditing\" tab.
+  Select the Advanced button and then the Auditing tab.
 
   If the audit settings on the Domain Controllers OU object are not at least as
   inclusive as those below, this is a finding.
@@ -82,19 +82,19 @@ control 'V-73395' do
   Access - (blank)
   Inherited from - (CN of domain)
   Applies to - Descendant Organizational Unit objects"
-  tag "fix": "Open \"Active Directory Users and Computers\" (available from
-  various menus or run \"dsa.msc\").
+  tag "fix": "Open Active Directory Users and Computers (available from
+  various menus or run dsa.msc).
 
-  Ensure \"Advanced Features\" is selected in the \"View\" menu.
+  Ensure Advanced Features is selected in the View menu.
 
-  Select the \"Domain Controllers OU\" under the domain being reviewed in the
+  Select the Domain Controllers OU under the domain being reviewed in the
   left pane.
 
-  Right-click the \"Domain Controllers OU\" object and select \"Properties\".
+  Right-click the Domain Controllers OU object and select Properties.
 
-  Select the \"Security\" tab.
+  Select the Security tab.
 
-  Select the \"Advanced\" button and then the \"Auditing\" tab.
+  Select the Advanced button and then the Auditing tab.
 
   Configure the audit settings for Domain Controllers OU object to include the
   following.

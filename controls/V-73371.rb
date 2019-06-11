@@ -21,7 +21,7 @@ control 'V-73371' do
 
   Open a command prompt.
 
-  Run \"net share\".
+  Run net share.
 
   Make note of the directory location of the SYSVOL share.
 
@@ -33,7 +33,7 @@ control 'V-73371' do
 
   The default permissions noted below meet this requirement.
 
-  Open \"Command Prompt\".
+  Open Command Prompt.
 
   Run \"icacls c:\\Windows\\SYSVOL\".
 
@@ -52,15 +52,15 @@ control 'V-73371' do
 
   (RX) - Read & execute
 
-  Run \"icacls /help\" to view definitions of other permission codes.
+  Run icacls /help to view definitions of other permission codes.
 
-  Alternately, open \"File Explorer\".
+  Alternately, open File Explorer.
 
   Navigate to \\Windows\\SYSVOL (or the directory noted previously if different).
 
   Right-click the directory and select properties.
 
-  Select the \"Security\" tab and click \"Advanced\".
+  Select the Security tab and click Advanced.
 
   Default permissions:
 
@@ -78,12 +78,12 @@ control 'V-73371' do
   Administrators - Full control - Subfolders and files only
   SYSTEM - Full control - This folder, subfolders, and files"
   tag "fix": "Maintain the permissions on the SYSVOL directory. Do not allow
-  greater than \"Read & execute\" permissions for standard user accounts or
+  greater than Read & execute permissions for standard user accounts or
   groups. The defaults below meet this requirement.
 
   C:\\Windows\\SYSVOL
-  Type - \"Allow\" for all
-  Inherited from - \"None\" for all
+  Type - Allow for all
+  Inherited from - None for all
 
   Principal - Access - Applies to
 

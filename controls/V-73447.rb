@@ -8,7 +8,7 @@ control 'V-73447' do
   Collecting this data is essential for analyzing the security of information
   assets and detecting signs of suspicious and unexpected behavior.
 
-      Audit Group Membership records information related to the group membership
+  Audit Group Membership records information related to the group membership
   of a user's logon token.
   "
   impact 0.5
@@ -20,16 +20,16 @@ control 'V-73447' do
   tag "cci": ['CCI-000172']
   tag "nist": ['AU-12 c', 'Rev_4']
   tag "documentable": false
-  tag "check": "Security Option \"Audit: Force audit policy subcategory
-  settings (Windows Vista or later) to override audit policy category settings\"
-  must be set to \"Enabled\" (WN16-SO-000050) for the detailed auditing
+  tag "check": "Security Option Audit: Force audit policy subcategory
+  settings (Windows Vista or later) to override audit policy category settings
+  must be set to Enabled (WN16-SO-000050) for the detailed auditing
   subcategories to be effective.
 
   Use the AuditPol tool to review the current Audit Policy configuration:
 
-  Open an elevated \"Command Prompt\" (run as administrator).
+  Open an elevated Command Prompt (run as administrator).
 
-  Enter \"AuditPol /get /category:*\"
+  Enter AuditPol /get /category:*
 
   Compare the AuditPol settings with the following.
 
@@ -38,7 +38,7 @@ control 'V-73447' do
   Logon/Logoff >> Group Membership - Success"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Advanced Audit Policy Configuration >> System Audit Policies >>
-  Logon/Logoff >> \"Audit Group Membership\" with \"Success\" selected."
+  Logon/Logoff >> Audit Group Membership with Success selected."
   describe.one do
     describe audit_policy do
       its('Group Membership') { should eq 'Success' }

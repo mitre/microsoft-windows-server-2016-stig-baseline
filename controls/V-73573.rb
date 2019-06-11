@@ -28,8 +28,8 @@ control 'V-73573' do
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> Remote Desktop Services >>
-  Remote Desktop Session Host >> Security >> \"Require secure RPC communication\"
-  to \"Enabled\"."
+  Remote Desktop Session Host >> Security >> Require secure RPC communication
+  to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows NT\\Terminal Services') do
     it { should have_property 'fEncryptRPCTraffic' }
     its('fEncryptRPCTraffic') { should cmp 1 }

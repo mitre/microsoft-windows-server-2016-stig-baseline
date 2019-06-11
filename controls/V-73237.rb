@@ -24,12 +24,12 @@ control 'V-73237' do
 
   Verify the system has a TPM and it is ready for use.
 
-  Run \"tpm.msc\".
+  Run tpm.msc.
 
   Review the sections in the center pane.
 
-  \"Status\" must indicate it has been configured with a message such as \"The
-  TPM is ready for use\" or \"The TPM is on and ownership has been taken\".
+  Status must indicate it has been configured with a message such as The
+  TPM is ready for use or The TPM is on and ownership has been taken.
 
   TPM Manufacturer Information - Specific Version = 2.0 or 1.2
 
@@ -39,7 +39,7 @@ control 'V-73237' do
 
   The TPM must be enabled in the firmware.
 
-  Run \"tpm.msc\" for configuration options in Windows."
+  Run tpm.msc for configuration options in Windows."
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
 
   if is_domain == 'WORKGROUP'

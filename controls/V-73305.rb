@@ -15,12 +15,12 @@ control 'V-73305' do
   tag "documentable": false
   tag "check": "If FTP is not installed on the system, this is NA.
 
-  Open \"Internet Information Services (IIS) Manager\".
+  Open Internet Information Services (IIS) Manager.
 
-  Select \"Sites\" under the server name.
+  Select Sites under the server name.
 
   For any sites with a Binding that lists FTP, right-click the site and select
-  \"Explore\".
+  Explore.
 
   If the site is not defined to a specific folder for shared FTP resources, this
   is a finding.

@@ -27,8 +27,8 @@ control 'V-73631' do
   Value Type: REG_DWORD
   Value: 0x00000000 (0)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
-  Settings >> Security Settings >> Local Policies >> Security Options >> \"Domain
-  controller: Refuse machine account password changes\" to \"Disabled\"."
+  Settings >> Security Settings >> Local Policies >> Security Options >> Domain
+  controller: Refuse machine account password changes to Disabled."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters') do
     it { should have_property 'RefusePasswordChange' }

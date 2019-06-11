@@ -15,32 +15,32 @@ control 'V-73261' do
   tag "documentable": false
   tag "check": "Review the password required status for enabled user accounts.
 
-  Open \"PowerShell\".
+  Open PowerShell.
 
   Domain Controllers:
 
-  Enter \"Get-Aduser -Filter * -Properties Passwordnotrequired |FT Name,
-  Passwordnotrequired, Enabled\".
+  Enter Get-Aduser -Filter * -Properties Passwordnotrequired |FT Name,
+  Passwordnotrequired, Enabled.
 
   Exclude disabled accounts (e.g., DefaultAccount, Guest) and the krbtgt account.
 
-  If \"Passwordnotrequired\" is \"True\" or blank for any enabled user account,
+  If Passwordnotrequired is True or blank for any enabled user account,
   this is a finding.
 
   Member servers and standalone systems:
 
   Enter 'Get-CimInstance -Class Win32_Useraccount -Filter
-  \"PasswordRequired=False and LocalAccount=True\" | FT Name, PasswordRequired,
+  PasswordRequired=False and LocalAccount=True | FT Name, PasswordRequired,
   Disabled, LocalAccount'.
 
   Exclude disabled accounts (e.g., DefaultAccount, Guest).
 
-  If any enabled user accounts are returned with a \"PasswordRequired\" status of
-  \"False\", this is a finding."
+  If any enabled user accounts are returned with a PasswordRequired status of
+  False, this is a finding."
   tag "fix": "Configure all enabled accounts to require passwords.
 
   The password required flag can be set by entering the following on a command
-  line: \"Net user [username] /passwordreq:yes\", substituting [username] with
+  line: Net user [username] /passwordreq:yes, substituting [username] with
   the name of the user account."
   users = command("net user | Findstr /V 'command -- accounts'").stdout.strip.split(' ')
 
@@ -55,4 +55,5 @@ control 'V-73261' do
       skip 'There are no users configured on this system, therefore this control is not applicable'
     end
   end
-end
+end 
+ 

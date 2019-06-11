@@ -14,16 +14,16 @@ control 'V-73665' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> Security Options.
 
-  If the value for \"Network access: Allow anonymous SID/Name translation\" is
-  not set to \"Disabled\", this is a finding."
+  If the value for Network access: Allow anonymous SID/Name translation is
+  not set to Disabled, this is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Network access: Allow anonymous SID/Name translation\" to \"Disabled\"."
+  Network access: Allow anonymous SID/Name translation to Disabled."
   describe security_policy do
     its('LSAAnonymousNameLookup') { should eq 0 }
   end

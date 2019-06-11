@@ -27,7 +27,7 @@ control 'V-73595' do
   Value: 0x00000000 (0)"
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> Windows Remote Management
-  (WinRM) >> WinRM Client >> \"Allow unencrypted traffic\" to \"Disabled\"."
+  (WinRM) >> WinRM Client >> Allow unencrypted traffic to Disabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\WinRM\\Client') do
     it { should have_property 'AllowUnencryptedTraffic' }
     its('AllowUnencryptedTraffic') { should cmp 0 }

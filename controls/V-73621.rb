@@ -27,8 +27,8 @@ control 'V-73621' do
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Accounts: Limit local account use of blank passwords to console logon only\"
-  to \"Enabled\"."
+  Accounts: Limit local account use of blank passwords to console logon only
+  to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentcontrolSet\\Control\\Lsa') do
     it { should have_property 'LimitBlankPasswordUse' }
     its('LimitBlankPasswordUse') { should cmp 1 }

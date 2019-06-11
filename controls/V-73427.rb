@@ -25,16 +25,16 @@ control 'V-73427' do
   tag "nist": ['AC-2 (4)', 'Rev_4']
   tag "nist": ['AU-12 c', 'Rev_4']
   tag "documentable": false
-  tag "check": "Security Option \"Audit: Force audit policy subcategory
-  settings (Windows Vista or later) to override audit policy category settings\"
-  must be set to \"Enabled\" (WN16-SO-000050) for the detailed auditing
+  tag "check": "Security Option Audit: Force audit policy subcategory
+  settings (Windows Vista or later) to override audit policy category settings
+  must be set to Enabled (WN16-SO-000050) for the detailed auditing
   subcategories to be effective.
 
   Use the AuditPol tool to review the current Audit Policy configuration:
 
-  Open an elevated \"Command Prompt\" (run as administrator).
+  Open an elevated Command Prompt (run as administrator).
 
-  Enter \"AuditPol /get /category:*\".
+  Enter AuditPol /get /category:*.
 
   Compare the AuditPol settings with the following.
 
@@ -43,8 +43,8 @@ control 'V-73427' do
   Account Management >> User Account Management - Success"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Advanced Audit Policy Configuration >> System
-  Audit Policies >> Account Management >> \"Audit User Account Management\" with
-  \"Success\" selected."
+  Audit Policies >> Account Management >> Audit User Account Management with
+  Success selected."
   describe.one do
     describe audit_policy do
       its('User Account Management') { should eq 'Success' }

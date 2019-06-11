@@ -25,8 +25,8 @@ control 'V-73685' do
   Value: 0x7ffffff8 (2147483640)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Network security: Configure encryption types allowed for Kerberos\" to
-  \"Enabled\" with only the following selected:
+  Network security: Configure encryption types allowed for Kerberos to
+  Enabled with only the following selected:
 
   AES128_HMAC_SHA1
   AES256_HMAC_SHA1

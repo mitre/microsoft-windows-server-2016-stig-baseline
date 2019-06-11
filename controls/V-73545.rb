@@ -26,7 +26,7 @@ control 'V-73545' do
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> AutoPlay Policies >>
-  \"Disallow Autoplay for non-volume devices\" to \"Enabled\"."
+  Disallow Autoplay for non-volume devices to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Explorer') do
     it { should have_property 'NoAutoplayfornonVolume' }
     its('NoAutoplayfornonVolume') { should cmp 1 }

@@ -19,21 +19,21 @@ control 'V-73323' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Account Policies >> Password Policy.
 
-  If the value for \"Password must meet complexity requirements\" is not set to
-  \"Enabled\", this is a finding.
+  If the value for Password must meet complexity requirements is not set to
+  Enabled, this is a finding.
 
   Note: If an external password filter is in use that enforces all four character
-  types and requires this setting to be set to \"Disabled\", this would not be
+  types and requires this setting to be set to Disabled, this would not be
   considered a finding. If this setting does not affect the use of an external
   password filter, it must be enabled for fallback purposes."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Password Policy >>
-  \"Password must meet complexity requirements\" to \"Enabled\"."
+  Password must meet complexity requirements to Enabled."
   describe security_policy do
     its('PasswordComplexity') { should eq 1 }
   end

@@ -4,7 +4,7 @@ control 'V-73741' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-    Accounts with the \"Allow log on through Remote Desktop Services\" user
+    Accounts with the Allow log on through Remote Desktop Services user
   right can access a system through Remote Desktop.
   "
   impact 0.5
@@ -19,18 +19,18 @@ control 'V-73741' do
   tag "check": "This applies to domain controllers, it is NA for other systems.
 
   Verify the effective setting in Local Group Policy Editor.
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups other than the following are granted the \"Allow log
-  on through Remote Desktop Services\" user right, this is a finding.
+  If any accounts or groups other than the following are granted the Allow log
+  on through Remote Desktop Services user right, this is a finding.
 
   - Administrators"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Allow log on through Remote Desktop Services\" to include only the following
+  Allow log on through Remote Desktop Services to include only the following
   accounts or groups:
 
   - Administrators"

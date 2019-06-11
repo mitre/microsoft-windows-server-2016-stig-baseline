@@ -32,8 +32,8 @@ control 'V-73591' do
   Value Type: REG_DWORD
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> Windows Components >> Windows PowerShell >> \"Turn
-  on PowerShell Script Block Logging\" to \"Enabled\"."
+  Administrative Templates >> Windows Components >> Windows PowerShell >> Turn
+  on PowerShell Script Block Logging to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging') do
     it { should have_property 'EnableScriptBlockLogging' }
     its('EnableScriptBlockLogging') { should cmp 1 }

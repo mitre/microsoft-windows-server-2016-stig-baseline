@@ -27,20 +27,20 @@ control 'V-73677' do
   Value Type: REG_SZ
   Value: O:BAG:BAD:(A;;RC;;;BA)"
   tag "fix": "Navigate to the policy Computer Configuration >> Windows Settings
-  >> Security Settings >> Local Policies >> Security Options >> \"Network access:
-  Restrict clients allowed to make remote calls to SAM\".
-  Select \"Edit Security\" to configure the \"Security descriptor:\".
+  >> Security Settings >> Local Policies >> Security Options >> Network access:
+  Restrict clients allowed to make remote calls to SAM.
+  Select Edit Security to configure the Security descriptor:.
 
-  Add \"Administrators\" in \"Group or user names:\" if it is not already listed
+  Add Administrators in Group or user names: if it is not already listed
   (this is the default).
 
-  Select \"Administrators\" in \"Group or user names:\".
+  Select Administrators in Group or user names:.
 
-  Select \"Allow\" for \"Remote Access\" in \"Permissions for \"Administrators\".
+  Select Allow for Remote Access in Permissions for Administrators.
 
-  Click \"OK\".
+  Click OK.
 
-  The \"Security descriptor:\" must be populated with \"O:BAG:BAD:(A;;RC;;;BA)
+  The Security descriptor: must be populated with O:BAG:BAD:(A;;RC;;;BA)
   for the policy to be enforced."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa') do

@@ -24,13 +24,13 @@ control 'V-73381' do
 
   Review the installed roles the domain controller is supporting.
 
-  Start \"Server Manager\".
+  Start Server Manager.
 
-  Select \"AD DS\" in the left pane and the server name under \"Servers\" to the
+  Select AD DS in the left pane and the server name under Servers to the
   right.
 
-  Select \"Add (or Remove) Roles and Features\" from \"Tasks\" in the \"Roles and
-  Features\" section. (Cancel before any changes are made.)
+  Select Add (or Remove) Roles and Features from Tasks in the Roles and
+  Features section. (Cancel before any changes are made.)
 
   Determine if any additional server roles are installed. A basic domain
   controller setup will include the following:
@@ -46,7 +46,7 @@ control 'V-73381' do
   AD-integrated DNS) is an acceptable application. However, the DNS server must
   comply with the DNS STIG security requirements.
 
-  Run \"Programs and Features\".
+  Run Programs and Features.
 
   Review installed applications.
 

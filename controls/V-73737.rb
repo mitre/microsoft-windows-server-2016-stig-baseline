@@ -4,7 +4,7 @@ control 'V-73737' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-    Accounts with the \"Add workstations to domain\" right may add computers to
+    Accounts with the Add workstations to domain right may add computers to
   a domain. This could result in unapproved or incorrectly configured systems
   being added to a domain.
   "
@@ -21,18 +21,18 @@ control 'V-73737' do
 
   Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups other than the following are granted the \"Add
-  workstations to domain\" right, this is a finding.
+  If any accounts or groups other than the following are granted the Add
+  workstations to domain right, this is a finding.
 
   - Administrators"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Add workstations to domain\" to include only the following accounts or groups:
+  Add workstations to domain to include only the following accounts or groups:
 
   - Administrators"
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip

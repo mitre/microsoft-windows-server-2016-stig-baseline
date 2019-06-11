@@ -22,8 +22,8 @@ control 'V-73277' do
   If the organization has not documented the roles and features required for the
   system(s), this is a finding.
 
-  The PowerShell command \"Get-WindowsFeature\" will list all roles and features
-  with an \"Install State\"."
+  The PowerShell command Get-WindowsFeature will list all roles and features
+  with an Install State."
   tag "fix": "Document the roles and features required for the system to
   operate. Uninstall any that are not required."
   describe 'A manual review is required to verify that the roles and features required by the system are documented' do

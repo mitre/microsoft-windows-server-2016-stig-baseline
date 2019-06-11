@@ -5,7 +5,7 @@ control 'V-73767' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-  The \"Deny log on as a service\" user right defines accounts that are
+  The Deny log on as a service user right defines accounts that are
   denied logon as a service.
 
   In an Active Directory Domain, denying logons to the Enterprise Admins and
@@ -30,22 +30,22 @@ control 'V-73767' do
 
   Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If the following accounts or groups are not defined for the \"Deny log on as a
-  service\" user right on domain-joined systems, this is a finding.
+  If the following accounts or groups are not defined for the Deny log on as a
+  service user right on domain-joined systems, this is a finding.
 
   - Enterprise Admins Group
   - Domain Admins Group
 
-  If any accounts or groups are defined for the \"Deny log on as a service\" user
+  If any accounts or groups are defined for the Deny log on as a service user
   right on non-domain-joined systems, this is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Deny log on as a service\" to include the following:
+  Deny log on as a service to include the following:
 
   Domain systems:
   - Enterprise Admins Group

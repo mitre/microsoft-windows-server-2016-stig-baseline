@@ -27,8 +27,8 @@ control 'V-73603' do
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> Windows Remote Management
-  (WinRM) >> WinRM Service >> \"Disallow WinRM from storing RunAs credentials\"
-  to \"Enabled\"."
+  (WinRM) >> WinRM Service >> Disallow WinRM from storing RunAs credentials
+  to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\WinRM\\Service') do
     it { should have_property 'DisableRunAs' }
     its('DisableRunAs') { should cmp 1 }

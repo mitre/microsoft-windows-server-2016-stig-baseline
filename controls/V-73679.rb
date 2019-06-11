@@ -26,8 +26,8 @@ control 'V-73679' do
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Network security: Allow Local System to use computer identity for NTLM\" to
-  \"Enabled\"."
+  Network security: Allow Local System to use computer identity for NTLM to
+  Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa') do
     it { should have_property 'UseMachineId' }
     its('UseMachineId') { should cmp 1 }

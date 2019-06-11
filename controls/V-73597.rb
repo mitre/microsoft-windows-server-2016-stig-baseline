@@ -25,7 +25,7 @@ control 'V-73597' do
   Value: 0x00000000 (0)"
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> Windows Remote Management
-  (WinRM) >> WinRM Client >> \"Disallow Digest authentication\" to \"Enabled\"."
+  (WinRM) >> WinRM Client >> Disallow Digest authentication to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\WinRM\\Client') do
     it { should have_property 'AllowDigest' }
     its('AllowDigest') { should cmp 0 }

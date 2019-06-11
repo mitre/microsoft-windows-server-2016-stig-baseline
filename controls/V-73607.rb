@@ -20,18 +20,18 @@ control 'V-73607' do
   tag "documentable": false
   tag "check": "This is applicable to unclassified systems. It is NA for others.
 
-  Open \"PowerShell\" as an administrator.
+  Open PowerShell as an administrator.
 
   Execute the following command:
 
   Get-ChildItem -Path Cert:Localmachine\\disallowed | Where {$_.Issuer -Like
-  \"*DoD Interoperability*\" -and $_.Subject -Like \"*DoD*\"} | FL Subject,
+  *DoD Interoperability* -and $_.Subject -Like *DoD*} | FL Subject,
   Issuer, Thumbprint, NotAfter
 
-  If the following certificate \"Subject\", \"Issuer\", and \"Thumbprint\"
+  If the following certificate Subject, Issuer, and Thumbprint
   information is not displayed, this is finding.
 
-  If an expired certificate (\"NotAfter\" date) is not listed in the results,
+  If an expired certificate (NotAfter date) is not listed in the results,
   this is not a finding.
 
   Subject: CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US
@@ -54,35 +54,35 @@ control 'V-73607' do
 
   Alternately, use the Certificates MMC snap-in:
 
-  Run \"MMC\".
+  Run MMC.
 
-  Select \"File\", \"Add/Remove Snap-in\".
+  Select File, Add/Remove Snap-in.
 
-  Select \"Certificates\" and click \"Add\".
+  Select Certificates and click Add.
 
-  Select \"Computer account\" and click \"Next\".
+  Select Computer account and click Next.
 
-  Select \"Local computer: (the computer this console is running on)\" and click
-  \"Finish\".
+  Select Local computer: (the computer this console is running on) and click
+  Finish.
 
-  Click \"OK\".
+  Click OK.
 
-  Expand \"Certificates\" and navigate to \"Untrusted Certificates >>
-  Certificates\".
+  Expand Certificates and navigate to Untrusted Certificates >>
+  Certificates.
 
-  For each certificate with \"DoD Root CA…\" under \"Issued To\" and \"DoD
-  Interoperability Root CA…\" under \"Issued By\":
+  For each certificate with DoD Root CA… under Issued To and DoD
+  Interoperability Root CA… under Issued By:
 
-  Right-click on the certificate and select \"Open\".
+  Right-click on the certificate and select Open.
 
-  Select the \"Details\" Tab.
+  Select the Details Tab.
 
-  Scroll to the bottom and select \"Thumbprint\".
+  Scroll to the bottom and select Thumbprint.
 
-  If the certificates below are not listed or the value for the \"Thumbprint\"
+  If the certificates below are not listed or the value for the Thumbprint
   field is not as noted, this is a finding.
 
-  If an expired certificate (\"Valid to\" date) is not listed in the results,
+  If an expired certificate (Valid to date) is not listed in the results,
   this is not a finding.
 
   Issued To: DoD Root CA 2

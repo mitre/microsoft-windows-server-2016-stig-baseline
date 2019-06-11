@@ -20,17 +20,17 @@ control 'V-73605' do
   tag "check": "The certificates and thumbprints referenced below apply to
   unclassified systems; see PKE documentation for other networks.
 
-  Open \"Windows PowerShell\" as an administrator.
+  Open Windows PowerShell as an administrator.
 
   Execute the following command:
 
   Get-ChildItem -Path Cert:Localmachine\
-  oot | Where Subject -Like \"*DoD*\" | FL Subject, Thumbprint, NotAfter
+  oot | Where Subject -Like *DoD* | FL Subject, Thumbprint, NotAfter
 
-  If the following certificate \"Subject\" and \"Thumbprint\" information is not
+  If the following certificate Subject and Thumbprint information is not
   displayed, this is finding.
 
-  If an expired certificate (\"NotAfter\" date) is not listed in the results,
+  If an expired certificate (NotAfter date) is not listed in the results,
   this is not a finding.
 
   Subject: CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US
@@ -51,34 +51,34 @@ control 'V-73605' do
 
   Alternately, use the Certificates MMC snap-in:
 
-  Run \"MMC\".
+  Run MMC.
 
-  Select \"File\", \"Add/Remove Snap-in\".
+  Select File, Add/Remove Snap-in.
 
-  Select \"Certificates\" and click \"Add\".
+  Select Certificates and click Add.
 
-  Select \"Computer account\" and click \"Next\".
+  Select Computer account and click Next.
 
-  Select \"Local computer: (the computer this console is running on)\" and click
-  \"Finish\".
+  Select Local computer: (the computer this console is running on) and click
+  Finish.
 
-  Click \"OK\".
+  Click OK.
 
-  Expand \"Certificates\" and navigate to \"Trusted Root Certification
-  Authorities >> Certificates\".
+  Expand Certificates and navigate to Trusted Root Certification
+  Authorities >> Certificates.
 
   For each of the DoD Root CA certificates noted below:
 
-  Right-click on the certificate and select \"Open\".
+  Right-click on the certificate and select Open.
 
-  Select the \"Details\" Tab.
+  Select the Details Tab.
 
-  Scroll to the bottom and select \"Thumbprint\".
+  Scroll to the bottom and select Thumbprint.
 
   If the DoD Root CA certificates below are not listed or the value for the
-  \"Thumbprint\" field is not as noted, this is a finding.
+  Thumbprint field is not as noted, this is a finding.
 
-  If an expired certificate (\"Valid to\" date) is not listed in the results,
+  If an expired certificate (Valid to date) is not listed in the results,
   this is not a finding.
 
   DoD Root CA 2

@@ -15,10 +15,10 @@ control 'V-73369' do
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
-  Run \"Regedit\".
+  Run Regedit.
 
   Navigate to
-  \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters\".
+  HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters.
 
   Note the directory locations in the values for:
 
@@ -29,11 +29,11 @@ control 'V-73369' do
 
   If the locations are different, the following will need to be run for each.
 
-  Open \"Command Prompt (Admin)\".
+  Open Command Prompt (Admin).
 
   Navigate to the NTDS directory (\\Windows\\NTDS by default).
 
-  Run \"icacls *.*\".
+  Run icacls *.*.
 
   If the permissions on each file are not as restrictive as the following, this
   is a finding.

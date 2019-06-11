@@ -32,23 +32,23 @@ control 'V-73399' do
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
-  Review the auditing configuration for the \"RID Manager$\" object.
+  Review the auditing configuration for the RID Manager$ object.
 
-  Open \"Active Directory Users and Computers\" (available from various menus or
-  run \"dsa.msc\").
+  Open Active Directory Users and Computers (available from various menus or
+  run dsa.msc).
 
-  Ensure \"Advanced Features\" is selected in the \"View\" menu.
+  Ensure Advanced Features is selected in the View menu.
 
-  Select \"System\" under the domain being reviewed in the left pane.
+  Select System under the domain being reviewed in the left pane.
 
-  Right-click the \"RID Manager$\" object in the right pane and select
-  \"Properties\".
+  Right-click the RID Manager$ object in the right pane and select
+  Properties.
 
-  Select the \"Security\" tab.
+  Select the Security tab.
 
-  Select the \"Advanced\" button and then the \"Auditing\" tab.
+  Select the Advanced button and then the Auditing tab.
 
-  If the audit settings on the \"RID Manager$\" object are not at least as
+  If the audit settings on the RID Manager$ object are not at least as
   inclusive as those below, this is a finding.
 
   Type - Fail
@@ -73,19 +73,19 @@ control 'V-73399' do
   Principal - Everyone
   Access - (blank)
   Inherited from - (CN of domain)"
-  tag "fix": "Open \"Active Directory Users and Computers\" (available from
-  various menus or run \"dsa.msc\").
+  tag "fix": "Open Active Directory Users and Computers (available from
+  various menus or run dsa.msc).
 
-  Ensure \"Advanced Features\" is selected in the \"View\" menu.
+  Ensure Advanced Features is selected in the View menu.
 
-  Select \"System\" under the domain being reviewed in the left pane.
+  Select System under the domain being reviewed in the left pane.
 
-  Right-click the \"RID Manager$\" object in the right pane and select
-  \"Properties\".
+  Right-click the RID Manager$ object in the right pane and select
+  Properties.
 
-  Select the \"Security\" tab.
+  Select the Security tab.
 
-  Select the \"Advanced\" button and then the \"Auditing\" tab.
+  Select the Advanced button and then the Auditing tab.
 
   Configure the audit settings for RID Manager$ object to include the following.
 

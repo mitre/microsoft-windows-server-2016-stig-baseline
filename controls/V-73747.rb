@@ -4,7 +4,7 @@ control 'V-73747' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-  The \"Create a token object\" user right allows a process to create an
+  The Create a token object user right allows a process to create an
   access token. This could be used to provide elevated rights and compromise a
   system.
   "
@@ -19,12 +19,12 @@ control 'V-73747' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups are granted the \"Create a token object\" user right,
+  If any accounts or groups are granted the Create a token object user right,
   this is a finding.
 
   If an application requires this user right, this would not be a finding.
@@ -41,7 +41,7 @@ control 'V-73747' do
   highly privileged accounts."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Create a token object\" to be defined but containing no entries (blank)."
+  Create a token object to be defined but containing no entries (blank)."
   describe security_policy do
     its('SeCreateTokenPrivilege') { should eq [] }
   end

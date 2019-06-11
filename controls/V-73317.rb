@@ -15,18 +15,18 @@ control 'V-73317' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Account Policies >> Password Policy.
 
-  If the value for the \"Maximum password age\" is greater than \"60\" days, this
+  If the value for the Maximum password age is greater than 60 days, this
   is a finding.
 
-  If the value is set to \"0\" (never expires), this is a finding."
+  If the value is set to 0 (never expires), this is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Password Policy >>
-  \"Maximum password age\" to \"60\" days or less (excluding \"0\", which is
+  Maximum password age to 60 days or less (excluding 0, which is
   unacceptable)."
   describe security_policy do
     its('MaximumPasswordAge') { should be <= 60 }

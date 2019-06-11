@@ -4,7 +4,7 @@ control 'V-73749' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-  Accounts with the \"Create global objects\" user right can create objects
+  Accounts with the Create global objects user right can create objects
   that are available to all sessions, which could affect processes in other
   users' sessions.
   "
@@ -19,13 +19,13 @@ control 'V-73749' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups other than the following are granted the \"Create
-  global objects\" user right, this is a finding.
+  If any accounts or groups other than the following are granted the Create
+  global objects user right, this is a finding.
 
   - Administrators
   - Service
@@ -43,7 +43,7 @@ control 'V-73749' do
   (WN16-00-000070)."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Create global objects\" to include only the following accounts or groups:
+  Create global objects to include only the following accounts or groups:
 
   - Administrators
   - Service

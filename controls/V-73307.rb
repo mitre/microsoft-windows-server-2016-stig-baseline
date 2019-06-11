@@ -17,27 +17,27 @@ control 'V-73307' do
   tag "documentable": false
   tag "check": "Review the Windows time service configuration.
 
-  Open an elevated \"Command Prompt\" (run as administrator).
+  Open an elevated Command Prompt (run as administrator).
 
-  Enter \"W32tm /query /configuration\".
+  Enter W32tm /query /configuration.
 
   Domain-joined systems (excluding the domain controller with the PDC emulator
   role):
 
-  If the value for \"Type\" under \"NTP Client\" is not \"NT5DS\", this is a
+  If the value for Type under NTP Client is not NT5DS, this is a
   finding.
 
   Other systems:
 
-  If systems are configured with a \"Type\" of \"NTP\", including standalone
+  If systems are configured with a Type of NTP, including standalone
   systems and the domain controller with the PDC Emulator role, and do not have a
-  DoD time server defined for \"NTPServer\", this is a finding.
+  DoD time server defined for NTPServer, this is a finding.
 
   To determine the domain controller with the PDC Emulator role:
 
-  Open \"PowerShell\".
+  Open PowerShell.
 
-  Enter \"Get-ADDomain | FT PDCEmulator\"."
+  Enter Get-ADDomain | FT PDCEmulator."
   tag "fix": "Configure the system to synchronize time with an appropriate DoD
   time source.
 
@@ -47,8 +47,8 @@ control 'V-73307' do
   If the system needs to be configured to an NTP server, configure the system to
   point to an authorized time server by setting the policy value for Computer
   Configuration >> Administrative Templates >> System >> Windows Time Service >>
-  Time Providers >> \"Configure Windows NTP Client\" to \"Enabled\", and
-  configure the \"NtpServer\" field to point to an appropriate DoD time server.
+  Time Providers >> Configure Windows NTP Client to Enabled, and
+  configure the NtpServer field to point to an appropriate DoD time server.
 
   The US Naval Observatory operates stratum 1 time servers, identified at
   http://tycho.usno.navy.mil/ntp.html. Time synchronization will occur through a

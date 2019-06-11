@@ -22,16 +22,16 @@ control 'V-73445' do
   tag "nist": ['AU-12 c', 'Rev_4']
   tag "nist": ['AC-2 (4)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Security Option \"Audit: Force audit policy subcategory
-  settings (Windows Vista or later) to override audit policy category settings\"
-  must be set to \"Enabled\" (WN16-SO-000050) for the detailed auditing
+  tag "check": "Security Option Audit: Force audit policy subcategory
+  settings (Windows Vista or later) to override audit policy category settings
+  must be set to Enabled (WN16-SO-000050) for the detailed auditing
   subcategories to be effective.
 
   Use the AuditPol tool to review the current Audit Policy configuration:
 
-  Open an elevated \"Command Prompt\" (run as administrator).
+  Open an elevated Command Prompt (run as administrator).
 
-  Enter \"AuditPol /get /category:*\"
+  Enter AuditPol /get /category:*
 
   Compare the AuditPol settings with the following. If the system does not audit
   the following, this is a finding.
@@ -39,7 +39,7 @@ control 'V-73445' do
   Logon/Logoff >> Account Lockout - Failure"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Advanced Audit Policy Configuration >> System Audit Policies >>
-  Logon/Logoff >> \"Audit Account Lockout\" with \"Failure\" selected."
+  Logon/Logoff >> Audit Account Lockout with Failure selected."
   describe.one do
     describe audit_policy do
       its('Account Lockout') { should eq 'Success and Failure' }

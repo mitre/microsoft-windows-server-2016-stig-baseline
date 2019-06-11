@@ -61,7 +61,7 @@ control 'V-73647' do
   Agreement for details."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Interactive Logon: Message text for users attempting to log on\" to the
+  Interactive Logon: Message text for users attempting to log on to the
   following:
 
   You are accessing a U.S. Government (USG) Information System (IS) that is

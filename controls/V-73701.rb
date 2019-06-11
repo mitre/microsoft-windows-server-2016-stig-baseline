@@ -33,9 +33,9 @@ control 'V-73701' do
   algorithms. Both the browser and web server must be configured to use TLS;
   otherwise. the browser will not be able to connect to a secure site."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
-  Settings >> Security Settings >> Local Policies >> Security Options >> \"System
+  Settings >> Security Settings >> Local Policies >> Security Options >> System
   cryptography: Use FIPS compliant algorithms for encryption, hashing, and
-  signing\" to \"Enabled\"."
+  signing to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\FIPSAlgorithmPolicy') do
     it { should have_property 'Enabled' }
     its('Enabled') { should cmp 1 }

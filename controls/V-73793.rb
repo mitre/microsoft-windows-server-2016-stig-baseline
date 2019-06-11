@@ -4,7 +4,7 @@ control 'V-73793' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-  Accounts with the \"Manage auditing and security log\" user right can
+  Accounts with the Manage auditing and security log user right can
   manage the security log and change auditing configurations. This could be used
   to clear evidence of tampering.
   "
@@ -26,13 +26,13 @@ control 'V-73793' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups other than the following are granted the \"Manage
-  auditing and security log\" user right, this is a finding.
+  If any accounts or groups other than the following are granted the Manage
+  auditing and security log user right, this is a finding.
 
   - Administrators
 
@@ -50,7 +50,7 @@ control 'V-73793' do
   (WN16-00-000070)."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Manage auditing and security log\" to include only the following accounts or
+  Manage auditing and security log to include only the following accounts or
   groups:
 
   - Administrators"

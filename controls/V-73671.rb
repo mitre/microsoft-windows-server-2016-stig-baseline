@@ -27,8 +27,8 @@ control 'V-73671' do
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Network access: Do not allow storage of passwords and credentials for network
-  authentication\" to \"Enabled\"."
+  Network access: Do not allow storage of passwords and credentials for network
+  authentication to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa') do
     it { should have_property 'DisableDomainCreds' }
     its('DisableDomainCreds') { should cmp 1 }

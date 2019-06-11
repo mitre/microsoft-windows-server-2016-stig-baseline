@@ -1,5 +1,3 @@
-SHARED_ACCOUNTS= attribute('shared_accounts')
-
 control 'V-73233' do
   title 'Shared user accounts must not be permitted on the system.'
   desc  "Shared accounts (accounts where two or more people log on with the
@@ -31,8 +29,9 @@ control 'V-73233' do
   reason for the account, who has access to the account, and how the risk of
   using the shared account is mitigated to include monitoring account activity."
   get_accounts = command("net user | Findstr /v 'command -- accounts'").stdout.strip.split(' ')
+  shared_accounts = attribute('shared_accounts')
 
-  if SHARED_ACCOUNTS.empty?
+  if shared_accounts.empty?
     impact 0.0
     desc 'This system does not have any shared accounts, therefore this control is not applicable'
     describe 'This system does not have any shared accounts, therefore this control is not applicable' do
@@ -41,7 +40,7 @@ control 'V-73233' do
   else
     get_accounts.each do |user|
       describe user do
-        it { should_not be_in SHARED_ACCOUNTS }
+        it { should_not be_in shared_accounts }
       end
     end
   end

@@ -27,7 +27,7 @@ control 'V-73645' do
   Value: 0x00000384 (900) (or less)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Interactive logon: Machine inactivity limit\" to \"900\" seconds or less."
+  Interactive logon: Machine inactivity limit to 900 seconds or less."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System') do
     it { should have_property 'InactivityTimeoutSecs' }
     its('InactivityTimeoutSecs') { should be <= 900 }

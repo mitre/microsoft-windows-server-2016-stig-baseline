@@ -4,7 +4,7 @@ control 'V-73729' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-  Accounts with the \"Access Credential Manager as a trusted caller\" user
+  Accounts with the Access Credential Manager as a trusted caller user
   right may be able to retrieve the credentials of other accounts from Credential
   Manager.
   "
@@ -19,16 +19,16 @@ control 'V-73729' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups are granted the \"Access Credential Manager as a
-  trusted caller\" user right, this is a finding."
+  If any accounts or groups are granted the Access Credential Manager as a
+  trusted caller user right, this is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Access Credential Manager as a trusted caller\" to be defined but containing
+  Access Credential Manager as a trusted callers to be defined but containing
   no entries (blank)."
   describe security_policy do
     its('SeTrustedCredManAccessPrivilege') { should eq [] }

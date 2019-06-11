@@ -3,9 +3,9 @@ control 'V-73231' do
   least annually or when a system administrator with knowledge of the password
   leaves the organization."
   desc  "Setting application account passwords to expire may cause applications
-to stop functioning. However, not changing them on a regular basis exposes them
-to attack. If managed service accounts are used, this alleviates the need to
-manually change application account passwords."
+  to stop functioning. However, not changing them on a regular basis exposes them
+  to attack. If managed service accounts are used, this alleviates the need to
+  manually change application account passwords."
   impact 0.5
   tag "gtitle": 'SRG-OS-000480-GPOS-00227'
   tag "gid": 'V-73231'
@@ -28,23 +28,23 @@ manually change application account passwords."
 
   Domain controllers:
 
-  Open \"PowerShell\".
+  Open PowerShell.
 
-  Enter \"Get-AdUser -Identity [application account name] -Properties
-  PasswordLastSet | FT Name, PasswordLastSet\", where [application account name]
+  Enter Get-AdUser -Identity [application account name] -Properties
+  PasswordLastSet | FT Name, PasswordLastSet, where [application account name]
   is the name of the manually managed application/service account.
 
-  If the \"PasswordLastSet\" date is more than one year old, this is a finding.
+  If the PasswordLastSet date is more than one year old, this is a finding.
 
   Member servers and standalone systems:
 
-  Open \"Command Prompt\".
+  Open Command Prompt.
 
-  Enter 'Net User [application account name] | Find /i \"Password Last Set\"',
+  Enter 'Net User [application account name] | Find /i Password Last Set',
   where [application account name] is the name of the manually managed
   application/service account.
 
-  If the \"Password Last Set\" date is more than one year old, this is a finding."
+  If the Password Last Set date is more than one year old, this is a finding."
   tag "fix": "Change passwords for manually managed application/service
   accounts at least annually or when an administrator with knowledge of the
   password leaves the organization.
@@ -55,17 +55,11 @@ manually change application account passwords."
 
   users.each do |user|
 
-    get_password_last_set = command("Net User #{user}  | Findstr /i 'Password Last Set' | Findstr /v 'expires changeable required may logon'").stdout.strip
+    password_age = json({ command:"NEW-TIMESPAN –End (GET-DATE) –Start ([datetime]((net user #{user} | \
+                        Select-String \"Password last set\").Line.Substring(29,10))) | convertto-json"}).Days
 
-    month = get_password_last_set[27..29]
-    day = get_password_last_set[31..32]
-    year = get_password_last_set[34..38]
-
-    date = day + '/' + month + '/' + year
-
-    date_password_last_set = DateTime.now.mjd - DateTime.parse(date).mjd
-    describe "The user: #{user} days since password last set" do
-      describe date_password_last_set do
+    describe "The password age for #{user}" do
+      subject { password_age }
         it { should cmp <= 365 }
       end
     end

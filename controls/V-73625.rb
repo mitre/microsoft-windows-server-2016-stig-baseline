@@ -15,16 +15,16 @@ control 'V-73625' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> Security Options.
 
-  If the value for \"Accounts: Rename guest account\" is not set to a value other
-  than \"Guest\", this is a finding."
+  If the value for Accounts: Rename guest account is not set to a value other
+  than Guest, this is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Accounts: Rename guest account\" to a name other than \"Guest\"."
+  Accounts: Rename guest account to a name other than Guest."
   describe user('Guest') do
     it { should_not exist }
   end

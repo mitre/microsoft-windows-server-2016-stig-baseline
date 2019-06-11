@@ -4,8 +4,8 @@ control 'V-73779' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-    The \"Enable computer and user accounts to be trusted for delegation\" user
-  right allows the \"Trusted for Delegation\" setting to be changed. This could
+    The Enable computer and user accounts to be trusted for delegation user
+  right allows the Trusted for Delegation setting to be changed. This could
   allow unauthorized users to impersonate other users.
   "
   impact 0.5
@@ -22,16 +22,16 @@ control 'V-73779' do
 
   Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups are granted the \"Enable computer and user accounts
-  to be trusted for delegation\" user right, this is a finding."
+  If any accounts or groups are granted the Enable computer and user accounts
+  to be trusted for delegation user right, this is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Enable computer and user accounts to be trusted for delegation\" to be
+  Enable computer and user accounts to be trusted for delegation to be
   defined but containing no entries (blank)."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 

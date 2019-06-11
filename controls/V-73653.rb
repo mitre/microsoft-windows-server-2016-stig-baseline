@@ -30,8 +30,8 @@ control 'V-73653' do
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Microsoft network client: Digitally sign communications (always)\" to
-  \"Enabled\"."
+  Microsoft network client: Digitally sign communications (always) to
+  Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters') do
     it { should have_property 'RequireSecuritySignature' }
     its('RequireSecuritySignature') { should cmp 1 }

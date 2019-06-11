@@ -37,7 +37,7 @@ control 'V-73235' do
   If AppLocker is used, perform the following to view the configuration of
   AppLocker:
 
-  Open \"PowerShell\".
+  Open PowerShell.
 
   If the AppLocker PowerShell module has not been imported previously, execute
   the following first:
@@ -53,7 +53,7 @@ control 'V-73235' do
   a browser or opened in a program such as Excel for review.
 
   Implementation guidance for AppLocker is available in the NSA paper
-  \"Application Whitelisting using Microsoft AppLocker\" at the following link:
+  Application Whitelisting using Microsoft AppLocker at the following link:
 
   https://www.iad.gov/iad/library/ia-guidance/tech-briefs/application-whitelisting-using-microsoft-applocker.cfm"
   tag "fix": "Configure an application whitelisting program to employ a
@@ -68,7 +68,7 @@ control 'V-73235' do
   Policies >> AppLocker.
 
   Implementation guidance for AppLocker is available in the NSA paper
-  \"Application Whitelisting using Microsoft AppLocker\" at the following link:
+  Application Whitelisting using Microsoft AppLocker at the following link:
 
   https://www.iad.gov/iad/library/ia-guidance/tech-briefs/application-whitelisting-using-microsoft-applocker.cfm"
   describe "A manual review is required to verify the operating system employs a deny-all, permit-by-exception

@@ -24,7 +24,7 @@ control 'V-73593' do
   Value: 0x00000000 (0)"
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> Windows Remote Management
-  (WinRM) >> WinRM Client >> \"Allow Basic authentication\" to \"Disabled\"."
+  (WinRM) >> WinRM Client >> Allow Basic authentication to Disabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\WinRM\\Client') do
     it { should have_property 'AllowBasic' }
     its('AllowBasic') { should cmp 0 }

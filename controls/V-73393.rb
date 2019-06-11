@@ -34,19 +34,19 @@ control 'V-73393' do
 
   Review the auditing configuration for Infrastructure object.
 
-  Open \"Active Directory Users and Computers\" (available from various menus or
-  run \"dsa.msc\").
+  Open Active Directory Users and Computers (available from various menus or
+  run dsa.msc).
 
-  Ensure \"Advanced Features\" is selected in the \"View\" menu.
+  Ensure Advanced Features is selected in the View menu.
 
   Select the domain being reviewed in the left pane.
 
-  Right-click the \"Infrastructure\" object in the right pane and select
-  \"Properties\".
+  Right-click the Infrastructure object in the right pane and select
+  Properties.
 
-  Select the \"Security\" tab.
+  Select the Security tab.
 
-  Select the \"Advanced\" button and then the \"Auditing\" tab.
+  Select the Advanced button and then the Auditing tab.
 
   If the audit settings on the Infrastructure object are not at least as
   inclusive as those below, this is a finding.
@@ -72,19 +72,19 @@ control 'V-73393' do
   Principal - Everyone
   Access - (blank)
   Inherited from - (CN of domain)"
-  tag "fix": "Open \"Active Directory Users and Computers\" (available from
-  various menus or run \"dsa.msc\").
+  tag "fix": "Open Active Directory Users and Computers (available from
+  various menus or run dsa.msc).
 
-  Ensure \"Advanced Features\" is selected in the \"View\" menu.
+  Ensure Advanced Features is selected in the View menu.
 
   Select the domain being reviewed in the left pane.
 
-  Right-click the \"Infrastructure\" object in the right pane and select
-  \"Properties\".
+  Right-click the Infrastructure object in the right pane and select
+  Properties.
 
-  Select the \"Security\" tab.
+  Select the Security tab.
 
-  Select the \"Advanced\" button and then the \"Auditing\" tab.
+  Select the Advanced button and then the Auditing tab.
 
   Configure the audit settings for Infrastructure object to include the following.
 

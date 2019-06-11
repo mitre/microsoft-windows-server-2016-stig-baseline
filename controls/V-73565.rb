@@ -17,9 +17,9 @@ control 'V-73565' do
 
   If the registry value name below does not exist, this is not a finding.
 
-  If it exists and is configured with a value of \"0\", this is not a finding.
+  If it exists and is configured with a value of 0, this is not a finding.
 
-  If it exists and is configured with a value of \"1\", this is a finding.
+  If it exists and is configured with a value of 1, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
   Registry Path:
@@ -34,8 +34,8 @@ control 'V-73565' do
 
   If this needs to be corrected, configure the policy value for Computer
   Configuration >> Administrative Templates >> Windows Components >> File
-  Explorer >> \"Turn off shell protocol protected mode\" to \"Not Configured\" or
-  \"Disabled\"."
+  Explorer >> Turn off shell protocol protected mode to Not Configured or
+  Disabled."
   describe.one do
     describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer') do
       it { should_not have_property 'PreXPSP2ShellProtocolBehavior' }

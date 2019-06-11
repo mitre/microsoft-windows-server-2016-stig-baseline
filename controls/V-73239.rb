@@ -13,12 +13,12 @@ control 'V-73239' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "Open \"Command Prompt\".
+  tag "check": "Open Command Prompt.
 
-  Enter \"winver.exe\".
+  Enter winver.exe.
 
-  If the \"About Windows\" dialog box does not display \"Microsoft Windows Server
-  Version 1607 (Build 14393.xxx)\" or greater, this is a finding.
+  If the About Windows dialog box does not display Microsoft Windows Server
+  Version 1607 (Build 14393.xxx) or greater, this is a finding.
 
   Preview versions must not be used in a production environment."
   tag "fix": 'Update the system to a Version 1607 (Build 14393.xxx) or greater.'

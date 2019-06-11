@@ -1,4 +1,3 @@
-EMERGENCY_ACCOUNT = attribute('emergency_account')
 control 'V-73285' do
   title "Windows Server 2016 must automatically remove or disable emergency
   accounts after the crisis is resolved or within 72 hours."
@@ -45,36 +44,35 @@ control 'V-73285' do
 
   Domain Controllers:
 
-  Open \"PowerShell\".
+  Open PowerShell.
 
-  Enter \"Search-ADAccount –AccountExpiring | FT Name, AccountExpirationDate\".
+  Enter Search-ADAccount –AccountExpiring | FT Name, AccountExpirationDate.
 
-  If \"AccountExpirationDate\" has been defined and is not within 72 hours for an
+  If AccountExpirationDate has been defined and is not within 72 hours for an
   emergency administrator account, this is a finding.
 
   Member servers and standalone systems:
 
-  Open \"Command Prompt\".
+  Open Command Prompt.
 
-  Run \"Net user [username]\", where [username] is the name of the emergency
+  Run Net user [username], where [username] is the name of the emergency
   account.
 
-  If \"Account expires\" has been defined and is not within 72 hours for an
+  If Account expires has been defined and is not within 72 hours for an
   emergency administrator account, this is a finding."
   tag "fix": "Remove emergency administrator accounts after a crisis has been
   resolved or configure the accounts to automatically expire within 72 hours.
 
   Domain accounts can be configured with an account expiration date, under
-  \"Account\" properties.
+  Account properties.
 
-  Local accounts can be configured to expire with the command \"Net user
-  [username] /expires:[mm/dd/yyyy]\", where username is the name of the temporary
+  Local accounts can be configured to expire with the command Net user
+  [username] /expires:[mm/dd/yyyy], where username is the name of the temporary
   user account."
-  emergency_accounts = EMERGENCY_ACCOUNT
+  emergency_account = attribute('emergency_account')
+  if !emergency_account .empty?
 
-  if emergency_accounts != []
-
-    emergency_accounts.each do |user|
+    emergency_account.each do |user|
 
       get_account_expires = command("Net User #{user} | Findstr /i 'expires' | Findstr /v 'password'").stdout.strip
 
@@ -124,21 +122,18 @@ control 'V-73285' do
           end
         end
       end
-      if account_expires != 'Never'
-        describe "#{user}'s account expires" do
-          describe date_expires_minus_password_last_set do
-            it { should cmp <= 72 }
-          end
+      next unless account_expires != 'Never'
+      describe "#{user}'s account expires" do
+        describe date_expires_minus_password_last_set do
+          it { should cmp <= 72 }
         end
       end
     end
 
-  end
-  if emergency_accounts.empty?
+  else
     impact 0.0
-    desc 'There are no emergency accounts on this system, therefore this control is not applicable'
-    describe 'There are no emergency accounts on this system, therefore this control is not applicable' do
-      skip 'There are no emergency accounts on this system, therefore this control is not applicable'
+    describe 'No emergency accounts exist' do
+      skip 'check not applicable'
     end
   end
 end

@@ -31,8 +31,8 @@ control 'V-73651' do
   Value:  4 (or less)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Interactive Logon: Number of previous logons to cache (in case Domain
-  Controller is not available)\" to \"4\" logons or less."
+  Interactive Logon: Number of previous logons to cache (in case Domain
+  Controller is not available) to 4 logons or less."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon') do
     it { should have_property 'CachedLogonsCount' }

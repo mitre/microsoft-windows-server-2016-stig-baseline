@@ -25,8 +25,8 @@ control 'V-73725' do
   Type: REG_SZ
   Value: 1"
   tag "fix": "Configure the policy value for User Configuration >>
-  Administrative Templates >> Control Panel >> Personalization >> \"Password
-  protect the screen saver\" to \"Enabled\"."
+  Administrative Templates >> Control Panel >> Personalization >> Password
+  protect the screen saver to Enabled."
   describe registry_key("HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Control
   Panel\\Desktop") do
     it { should have_property 'ScreenSaverIsSecure' }

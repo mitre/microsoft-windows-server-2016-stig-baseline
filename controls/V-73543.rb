@@ -30,7 +30,7 @@ control 'V-73543' do
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> Application Compatibility >>
-  \"Turn off Inventory Collector\" to \"Enabled\"."
+  Turn off Inventory Collector to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\AppCompat') do
     it { should have_property 'DisableInventory' }
     its('DisableInventory') { should cmp 1 }

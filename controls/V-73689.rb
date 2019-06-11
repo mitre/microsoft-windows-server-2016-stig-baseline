@@ -16,16 +16,16 @@ control 'V-73689' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> Security Options.
 
-  If the value for \"Network security: Force logoff when logon hours expire\" is
-  not set to \"Enabled\", this is a finding."
+  If the value for Network security: Force logoff when logon hours expire is
+  not set to Enabled, this is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Network security: Force logoff when logon hours expire\" to \"Enabled\"."
+  Network security: Force logoff when logon hours expire to Enabled."
   describe security_policy do
     its('ForceLogoffWhenHourExpire') { should eq 1 }
   end

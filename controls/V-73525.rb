@@ -4,7 +4,7 @@ control 'V-73525' do
   desc "Registry entries for group policy settings can potentially be changed
   from the required configuration. This could occur as part of troubleshooting or
   by a malicious process on a compromised system. Enabling this setting and then
-  selecting the \"Process even if the Group Policy objects have not changed\"
+  selecting the Process even if the Group Policy objects have not changed
   option ensures the policies will be reprocessed even if none have been changed.
   This way, any unauthorized changes are forced to match the domain-based group
   policy settings again."
@@ -29,9 +29,9 @@ control 'V-73525' do
   Type: REG_DWORD
   Value: 0x00000000 (0)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> System >> Group Policy >> \"Configure registry
-  policy processing\" to \"Enabled\" with the option \"Process even if the Group
-  Policy objects have not changed\" selected."
+  Administrative Templates >> System >> Group Policy >> Configure registry
+  policy processing to Enabled with the option Process even if the Group
+  Policy objects have not changed selected."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Group Policy\\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}') do
     it { should have_property 'NoGPOListChanges' }
     its('NoGPOListChanges') { should cmp 0 }

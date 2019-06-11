@@ -28,9 +28,9 @@ control 'V-73633' do
   Value Type: REG_DWORD
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
-  Settings >> Security Settings >> Local Policies >> Security Options >> \"Domain
-  member: Digitally encrypt or sign secure channel data (always)\" to
-  \"Enabled\"."
+  Settings >> Security Settings >> Local Policies >> Security Options >> Domain
+  member: Digitally encrypt or sign secure channel data (always) to
+  Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters') do
     it { should have_property 'RequireSignOrSeal' }
     its('RequireSignOrSeal') { should cmp 1 }

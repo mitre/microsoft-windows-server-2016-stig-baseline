@@ -16,11 +16,11 @@ control 'V-73259' do
   tag "nist": ['IA-2', 'Rev_4']
   tag "nist": ['IA-5 e', 'Rev_4']
   tag "documentable": false
-  tag "check": "Open \"Windows PowerShell\".
+  tag "check": "Open Windows PowerShell.
 
   Domain Controllers:
 
-  Enter \"Search-ADAccount -AccountInactive -UsersOnly -TimeSpan 35.00:00:00\"
+  Enter Search-ADAccount -AccountInactive -UsersOnly -TimeSpan 35.00:00:00
 
   This will return accounts that have not been logged on to for 35 days, along
   with various attributes such as the Enabled status and LastLogonDate.
@@ -31,7 +31,7 @@ control 'V-73259' do
   twice may be required. Do not include the quotes at the beginning and end of
   the query.)
 
-  \"([ADSI]('WinNT://{0}' -f $env:COMPUTERNAME)).Children | Where {
+  ([ADSI]('WinNT://{0}' -f $env:COMPUTERNAME)).Children | Where {
   $_.SchemaClassName -eq 'user' } | ForEach {
    $user = ([ADSI]$_.Path)
    $lastLogin = $user.Properties.LastLogin.Value
@@ -40,7 +40,7 @@ control 'V-73259' do
    $lastLogin = 'Never'
    }
    Write-Host $user.Name $lastLogin $enabled
-  }\"
+  }
 
   This will return a list of local accounts with the account name, last logon,
   and if the account is enabled (True/False).
@@ -62,31 +62,30 @@ control 'V-73259' do
   documented with the ISSO."
   tag "fix": "Regularly review accounts to determine if they are still active.
   Remove or disable accounts that have not been used in the last 35 days."
-  users = command("net user | Findstr /V 'command -- accounts'").stdout.strip.split(' ')
+  users = command("Get-CimInstance -Class Win32_Useraccount -Filter 'LocalAccount=True and Disabled=False' | FT Name | Findstr /V 'Name --'").stdout.strip.split(' ')
 
   get_sids = []
   get_names = []
   names = []
   inactive_accounts = []
 
-  users.each do |user|
-    get_sids = command("wmic useraccount where \"Name='#{user}'\" get name',' sid',' Disabled | Findstr /v SID").stdout.strip
-    get_last = get_sids[get_sids.length-3, 3]
-    get_disabled = get_sids[0, 4]
-    loc_colon = get_sids.index(' ')
-    names = get_sids[0, loc_colon]
-    if get_last != '500' && get_last != '501' && get_disabled != 'TRUE'
-      get_names.push(names)
+  if !users.empty?
+    users.each do |user|
+      get_sids = command("wmic useraccount where \"Name='#{user}'\" get name',' sid| Findstr /v SID").stdout.strip
+      get_last = get_sids[get_sids.length-3, 3]
+
+      loc_space = get_sids.index(' ')
+      names = get_sids[0, loc_space]
+      if get_last != '500' && get_last != '501'
+        get_names.push(names)
+      end
     end
   end
-
-  if get_names != []
+  
+  if !get_names.empty?
     get_names.each do |user|
-
       get_last_logon = command("Net User #{user} | Findstr /i 'Last Logon' | Findstr /v 'Password script hours'").stdout.strip
-
       last_logon = get_last_logon[29..33]
-
       if last_logon != 'Never'
         month = get_last_logon[28..29]
         day = get_last_logon[31..32]
@@ -100,18 +99,18 @@ control 'V-73259' do
         date = day + '/' + month + '/' + year
 
         date_last_logged_on = DateTime.now.mjd - DateTime.parse(date).mjd
-        if date_last_logged_on >35
+        if date_last_logged_on > 35
           inactive_accounts.push(user)
         end
 
-        if !inactive_accounts.empty?
-          describe "#{user}'s last logon" do
-            describe date_last_logged_on do
-              it { should cmp <= 35 }
-            end
+        describe "#{user}'s last logon" do
+          describe date_last_logged_on do
+            it { should cmp <= 35 }
           end
-        end
+        end if !inactive_accounts.empty?
+      end
 
+      if !inactive_accounts.empty?
         if last_logon == 'Never'
           date_last_logged_on = 'Never'
           describe "#{user}'s last logon" do
@@ -126,9 +125,8 @@ control 'V-73259' do
 
   if inactive_accounts.empty?
     impact 0.0
-    desc 'This system does not have any inactive_accounts, therefore this control is not applicable'
-    describe 'This system does not have any inactive_accounts, therefore this control is not applicable' do
-      skip 'This system does not have any inactive_accounts, therefore this control is not applicable'
+    describe 'The system does not have any inactive accounts, control is NA' do
+      skip 'The system does not have any inactive accounts, controls is NA'
     end
   end
 end

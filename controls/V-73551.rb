@@ -3,9 +3,9 @@ control 'V-73551' do
   desc  "Some features may communicate with the vendor, sending system
   information or downloading data or components for the feature. Limiting this
   capability will prevent potentially sensitive information from being sent
-  outside the enterprise. The \"Security\" option for Telemetry configures the
+  outside the enterprise. The Security option for Telemetry configures the
   lowest amount of data, effectively none outside of the Malicious Software
-  Removal Tool (MSRT), Defender, and telemetry client settings. \"Basic\" sends
+  Removal Tool (MSRT), Defender, and telemetry client settings. Basic sends
   basic diagnostic and usage data and may be required to support some Microsoft
   services."
   impact 0.5
@@ -29,8 +29,8 @@ control 'V-73551' do
   Value: 0x00000000 (0) (Security), 0x00000001 (1) (Basic)"
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> Data Collection and Preview
-  Builds>> \"Allow Telemetry\" to \"Enabled\" with \"0 - Security [Enterprise
-  Only]\" or \"1 - Basic\" selected in \"Options\"."
+  Builds>> Allow Telemetry to Enabled with 0 - Security [Enterprise
+  Only] or 1 - Basic selected in Options."
   describe.one do
     describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection') do
       it { should have_property 'AllowTelemetry' }

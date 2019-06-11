@@ -17,18 +17,18 @@ some reason."
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
   tag "check": "Review the effective User Rights setting in Local Group Policy
-Editor.
-Run \"gpedit.msc\".
+  Editor.
+  Run gpedit.msc.
 
-Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
->> Security Settings >> Local Policies >> User Rights Assignment.
+  Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
+  >> Security Settings >> Local Policies >> User Rights Assignment.
 
-Review each User Right listed for any unresolved SIDs to determine whether they
-are valid, such as due to being temporarily disconnected from the domain.
-(Unresolved SIDs have the format of \"*S-1-…\".)
+  Review each User Right listed for any unresolved SIDs to determine whether they
+  are valid, such as due to being temporarily disconnected from the domain.
+  (Unresolved SIDs have the format of *S-1-….)
 
-If any unresolved SIDs exist and are not for currently valid accounts or
-groups, this is a finding."
+  If any unresolved SIDs exist and are not for currently valid accounts or
+  groups, this is a finding."
   tag "fix": "Remove any unresolved SIDs found in User Rights assignments and
 determined to not be for currently valid accounts or groups by removing the
 accounts or groups from the appropriate group policy."

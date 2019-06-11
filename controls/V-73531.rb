@@ -23,8 +23,8 @@ control 'V-73531' do
   Value Type: REG_DWORD
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> System >> Logon >> \"Do not display network
-  selection UI\" to \"Enabled\"."
+  Administrative Templates >> System >> Logon >> Do not display network
+  selection UI to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\System') do
     it { should have_property 'DontDisplayNetworkSelectionUI' }
     its('DontDisplayNetworkSelectionUI') { should cmp 1 }

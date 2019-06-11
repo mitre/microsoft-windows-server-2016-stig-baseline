@@ -35,14 +35,14 @@ control 'V-73495' do
   This setting may cause issues with some network scanning tools if local
   administrative accounts are used remotely. Scans should use domain accounts
   where possible. If a local administrative account must be used, temporarily
-  enabling the privileged token by configuring the registry value to \"1\" may be
+  enabling the privileged token by configuring the registry value to 1 may be
   required."
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> MS Security Guide >> \"Apply UAC restrictions to
-  local accounts on network logons\" to \"Enabled\".
+  Administrative Templates >> MS Security Guide >> Apply UAC restrictions to
+  local accounts on network logons to Enabled.
 
   This policy setting requires the installation of the SecGuide custom templates
-  included with the STIG package. \"SecGuide.admx\" and \" SecGuide.adml\" must
+  included with the STIG package. SecGuide.admx and SecGuide.adml must
   be copied to the \\Windows\\PolicyDefinitions and
   \\Windows\\PolicyDefinitions\\en-US directories respectively."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip

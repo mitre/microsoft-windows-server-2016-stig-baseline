@@ -4,7 +4,7 @@ control 'V-73757' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-    The \"Deny access to this computer from the network\" user right defines
+    The Deny access to this computer from the network user right defines
   the accounts that are prevented from logging on from the network.
 
   The Guests group must be assigned this right to prevent unauthenticated
@@ -24,18 +24,18 @@ control 'V-73757' do
 
   Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If the following accounts or groups are not defined for the \"Deny access to
-  this computer from the network\" user right, this is a finding.
+  If the following accounts or groups are not defined for the Deny access to
+  this computer from the network user right, this is a finding.
 
   - Guests Group"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Deny access to this computer from the network\" to include the following:
+  Deny access to this computer from the network to include the following:
 
   - Guests Group"
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip

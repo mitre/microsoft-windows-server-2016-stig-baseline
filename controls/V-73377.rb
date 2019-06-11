@@ -28,24 +28,24 @@ or a denial of service to authorized users.
 
 Review the permissions on domain-defined OUs.
 
-Open \"Active Directory Users and Computers\" (available from various menus or
-run \"dsa.msc\").
+Open Active Directory Users and Computers (available from various menus or
+run dsa.msc).
 
-Ensure \"Advanced Features\" is selected in the \"View\" menu.
+Ensure Advanced Features is selected in the View menu.
 
 For each OU that is defined (folder in folder icon) excluding the Domain
 Controllers OU:
 
-Right-click the OU and select \"Properties\".
+Right-click the OU and select Properties.
 
-Select the \"Security\" tab.
+Select the Security tab.
 
 If the permissions on the OU are not at least as restrictive as those below,
 this is a finding.
 
 The permissions shown are at the summary level. More detailed permissions can
-be viewed by selecting the \"Advanced\" button, the desired Permission entry,
-and the \"Edit\" or \"View\" button.
+be viewed by selecting the Advanced button, the desired Permission entry,
+and the Edit or View button.
 
 Except where noted otherwise, the special permissions may include a wide range
 of permissions and properties and are acceptable for this requirement.

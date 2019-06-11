@@ -4,7 +4,7 @@ control 'V-73791' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-  The \"Lock pages in memory\" user right allows physical memory to be
+  The Lock pages in memory user right allows physical memory to be
   assigned to processes, which could cause performance issues or a denial of
   service.
   "
@@ -19,12 +19,12 @@ control 'V-73791' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups are granted the \"Lock pages in memory\" user right,
+  If any accounts or groups are granted the Lock pages in memory user right,
   this is a finding.
 
   If an application requires this user right, this would not be a finding.
@@ -38,7 +38,7 @@ control 'V-73791' do
   (WN16-00-000070)."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Lock pages in memory\" to be defined but containing no entries (blank)."
+  Lock pages in memory to be defined but containing no entries (blank)."
   describe security_policy do
     its('SeLockMemoryPrivilege') { should eq [] }
   end

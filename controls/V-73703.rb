@@ -25,9 +25,9 @@ control 'V-73703' do
   Value Type: REG_DWORD
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
-  Settings >> Security Settings >> Local Policies >> Security Options >> \"System
-  objects: Require case insensitivity for non-Windows subsystems\" to
-  \"Enabled\"."
+  Settings >> Security Settings >> Local Policies >> Security Options >> System
+  objects: Require case insensitivity for non-Windows subsystems to
+  Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Kernel') do
     it { should have_property 'ObCaseInsensitive' }
     its('ObCaseInsensitive') { should cmp 1 }

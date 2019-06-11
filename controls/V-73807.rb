@@ -31,8 +31,8 @@ control 'V-73807' do
   be documented with the ISSO."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Interactive logon: Smart card removal behavior\" to \"Lock Workstation\" or
-  \"Force Logoff\"."
+  Interactive logon: Smart card removal behavior to Lock Workstation or
+  Force Logoff."
   describe.one do
     describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon') do
       it { should have_property 'scremoveoption' }

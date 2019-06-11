@@ -28,8 +28,8 @@ control 'V-73691' do
   Value: 0x00000005 (5)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Network security: LAN Manager authentication level\" to \"Send NTLMv2
-  response only. Refuse LM & NTLM\"."
+  Network security: LAN Manager authentication level to Send NTLMv2
+  response only. Refuse LM & NTLM."
   describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa') do
     it { should have_property 'LmCompatibilityLevel' }
     its('LmCompatibilityLevel') { should cmp 5 }

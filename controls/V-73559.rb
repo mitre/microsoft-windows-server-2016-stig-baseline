@@ -23,8 +23,8 @@ control 'V-73559' do
   Value Type: REG_DWORD
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> Windows Components >> File Explorer >> \"Configure
-  Windows SmartScreen\" to \"Enabled\"."
+  Administrative Templates >> Windows Components >> File Explorer >> Configure
+  Windows SmartScreen to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\System') do
     it { should have_property 'EnableSmartScreen' }
     its('EnableSmartScreen') { should cmp 1 }

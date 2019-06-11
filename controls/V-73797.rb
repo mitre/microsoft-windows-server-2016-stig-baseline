@@ -4,7 +4,7 @@ control 'V-73797' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-  Accounts with the \"Perform volume maintenance tasks\" user right can
+  Accounts with the Perform volume maintenance tasks user right can
   manage volume and disk configurations. This could be used to delete volumes,
   resulting in data loss or a denial of service.
   "
@@ -19,18 +19,18 @@ control 'V-73797' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups other than the following are granted the \"Perform
-  volume maintenance tasks\" user right, this is a finding.
+  If any accounts or groups other than the following are granted the Perform
+  volume maintenance tasks user right, this is a finding.
 
   - Administrators"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Perform volume maintenance tasks\" to include only the following accounts or
+  Perform volume maintenance tasks to include only the following accounts or
   groups:
 
   - Administrators"

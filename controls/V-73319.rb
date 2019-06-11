@@ -15,16 +15,16 @@ control 'V-73319' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Account Policies >> Password Policy.
 
-  If the value for the \"Minimum password age\" is set to \"0\" days (\"Password
-  can be changed immediately\"), this is a finding."
+  If the value for the Minimum password age is set to 0 days (Password
+  can be changed immediately), this is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Password Policy >>
-  \"Minimum password age\" to at least \"1\" day."
+  Minimum password age to at least 1 day."
   describe security_policy do
     its('MinimumPasswordAge') { should be >= 1 }
   end

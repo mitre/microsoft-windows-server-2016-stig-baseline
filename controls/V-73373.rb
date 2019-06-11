@@ -28,26 +28,26 @@ control 'V-73373' do
 
   Review the permissions on Group Policy objects.
 
-  Open \"Group Policy Management\" (available from various menus or run
-  \"gpmc.msc\").
+  Open Group Policy Management (available from various menus or run
+  gpmc.msc).
 
-  Navigate to \"Group Policy Objects\" in the domain being reviewed (Forest >>
+  Navigate to Group Policy Objects in the domain being reviewed (Forest >>
   Domains >> Domain).
 
   For each Group Policy object:
 
   Select the Group Policy object item in the left pane.
 
-  Select the \"Delegation\" tab in the right pane.
+  Select the Delegation tab in the right pane.
 
-  Select the \"Advanced\" button.
+  Select the Advanced button.
 
   Select each Group or user name.
 
   View the permissions.
 
-  If any standard user accounts or groups have \"Allow\" permissions greater than
-  \"Read\" and \"Apply group policy\", this is a finding.
+  If any standard user accounts or groups have Allow permissions greater than
+  Read and Apply group policy, this is a finding.
 
   Other access permissions that allow the objects to be updated are considered
   findings unless specifically documented by the ISSO.
@@ -55,8 +55,8 @@ control 'V-73373' do
   The default permissions noted below satisfy this requirement.
 
   The permissions shown are at the summary level. More detailed permissions can
-  be viewed by selecting the next \"Advanced\" button, the desired Permission
-  entry, and the \"Edit\" button.
+  be viewed by selecting the next Advanced button, the desired Permission
+  entry, and the Edit button.
 
   Authenticated Users - Read, Apply group policy, Special permissions
 
@@ -76,12 +76,12 @@ control 'V-73373' do
   objects, Special permissions
   ENTERPRISE DOMAIN CONTROLLERS - Read, Special permissions
 
-  The Domain Admins and Enterprise Admins will not have the \"Delete all child
-  objects\" permission on the two default Group Policy objects: Default Domain
+  The Domain Admins and Enterprise Admins will not have the Delete all child
+  objects permission on the two default Group Policy objects: Default Domain
   Policy and Default Domain Controllers Policy. They will have this permission on
   organization created Group Policy objects."
   tag "fix": "Maintain the permissions on Group Policy objects to not allow
-  greater than \"Read\" and \"Apply group policy\" for standard user accounts or
+  greater than Read and Apply group policy for standard user accounts or
   groups. The default permissions below meet this requirement.
 
   Authenticated Users - Read, Apply group policy, Special permissions
@@ -100,8 +100,8 @@ control 'V-73373' do
   Document any other access permissions that allow the objects to be updated with
   the ISSO.
 
-  The Domain Admins and Enterprise Admins will not have the \"Delete all child
-  objects\" permission on the two default Group Policy objects: Default Domain
+  The Domain Admins and Enterprise Admins will not have the Delete all child
+  objects permission on the two default Group Policy objects: Default Domain
   Policy and Default Domain Controllers Policy. They will have this permission on
   created Group Policy objects."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip

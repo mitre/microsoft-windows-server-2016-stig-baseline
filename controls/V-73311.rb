@@ -18,17 +18,17 @@ control 'V-73311' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Account Policies >> Account Lockout Policy.
 
-  If the \"Account lockout threshold\" is \"0\" or more than \"3\" attempts, this
+  If the Account lockout threshold is 0 or more than 3 attempts, this
   is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Account Lockout Policy >>
-  \"Account lockout threshold\" to \"3\" or fewer invalid logon attempts
-  (excluding \"0\", which is unacceptable)."
+  Account lockout threshold to 3 or fewer invalid logon attempts
+  (excluding 0, which is unacceptable)."
   describe security_policy do
     its('LockoutBadCount') { should be <= 3 }
   end

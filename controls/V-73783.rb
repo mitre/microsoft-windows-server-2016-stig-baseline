@@ -4,7 +4,7 @@ control 'V-73783' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-    The \"Generate security audits\" user right specifies users and processes
+    The Generate security audits user right specifies users and processes
   that can generate Security Log audit records, which must only be the system
   service accounts defined.
   "
@@ -19,13 +19,13 @@ control 'V-73783' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If any accounts or groups other than the following are granted the \"Generate
-  security audits\" user right, this is a finding.
+  If any accounts or groups other than the following are granted the Generate
+  security audits user right, this is a finding.
 
   - Local Service
   - Network Service
@@ -41,7 +41,7 @@ control 'V-73783' do
   (WN16-00-000070)."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Generate security audits\" to include only the following accounts or groups:
+  Generate security audits to include only the following accounts or groups:
 
   - Local Service
   - Network Service"

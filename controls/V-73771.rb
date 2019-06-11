@@ -5,7 +5,7 @@ control 'V-73771' do
   desc "Inappropriate granting of user rights can provide system,
   administrative, and other high-level capabilities.
 
-  The \"Deny log on locally\" user right defines accounts that are prevented
+  The Deny log on locally user right defines accounts that are prevented
   from logging on interactively.
 
     In an Active Directory Domain, denying logons to the Enterprise Admins and
@@ -30,13 +30,13 @@ control 'V-73771' do
 
   Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> User Rights Assignment.
 
-  If the following accounts or groups are not defined for the \"Deny log on
-  locally\" user right, this is a finding.
+  If the following accounts or groups are not defined for the Deny log on
+  locally user right, this is a finding.
 
   Domain Systems Only:
   - Enterprise Admins Group
@@ -49,7 +49,7 @@ control 'V-73771' do
   - Guests Group"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
-  \"Deny log on locally\" to include the following:
+  Deny log on locally to include the following:
 
   Domain Systems Only:
   - Enterprise Admins Group

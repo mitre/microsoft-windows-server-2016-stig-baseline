@@ -26,8 +26,8 @@ control 'V-73533' do
   Type: REG_DWORD
   Value: 0x00000000 (0)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> System >> Logon >> \"Enumerate local users on
-  domain-joined computers\" to \"Disabled\"."
+  Administrative Templates >> System >> Logon >> Enumerate local users on
+  domain-joined computers to Disabled."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\System') do

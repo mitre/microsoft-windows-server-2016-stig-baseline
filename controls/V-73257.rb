@@ -13,7 +13,7 @@ control 'V-73257' do
   tag "cci": ['CCI-000213']
   tag "nist": ['AC-3', 'Rev_4']
   tag "documentable": false
-  tag "check": "Open \"Devices and Printers\".
+  tag "check": "Open Devices and Printers.
 
   If there are no printers configured, this is NA. (Exclude Microsoft Print to
   PDF and Microsoft XPS Document Writer, which do not support sharing.)
@@ -22,18 +22,18 @@ control 'V-73257' do
 
   Right-click on the printer.
 
-  Select \"Printer Properties\".
+  Select Printer Properties.
 
-  Select the \"Sharing\" tab.
+  Select the Sharing tab.
 
-  If \"Share this printer\" is checked, select the \"Security\" tab.
+  If Share this printer is checked, select the Security tab.
 
-  If any standard user accounts or groups have permissions other than \"Print\",
+  If any standard user accounts or groups have permissions other than Print,
   this is a finding.
 
-  The default is for the \"Everyone\" group to be given \"Print\" permission.
+  The default is for the Everyone group to be given Print permission.
 
-  \"All APPLICATION PACKAGES\" and \"CREATOR OWNER\" are not standard user
+  All APPLICATION PACKAGES and CREATOR OWNER are not standard user
   accounts."
   tag "fix": "Configure the permissions on shared printers to restrict standard
   users to only have Print permissions."

@@ -27,16 +27,16 @@ control 'V-73375' do
 
   Review the permissions on the Domain Controllers OU.
 
-  Open \"Active Directory Users and Computers\" (available from various menus or
-  run \"dsa.msc\").
+  Open Active Directory Users and Computers (available from various menus or
+  run dsa.msc).
 
-  Select \"Advanced Features\" in the \"View\" menu if not previously selected.
+  Select Advanced Features in the View menu if not previously selected.
 
-  Select the \"Domain Controllers\" OU (folder in folder icon).
+  Select the Domain Controllers OU (folder in folder icon).
 
-  Right-click and select \"Properties\".
+  Right-click and select Properties.
 
-  Select the \"Security\" tab.
+  Select the Security tab.
 
   If the permissions on the Domain Controllers OU do not restrict changes to
   System, Domain Admins, Enterprise Admins and Administrators, this is a finding.
@@ -48,8 +48,8 @@ control 'V-73375' do
   related permissions and are not a finding.
 
   The permissions shown are at the summary level. More detailed permissions can
-  be viewed by selecting the \"Advanced\" button, the desired Permission entry,
-  and the \"View\" or \"Edit\" button.
+  be viewed by selecting the Advanced button, the desired Permission entry,
+  and the View or Edit button.
 
   Except where noted otherwise, the special permissions may include a wide range
   of permissions and properties and are acceptable for this requirement.

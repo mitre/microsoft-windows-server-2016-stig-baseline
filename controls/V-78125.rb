@@ -27,14 +27,14 @@ control 'V-78125' do
   Type: REG_DWORD
   Value: 0x00000004 (4)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> MS Security Guide >> \"Configure SMBv1 client
-  driver\" to \"Enabled\" with \"Disable driver (recommended)\" selected for
-  \"Configure MrxSmb10 driver\".
+  Administrative Templates >> MS Security Guide >> Configure SMBv1 client
+  driver to Enabled with Disable driver (recommended) selected for
+  Configure MrxSmb10 driver.
 
   The system must be restarted for the changes to take effect.
 
   This policy setting requires the installation of the SecGuide custom templates
-  included with the STIG package. \"SecGuide.admx\" and \"SecGuide.adml\" must be
+  included with the STIG package. SecGuide.admx and SecGuide.adml must be
   copied to the \\Windows\\PolicyDefinitions and
   \\Windows\\PolicyDefinitions\\en-US directories respectively."
   describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10') do

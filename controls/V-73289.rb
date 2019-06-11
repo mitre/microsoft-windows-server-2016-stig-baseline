@@ -1,5 +1,3 @@
-has_ftp_server_role = attribute('has_ftp_server_role')
-
 control 'V-73289' do
   title 'The Microsoft FTP service must not be installed unless required.'
   desc  "Unnecessary services increase the attack surface of a system. Some of
@@ -15,32 +13,34 @@ control 'V-73289' do
   tag "documentable": false
   tag "check": "If the server has the role of an FTP server, this is NA.
 
-  Open \"PowerShell\".
+  Open PowerShell.
 
-  Enter \"Get-WindowsFeature | Where Name -eq Web-Ftp-Service\".
+  Enter Get-WindowsFeature | Where Name -eq Web-Ftp-Service.
 
-  If \"Installed State\" is \"Installed\", this is a finding.
+  If Installed State is Installed, this is a finding.
 
-  An Installed State of \"Available\" or \"Removed\" is not a finding.
+  An Installed State of Available or Removed is not a finding.
 
   If the system has the role of an FTP server, this must be documented with the
   ISSO."
-  tag "fix": "Uninstall the \"FTP Server\" role.
+  tag "fix": "Uninstall the FTP Server role.
 
-  Start \"Server Manager\".
+  Start Server Manager.
 
   Select the server with the role.
 
-  Scroll down to \"ROLES AND FEATURES\" in the right pane.
+  Scroll down to ROLES AND FEATURES in the right pane.
 
-  Select \"Remove Roles and Features\" from the drop-down \"TASKS\" list.
+  Select Remove Roles and Features from the drop-down TASKS list.
 
-  Select the appropriate server on the \"Server Selection\" page and click
-  \"Next\".
+  Select the appropriate server on the Server Selection page and click
+  Next.
 
-  Deselect \"FTP Server\" under \"Web Server (IIS)\" on the \"Roles\" page.
+  Deselect FTP Server under Web Server (IIS) on the Roles page.
 
-  Click \"Next\" and \"Remove\" as prompted."
+  Click Next and Remove as prompted."
+  has_ftp_server_role = attribute('has_ftp_server_role')
+
   describe windows_feature('Web-Ftp-Service') do
     it { should_not be_installed }
   end

@@ -12,29 +12,29 @@ control 'V-73295' do
   tag "cci": ['CCI-000382']
   tag "nist": ['CM-7', 'Rev_4']
   tag "documentable": false
-  tag "check": "Open \"PowerShell\".
+  tag "check": "Open PowerShell.
 
-  Enter \"Get-WindowsFeature | Where Name -eq Telnet-Client\".
+  Enter Get-WindowsFeature | Where Name -eq Telnet-Client.
 
-  If \"Installed State\" is \"Installed\", this is a finding.
+  If Installed State is Installed, this is a finding.
 
-  An Installed State of \"Available\" or \"Removed\" is not a finding."
-  tag "fix": "Uninstall the \"Telnet Client\" feature.
+  An Installed State of Available or Removed is not a finding."
+  tag "fix": "Uninstall the Telnet Client feature.
 
-  Start \"Server Manager\".
+  Start Server Manager.
 
   Select the server with the feature.
 
-  Scroll down to \"ROLES AND FEATURES\" in the right pane.
+  Scroll down to ROLES AND FEATURES in the right pane.
 
-  Select \"Remove Roles and Features\" from the drop-down \"TASKS\" list.
+  Select Remove Roles and Features from the drop-down TASKS list.
 
-  Select the appropriate server on the \"Server Selection\" page and click
-  \"Next\".
+  Select the appropriate server on the Server Selection page and click
+  Next.
 
-  Deselect \"Telnet Client\" on the \"Features\" page.
+  Deselect Telnet Client on the Features page.
 
-  Click \"Next\" and \"Remove\" as prompted."
+  Click Next and Remove as prompted."
   describe windows_feature('Telnet-Client') do
     it { should_not be_installed }
   end

@@ -28,8 +28,8 @@ control 'V-73657' do
   Value:  0x00000000 (0)"
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Microsoft Network Client: Send unencrypted password to third-party SMB
-  servers\" to \"Disabled\"."
+  Microsoft Network Client: Send unencrypted password to third-party SMB
+  servers to Disabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters') do
     it { should have_property 'EnablePlainTextPassword' }
     its('EnablePlainTextPassword') { should cmp 0 }

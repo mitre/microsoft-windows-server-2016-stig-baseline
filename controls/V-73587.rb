@@ -19,9 +19,9 @@ control 'V-73587' do
 
   If the registry value name below does not exist, this is not a finding.
 
-  If it exists and is configured with a value of \"0\", this is not a finding.
+  If it exists and is configured with a value of 0, this is not a finding.
 
-  If it exists and is configured with a value of \"1\", this is a finding.
+  If it exists and is configured with a value of 1, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
   Registry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer\\
@@ -36,8 +36,8 @@ control 'V-73587' do
 
   If this needs to be corrected, configure the policy value for Computer
   Configuration >> Administrative Templates >> Windows Components >> Windows
-  Installer >> \"Prevent Internet Explorer security prompt for Windows Installer
-  scripts\" to \"Not Configured\" or \"Disabled\"."
+  Installer >> Prevent Internet Explorer security prompt for Windows Installer
+  scripts to Not Configured or Disabled."
   describe.one do
     describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Installer') do
       it { should_not have_property 'SafeForScripting' }

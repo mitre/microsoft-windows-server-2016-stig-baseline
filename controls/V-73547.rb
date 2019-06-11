@@ -24,9 +24,9 @@ control 'V-73547' do
   Type: REG_DWORD
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> Windows Components >> AutoPlay Policies >> \"Set
-  the default behavior for AutoRun\" to \"Enabled\" with \"Do not execute any
-  autorun commands\" selected."
+  Administrative Templates >> Windows Components >> AutoPlay Policies >> Set
+  the default behavior for AutoRun to Enabled with Do not execute any
+  autorun commands selected."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer') do
     it { should have_property 'NoAutorun' }
     its('NoAutorun') { should cmp 1 }

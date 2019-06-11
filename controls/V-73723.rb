@@ -32,8 +32,8 @@ control 'V-73723' do
   - The display station (e.g., keyboard, monitor, etc.) is located in a
   controlled access area."
   tag "fix": "Configure the policy value for User Configuration >>
-  Administrative Templates >> Control Panel >> Personalization >> \"Enable screen
-  saver\" to \"Enabled\"."
+  Administrative Templates >> Control Panel >> Personalization >> Enable screen
+  saver to Enabled."
   describe registry_key("HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Control
   Panel\\Desktop") do
     it { should have_property 'ScreenSaveActive' }

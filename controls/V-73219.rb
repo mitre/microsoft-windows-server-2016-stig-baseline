@@ -1,5 +1,3 @@
-ADMINISTRATORS_DOMAIN = attribute('administrators_domain')
-
 control 'V-73219' do
   title "Only administrators responsible for the domain controller must have
   Administrator rights on the system."
@@ -42,12 +40,12 @@ control 'V-73219' do
 
   Remove any standard user accounts."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-
+  administrators_domain = attribute('administrators_domain')
   administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split("\n")
   administrator_group.each do |user|
     a = user.strip
     describe a.to_s do
-      it { should be_in ADMINISTRATORS_DOMAIN }
+      it { should be_in administrators_domain }
     end
   end if [4, 5].include? domain_role
 

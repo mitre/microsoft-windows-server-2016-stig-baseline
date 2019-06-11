@@ -18,24 +18,24 @@ control 'V-73303' do
   tag "documentable": false
   tag "check": "If FTP is not installed on the system, this is NA.
 
-  Open \"Internet Information Services (IIS) Manager\".
+  Open Internet Information Services (IIS) Manager.
 
   Select the server.
 
-  Double-click \"FTP Authentication\".
+  Double-click FTP Authentication.
 
-  If the \"Anonymous Authentication\" status is \"Enabled\", this is a finding."
+  If the Anonymous Authentication status is Enabled, this is a finding."
   tag "fix": "Configure the FTP service to prevent anonymous logons.
 
-  Open \"Internet Information Services (IIS) Manager\".
+  Open Internet Information Services (IIS) Manager.
 
   Select the server.
 
-  Double-click \"FTP Authentication\".
+  Double-click FTP Authentication.
 
-  Select \"Anonymous Authentication\".
+  Select Anonymous Authentication.
 
-  Select \"Disabled\" under \"Actions\"."
+  Select Disabled under Actions"
   is_ftp_installed = command('Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed').stdout.strip
   if is_ftp_installed == 'False'
     impact 0.0

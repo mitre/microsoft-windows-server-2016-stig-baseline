@@ -12,28 +12,28 @@ control 'V-73287' do
   tag "cci": ['CCI-000381']
   tag "nist": ['CM-7 a', 'Rev_4']
   tag "documentable": false
-  tag "check": "Open \"PowerShell\".
-  Enter \"Get-WindowsFeature | Where Name -eq Fax\".
+  tag "check": "Open PowerShell.
+  Enter Get-WindowsFeature | Where Name -eq Fax.
 
-  If \"Installed State\" is \"Installed\", this is a finding.
+  If Installed State is Installed, this is a finding.
 
-  An Installed State of \"Available\" or \"Removed\" is not a finding."
-  tag "fix": "Uninstall the \"Fax Server\" role.
+  An Installed State of Available or Removed is not a finding."
+  tag "fix": "Uninstall the Fax Server role.
 
-  Start \"Server Manager\".
+  Start Server Manager.
 
   Select the server with the role.
 
-  Scroll down to \"ROLES AND FEATURES\" in the right pane.
+  Scroll down to ROLES AND FEATURES in the right pane.
 
-  Select \"Remove Roles and Features\" from the drop-down \"TASKS\" list.
+  Select Remove Roles and Features from the drop-down TASKS list.
 
-  Select the appropriate server on the \"Server Selection\" page and click
-  \"Next\".
+  Select the appropriate server on the Server Selection page and click
+  Next.
 
-  Deselect \"Fax Server\" on the \"Roles\" page.
+  Deselect Fax Server on the Roles page.
 
-  Click \"Next\" and \"Remove\" as prompted."
+  Click Next and Remove as prompted."
   describe windows_feature('fax') do
     it { should_not be_installed }
   end

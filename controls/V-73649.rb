@@ -33,8 +33,8 @@ control 'V-73649' do
   Value Type: REG_SZ
   Value: See message title options below
 
-  \"DoD Notice and Consent Banner\", \"US Department of Defense Warning
-  Statement\", or an organization-defined equivalent.
+  DoD Notice and Consent Banner, US Department of Defense Warning
+  Statement, or an organization-defined equivalent.
 
   If an organization-defined title is used, it can in no case contravene or
   modify the language of the banner text required in WN16-SO-000150.
@@ -43,8 +43,8 @@ control 'V-73649' do
   organization-defined title is used, a manual review will be required."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Interactive Logon: Message title for users attempting to log on\" to \"DoD
-  Notice and Consent Banner\", \"US Department of Defense Warning Statement\", or
+  Interactive Logon: Message title for users attempting to log on to DoD
+  Notice and Consent Banner, US Department of Defense Warning Statement, or
   an organization-defined equivalent.
 
   If an organization-defined title is used, it can in no case contravene or

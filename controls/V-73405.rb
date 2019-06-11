@@ -21,10 +21,10 @@ control 'V-73405' do
   tag "documentable": false
   tag "check": "Navigate to the Application event log file.
 
-  The default location is the \"%SystemRoot%\\System32\\winevt\\Logs\" folder.
+  The default location is the %SystemRoot%\\System32\\winevt\\Logs folder.
   However, the logs may have been moved to another folder.
 
-  If the permissions for the \"Application.evtx\" file are not as restrictive as
+  If the permissions for the Application.evtx file are not as restrictive as
   the default permissions listed below, this is a finding.
 
   Eventlog - Full Control

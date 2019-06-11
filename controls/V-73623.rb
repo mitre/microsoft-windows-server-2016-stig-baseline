@@ -14,17 +14,17 @@ control 'V-73623' do
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
-  Run \"gpedit.msc\".
+  Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> Security Options.
 
-  If the value for \"Accounts: Rename administrator account\" is not set to a
-  value other than \"Administrator\", this is a finding."
+  If the value for Accounts: Rename administrator account is not set to a
+  value other than Administrator, this is a finding."
   tag "fix": "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  \"Accounts: Rename administrator account\" to a name other than
-  \"Administrator\"."
+  Accounts: Rename administrator account to a name other than
+  Administrator."
   describe user('Administrator') do
     it { should_not exist }
   end

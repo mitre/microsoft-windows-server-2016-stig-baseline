@@ -7,7 +7,7 @@ control 'V-73511' do
   Collecting this data is essential for analyzing the security of information
   assets and detecting signs of suspicious and unexpected behavior.
 
-  Enabling \"Include command line data for process creation events\" will
+  Enabling Include command line data for process creation events will
   record the command line information with the process creation events in the
   log. This can provide additional detail when malware has run on a system.
   "
@@ -32,8 +32,8 @@ control 'V-73511' do
   Value Type: REG_DWORD
   Value: 0x00000001 (1)"
   tag "fix": "Configure the policy value for Computer Configuration >>
-  Administrative Templates >> System >> Audit Process Creation >> \"Include
-  command line in process creation events\" to \"Enabled\"."
+  Administrative Templates >> System >> Audit Process Creation >> Include
+  command line in process creation events to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Audit') do
     it { should have_property 'ProcessCreationIncludeCmdLine_Enabled' }
     its('ProcessCreationIncludeCmdLine_Enabled') { should cmp 1 }

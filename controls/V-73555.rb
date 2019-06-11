@@ -28,8 +28,8 @@ control 'V-73555' do
   Value: 0x00030000 (196608) (or greater)"
   tag "fix": "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> Event Log Service >> Security
-  >> \"Specify the maximum log file size (KB)\" to \"Enabled\" with a \"Maximum
-  Log Size (KB)\" of \"196608\" or greater."
+  >> Specify the maximum log file size (KB) to Enabled with a Maximum
+  Log Size (KB) of 196608 or greater."
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\EventLog\\Security') do
     it { should have_property 'MaxSize' }
     its('MaxSize') { should be >= 196608 }

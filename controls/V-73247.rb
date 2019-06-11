@@ -13,14 +13,14 @@ control 'V-73247' do
   tag "cci": ['CCI-000213']
   tag "nist": ['AC-3', 'Rev_4']
   tag "documentable": false
-  tag "check": "Open \"Computer Management\".
+  tag "check": "Open Computer Management.
 
-  Select \"Disk Management\" under \"Storage\".
+  Select Disk Management under Storage.
 
-  For each local volume, if the file system does not indicate \"NTFS\", this is a
+  For each local volume, if the file system does not indicate NTFS, this is a
   finding.
 
-  \"ReFS\" (resilient file system) is also acceptable and would not be a finding.
+  ReFS (resilient file system) is also acceptable and would not be a finding.
 
   This does not apply to system partitions such the Recovery and EFI System
   Partition."

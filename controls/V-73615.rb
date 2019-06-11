@@ -18,9 +18,9 @@ control 'V-73615' do
 
   Review user account mappings to PKI certificates.
 
-  Open \"Windows PowerShell\".
+  Open Windows PowerShell.
 
-  Enter \"Get-ADUser -Filter * | FT Name, UserPrincipalName, Enabled\".
+  Enter Get-ADUser -Filter * | FT Name, UserPrincipalName, Enabled.
 
   Exclude disabled accounts (e.g., DefaultAccount, Guest) and the krbtgt account.
 

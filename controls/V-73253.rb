@@ -5,9 +5,9 @@ control 'V-73253' do
   possibility of unauthorized and anonymous modification to the operating system
   and installed applications.
 
-  The default permissions are adequate when the Security Option \"Network
-  access: Let everyone permissions apply to anonymous users\" is set to
-  \"Disabled\" (WN16-SO-000290).
+  The default permissions are adequate when the Security Option Network
+  access: Let everyone permissions apply to anonymous users is set to
+  Disabled (WN16-SO-000290).
   "
   impact 0.5
   tag "gtitle": 'SRG-OS-000312-GPOS-00122'
@@ -21,12 +21,12 @@ control 'V-73253' do
   tag "nist": ['AC-3 (4)', 'Rev_4']
   tag "documentable": false
   tag "check": "The default permissions are adequate when the Security Option
-  \"Network access: Let everyone permissions apply to anonymous users\" is set to
-  \"Disabled\" (WN16-SO-000290).
+  Network access: Let everyone permissions apply to anonymous users is set to
+  Disabled (WN16-SO-000290).
 
   Review the permissions for the Windows installation directory (usually
   C:\\Windows). Non-privileged groups such as Users or Authenticated Users must
-  not have greater than \"Read & execute\" permissions. (Individual accounts must
+  not have greater than Read & execute permissions. (Individual accounts must
   not be used to assign permissions.)
 
   If permissions are not as restrictive as the default permissions listed below,
@@ -36,12 +36,12 @@ control 'V-73253' do
 
   For each folder, view the Properties.
 
-  Select the \"Security\" tab and the \"Advanced\" button.
+  Select the Security tab and the Advanced button.
 
   Default permissions:
-  \\Windows
-  Type - \"Allow\" for all
-  Inherited from - \"None\" for all
+  Windows
+  Type - Allow for all
+  Inherited from - None for all
 
   Principal - Access - Applies to
 
@@ -60,9 +60,9 @@ control 'V-73253' do
 
   Open a Command prompt (admin).
 
-  Enter \"icacls\" followed by the directory:
+  Enter icacls followed by the directory:
 
-  \"icacls c:\\windows\"
+  icacls c:\\windows
 
   The following results should be displayed for each when entered:
 
@@ -83,12 +83,12 @@ control 'V-73253' do
   PACKAGES:(OI)(CI)(IO)(GR,GE)
   Successfully processed 1 files; Failed processing 0 files"
   tag "fix": "Maintain the default file ACLs and configure the Security Option
-  \"Network access: Let everyone permissions apply to anonymous users\" to
-  \"Disabled\" (WN16-SO-000290).
+  Network access: Let everyone permissions apply to anonymous users to
+  Disabled (WN16-SO-000290).
 
   Default permissions:
-  Type - \"Allow\" for all
-  Inherited from - \"None\" for all
+  Type - Allow for all
+  Inherited from - None for all
 
   Principal - Access - Applies to
 
