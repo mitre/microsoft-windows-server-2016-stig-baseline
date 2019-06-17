@@ -63,11 +63,14 @@ control 'V-73613' do
   tag "fix": "Obtain a server certificate for the domain controller issued by
   the DoD PKI or an approved ECA."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  describe command('Get-ChildItem -Path Cert:\\LocalMachine\\My | Format-List | Findstr Issuer') do
-    its('stdout') { should include 'DoD' }
-  end if [4, 5].include? domain_role
 
-  if ![4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
+    describe command('Get-ChildItem -Path Cert:\\LocalMachine\\My | Format-List | Findstr Issuer') do
+      its('stdout') { should include 'DoD' }
+    end
+  end
+
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

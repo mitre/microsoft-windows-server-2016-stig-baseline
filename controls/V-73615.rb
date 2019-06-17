@@ -48,22 +48,25 @@ control 'V-73615' do
   query = command("Get-ADUser -Filter 'enabled -eq $true' | FT Name, UserPrincipalName | Findstr /v 'Name --- UserPrincipalName'").stdout.strip.split("\n")
   names = []
   user_principalnames = []
-  query.each do |value|
-    account_name = value[0..12]
-    names.push(account_name)
-    userprincipalname = value[14..-1]
 
-    user_principalnames.push(userprincipalname)
+  if domain_role == '4' || domain_role == '5'
+    query.each do |value|
+      account_name = value[0..12]
+      names.push(account_name)
+      userprincipalname = value[14..-1]
+
+      user_principalnames.push(userprincipalname)
+    end
+
+    user_principalnames.each do |principalname|
+      principalname.strip
+      describe principalname do
+        it { should match(/[\w*]@mil/) }
+      end
+    end
   end
 
-  user_principalnames.each do |principalname|
-    principalname.strip
-    describe principalname do
-      it { should match(/[\w*]@mil/) }
-    end
-  end if [4, 5].include? domain_role
-
-  if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

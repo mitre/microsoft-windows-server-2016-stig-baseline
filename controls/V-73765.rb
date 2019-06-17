@@ -36,13 +36,13 @@ control 'V-73765' do
   Deny log on as a service to include no entries (blank)."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-  if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
     describe security_policy do
       its('SeDenyServiceLogonRight') { should eq [] }
     end
   end
 
-  if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

@@ -52,7 +52,7 @@ control 'V-73767' do
   - Domain Admins Group"
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
     if is_domain == 'WORKGROUP'
       describe security_policy do
         its('SeDenyServiceLogonRight') { should eq [] }
@@ -70,7 +70,7 @@ control 'V-73767' do
     end
   end
 
-  if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
     impact 0.0
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
     describe 'This system a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems' do

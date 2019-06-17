@@ -35,13 +35,13 @@ control 'V-73779' do
   defined but containing no entries (blank)."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-  if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
     describe security_policy do
       its('SeEnableDelegationPrivilege') { should eq [] }
     end
   end
 
-  if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
     impact 0.0
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
     describe 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems' do

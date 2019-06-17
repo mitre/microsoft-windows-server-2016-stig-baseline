@@ -26,7 +26,7 @@ control 'V-73397' do
   tag "rid": 'SV-88049r1_rule'
   tag "stig_id": 'WN16-DC-000210'
   tag "fix_id": 'F-79839r1_fix'
-  tag "cci": ['CCI-000172', 'CCI-002234']
+  tag "cci": ['CCI-000172', 'CCI-002234'] 
   tag "nist": ['AU-12 c', 'Rev_4']
   tag "nist": ['AC-6 (9)', 'Rev_4']
   tag "documentable": false
@@ -121,14 +121,16 @@ control 'V-73397' do
   get_distinguishedname = command('Get-ADDomain | Findstr DistinguishedName').stdout.strip
   distinguishedName = get_distinguishedname[37..-1]
 
-  describe powershell("Import-Module ActiveDirectory; Get-Acl -Path AD:'CN=AdminSDHolder,CN=System,#{distinguishedName}' | fl | Findstr All") do
-    its('stdout') { should eq "Access : NT AUTHORITY\\Authenticated Users Allow  \r\n         NT AUTHORITY\\SYSTEM Allow  \r\n         BUILTIN\\Administrators Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         Everyone Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Windows Authorization Access Group Allow  \r\n         BUILTIN\\Terminal Server License Servers Allow  \r\n         BUILTIN\\Terminal Server License Servers Allow  \r\n         #{netbiosname}\\Cert Publishers Allow  \r\n" }
-  end if [4, 5].include? domain_role
-  describe powershell("Import-Module ActiveDirectory; Get-Acl -Path AD:'CN=AdminSDHolder,CN=System,#{distinguishedName}'  -Audit| fl | Findstr Success") do
-    its('stdout') { should eq "Audit  : Everyone Success  \r\n         Everyone Success  \r\n         Everyone Success  \r\n" }
-  end if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
+    describe powershell("Import-Module ActiveDirectory; Get-Acl -Path AD:'CN=AdminSDHolder,CN=System,#{distinguishedName}' | fl | Findstr All") do
+      its('stdout') { should eq "Access : NT AUTHORITY\\Authenticated Users Allow  \r\n         NT AUTHORITY\\SYSTEM Allow  \r\n         BUILTIN\\Administrators Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         Everyone Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Windows Authorization Access Group Allow  \r\n         BUILTIN\\Terminal Server License Servers Allow  \r\n         BUILTIN\\Terminal Server License Servers Allow  \r\n         #{netbiosname}\\Cert Publishers Allow  \r\n" }
+    end
 
-  if ![4, 5].include? domain_role
+    describe powershell("Import-Module ActiveDirectory; Get-Acl -Path AD:'CN=AdminSDHolder,CN=System,#{distinguishedName}'  -Audit| fl | Findstr Success") do
+      its('stdout') { should eq "Audit  : Everyone Success  \r\n         Everyone Success  \r\n         Everyone Success  \r\n" }
+    end
+  end
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
@@ -136,3 +138,4 @@ control 'V-73397' do
     end
   end
 end
+

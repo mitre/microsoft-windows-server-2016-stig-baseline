@@ -40,16 +40,13 @@ control 'V-73365' do
   renewal to a maximum of 7 days or less."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-  describe.one do
-    describe security_policy do
-      its('MaxRenewAge') { should be > 0 }
-    end
+  if domain_role == '4' || domain_role == '5'
     describe security_policy do
       its('MaxRenewAge') { should be <= 7 }
     end
-  end if [4, 5].include? domain_role
+  end
 
-  if ![4, 5].include? domain_role
+  if domain_role != '4' && domain_role != '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

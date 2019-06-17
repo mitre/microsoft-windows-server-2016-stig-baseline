@@ -42,14 +42,17 @@ control 'V-73219' do
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   administrators_domain = attribute('administrators_domain')
   administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split("\n")
-  administrator_group.each do |user|
-    a = user.strip
-    describe a.to_s do
-      it { should be_in administrators_domain }
+  
+  if domain_role == '4' || domain_role == '5'
+    administrator_group.each do |user|
+      a = user.strip
+      describe a.to_s do
+        it { should be_in administrators_domain }
+      end
     end
-  end if [4, 5].include? domain_role
+  end
 
-  if ![4, 5].include? domain_role
+  if domain_role != '4' && domain_role != '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

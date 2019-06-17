@@ -49,30 +49,16 @@ control 'V-73649' do
 
   If an organization-defined title is used, it can in no case contravene or
   modify the language of the message text required in WN16-SO-000150."
-  if is_site_banner_used
-    describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System') do
+  describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System') do
     it { should have_property 'LegalNoticeCaption' }
-    its('LegalNoticeCaption') {
-      should eq ['"#{site_banner}"']
-    }
-    end
-  else
-    describe.one do
+  end 
 
-    describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System') do
-      it { should have_property 'LegalNoticeCaption' }
-      its('LegalNoticeCaption') {
-      should eq ['US Department of Defense Warning Statement']
-      }
-    end
-    describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System') do
-      it { should have_property 'LegalNoticeCaption' }
-      its('LegalNoticeCaption') {
-      should eq ['DoD Notice and Consent Banner']
-      }
-    end
-
+  key = registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System').LegalNoticeCaption.to_s
+  legal_notice_caption = attribute('LegalNoticeCaption')
+  
+  describe 'The required legal notice caption' do
+    subject { key.scan(/[\w().;,!]/).join}
+    it {should cmp legal_notice_caption.scan(/[\w().;,!]/).join }
   end
-end
 
 end

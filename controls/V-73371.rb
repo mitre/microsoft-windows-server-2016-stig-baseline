@@ -97,15 +97,17 @@ control 'V-73371' do
 
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-  describe file('C:\\Windows\\SYSVOL\\sysvol') do
-    it { should be_allowed('full-control', by_user: 'CREATOR OWNER') }
-    it { should be_allowed('read', by_user: 'NT AUTHORITY\\Authenticated Users Allow') }
-    it { should be_allowed('full-control', by_user: 'NT AUTHORITY\\SYSTEM') }
-    it { should be_allowed('read', by_user: 'BUILTIN\\Administrators') }
-    it { should be_allowed('read', by_user: 'BUILTIN\\Server Operators') }
-  end if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
+    describe file('C:\\Windows\\SYSVOL\\sysvol') do
+      it { should be_allowed('full-control', by_user: 'CREATOR OWNER') }
+      it { should be_allowed('read', by_user: 'NT AUTHORITY\\Authenticated Users Allow') }
+      it { should be_allowed('full-control', by_user: 'NT AUTHORITY\\SYSTEM') }
+      it { should be_allowed('read', by_user: 'BUILTIN\\Administrators') }
+      it { should be_allowed('read', by_user: 'BUILTIN\\Server Operators') }
+    end
+  end
 
-  if ![4, 5].include? domain_role
+  if domain_role != '4' && domain_role != '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

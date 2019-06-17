@@ -47,22 +47,24 @@ control 'V-73437' do
   Audit Policies >> DS Access >> Directory Service Access with Failure
   selected."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  describe.one do
-    describe audit_policy do
-      its('Directory Service Access') { should eq 'Failure' }
+  if domain_role == '4' || domain_role == '5'
+    describe.one do
+      describe audit_policy do
+        its('Directory Service Access') { should eq 'Failure' }
+      end
+      describe audit_policy do
+        its('Directory Service Access') { should eq 'Success and Failure' }
+      end
+      describe command("AuditPol /get /category:* | Findstr /c:'Directory Service Access'") do
+        its('stdout') { should match /Directory Service Access                    Failure'/ }
+      end
+      describe command("AuditPol /get /category:* | Findstr /c:'Directory Service Access'") do
+        its('stdout') { should match /Directory Service Access                    Success and Failure/ }
+      end
     end
-    describe audit_policy do
-      its('Directory Service Access') { should eq 'Success and Failure' }
-    end
-    describe command("AuditPol /get /category:* | Findstr /c:'Directory Service Access'") do
-      its('stdout') { should match /Directory Service Access                    Failure'/ }
-    end
-    describe command("AuditPol /get /category:* | Findstr /c:'Directory Service Access'") do
-      its('stdout') { should match /Directory Service Access                    Success and Failure/ }
-    end
-  end if [4, 5].include? domain_role
+  end
 
-  if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

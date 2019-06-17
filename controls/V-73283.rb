@@ -55,7 +55,7 @@ control 'V-73283' do
 
   Domain accounts can be configured with an account expiration date, under
   Account properties.
-
+ 
   Local accounts can be configured to expire with the command Net user
   [username] /expires:[mm/dd/yyyy], where username is the name of the temporary
   user account.

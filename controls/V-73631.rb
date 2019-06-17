@@ -30,12 +30,14 @@ control 'V-73631' do
   Settings >> Security Settings >> Local Policies >> Security Options >> Domain
   controller: Refuse machine account password changes to Disabled."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters') do
-    it { should have_property 'RefusePasswordChange' }
-    its('RefusePasswordChange') { should cmp 0 }
-  end if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
+    describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters') do
+      it { should have_property 'RefusePasswordChange' }
+      its('RefusePasswordChange') { should cmp 0 }
+    end
+  end
 
-  if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

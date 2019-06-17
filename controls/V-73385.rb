@@ -68,13 +68,16 @@ control 'V-73385' do
   The dsHeuristics option is used. This is addressed in check V-8555 in the AD
   Forest STIG."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  describe 'Directory data (outside the root DSE) of a non-public directory must
-  be configured to prevent anonymous access.' do
-    skip 'Directory data (outside the root DSE) of a non-public directory must
-  be configured to prevent anonymous access is a manual control'
-  end if [4, 5].include? domain_role
 
-  if ![4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
+    describe 'Directory data (outside the root DSE) of a non-public directory must
+    be configured to prevent anonymous access.' do
+      skip 'Directory data (outside the root DSE) of a non-public directory must
+    be configured to prevent anonymous access is a manual control'
+    end
+  end
+
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

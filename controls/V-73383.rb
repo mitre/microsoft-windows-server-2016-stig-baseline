@@ -38,17 +38,19 @@ control 'V-73383' do
   to a lower level than the data."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-  describe "Separate, NSA-approved (Type 1) cryptography must be used to protect
-  the directory data in transit for directory service implementations at a
-  classified confidentiality level when replication data traverses a network
-  cleared to a lower level than the data." do
-    skip "Separate, NSA-approved (Type 1) cryptography must be used to protect
-  the directory data in transit for directory service implementations at a
-  classified confidentiality level when replication data traverses a network
-  cleared to a lower level than the data is a manual check"
-  end if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
+    describe "Separate, NSA-approved (Type 1) cryptography must be used to protect
+    the directory data in transit for directory service implementations at a
+    classified confidentiality level when replication data traverses a network
+    cleared to a lower level than the data." do
+      skip "Separate, NSA-approved (Type 1) cryptography must be used to protect
+    the directory data in transit for directory service implementations at a
+    classified confidentiality level when replication data traverses a network
+    cleared to a lower level than the data is a manual check"
+    end
+  end
 
-  if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

@@ -131,11 +131,14 @@ control 'V-73395' do
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   get_ou = command("Import-Module ActiveDirectory | Get-ADOrganizationalUnit -LDAPFilter '(name=*)' | Findstr DistinguishedName | Findstr Controllers").stdout.strip
   ou = get_ou[27..70]
-  describe powershell("Import-Module ActiveDirectory; Get-Acl -Path 'AD:#{ou}' -Audit | Fl | Findstr Success") do
-    its('stdout') { should eq "Audit  : Everyone Success  \r\n         Everyone Success  \r\n         Everyone Success  \r\n         Everyone Success  \r\n" }
-  end if [4, 5].include? domain_role
 
-  if ![4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
+    describe powershell("Import-Module ActiveDirectory; Get-Acl -Path 'AD:#{ou}' -Audit | Fl | Findstr Success") do
+      its('stdout') { should eq "Audit  : Everyone Success  \r\n         Everyone Success  \r\n         Everyone Success  \r\n         Everyone Success  \r\n" }
+    end
+  end
+
+  if !domain_role == '4' && domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
@@ -143,3 +146,4 @@ control 'V-73395' do
     end
   end
 end
+ 

@@ -37,6 +37,6 @@ control 'V-73563' do
   or Disabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Explorer') do
     it { should have_property 'NoHeapTerminationOnCorruption' }
-    its('NoHeapTerminationOnCorruption') { should cmp 0 }
+    its('NoHeapTerminationOnCorruption') { should_not cmp 1 }
   end
 end

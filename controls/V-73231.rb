@@ -52,7 +52,7 @@ control 'V-73231' do
   It is recommended that system-managed service accounts be used whenever
   possible."
   users = command("net user | Findstr /V 'command -- accounts'").stdout.strip.split(' ')
-
+  if !users.empty?
   users.each do |user|
 
     password_age = json({ command:"NEW-TIMESPAN –End (GET-DATE) –Start ([datetime]((net user #{user} | \

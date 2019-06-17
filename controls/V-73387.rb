@@ -92,19 +92,21 @@ control 'V-73387' do
       MaxConnIdleTime = value
     end
   end
-  [names].each do |n|
-    describe 'The ldapadminlimits' do
-      subject { n }
-      it { should include 'MaxConnIdleTime' }
-    end if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
+    [names].each do |n|
+      describe 'The ldapadminlimits' do
+        subject { n }
+        it { should include 'MaxConnIdleTime' }
+      end
+    end
+
+    describe 'The MaxConnIdle' do
+      subject { MaxConnIdleTime }
+      it { should cmp <= 300 }
+    end
   end
 
-  describe 'The MaxConnIdle' do
-    subject { MaxConnIdleTime }
-    it { should cmp <= 300 }
-  end if [4, 5].include? domain_role
-
-  if ![4, 5].include? domain_role
+  !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

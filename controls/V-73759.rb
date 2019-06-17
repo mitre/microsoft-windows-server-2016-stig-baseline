@@ -82,7 +82,7 @@ control 'V-73759' do
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
 
-  if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
     if is_domain == 'WORKGROUP'
       describe.one do
         describe security_policy do
@@ -92,7 +92,6 @@ control 'V-73759' do
           its('SeDenyNetworkLogonRight') { should eq [] }
         end
       end
-
     else
       get_domain_sid = command('wmic useraccount get sid | FINDSTR /V SID | Select -First 2').stdout.strip
       domain_sid = get_domain_sid[9..40]
@@ -105,7 +104,7 @@ control 'V-73759' do
     end
   end
 
-  if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
     impact 0.0
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
     describe 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems' do

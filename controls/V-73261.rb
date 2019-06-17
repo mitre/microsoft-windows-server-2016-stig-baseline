@@ -42,18 +42,10 @@ control 'V-73261' do
   The password required flag can be set by entering the following on a command
   line: Net user [username] /passwordreq:yes, substituting [username] with
   the name of the user account."
-  users = command("net user | Findstr /V 'command -- accounts'").stdout.strip.split(' ')
-
-  users.each do |user|
-    describe command("net user #{user} | Findstr required") do
-      its('stdout') { should_not eq "Password required            No\r\n" }
-    end
-  end
-  if users.empty?
-    desc 'There are no users configured on this system, therefore this control is not applicable'
-    describe 'There are no users configured on this system, therefore this control is not applicable' do
-      skip 'There are no users configured on this system, therefore this control is not applicable'
-    end
+  users_with_no_password_required = command("Get-CimInstance -Class Win32_Useraccount -Filter 'PasswordRequired=False and LocalAccount=True and Disabled=False' | FT Name | Findstr /V 'Name --'").stdout
+  describe "Windows 2012/2012 R2 accounts configured to not require passwords" do
+    subject {users_with_no_password_required}
+    it { should be_empty }
   end
 end 
  

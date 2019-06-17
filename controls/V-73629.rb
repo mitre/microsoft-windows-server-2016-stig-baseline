@@ -37,12 +37,15 @@ control 'V-73629' do
   Settings >> Security Settings >> Local Policies >> Security Options >> Domain
   controller: LDAP server signing requirements to Require signing."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\NTDS\\Parameters') do
-    it { should have_property 'LDAPServerIntegrity' }
-    its('LDAPServerIntegrity') { should cmp 2 }
-  end if [4, 5].include? domain_role
 
-  if ![4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
+    describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\NTDS\\Parameters') do
+      it { should have_property 'LDAPServerIntegrity' }
+      its('LDAPServerIntegrity') { should cmp 2 }
+    end
+  end
+
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

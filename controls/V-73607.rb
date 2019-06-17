@@ -5,8 +5,7 @@ control 'V-73607' do
   certificate-based authentication to DoD websites due to the system chaining to
   a root other than DoD Root CAs, the DoD Interoperability Root CA
   cross-certificates must be installed in the Untrusted Certificate Store. This
-  requirement only applies to unclassified systems.
-  "
+  requirement only applies to unclassified systems."
   impact 0.5
   tag "gtitle": 'SRG-OS-000066-GPOS-00034'
   tag "satisfies": ['SRG-OS-000066-GPOS-00034', 'SRG-OS-000403-GPOS-00182']

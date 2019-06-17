@@ -47,16 +47,18 @@ control 'V-73363' do
   expire."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-  describe.one do
-    describe security_policy do
-      its('MaxTicketAge') { should be > 0 }
+  if domain_role == '4' || domain_role == '5'
+    describe.one do
+      describe security_policy do
+        its('MaxTicketAge') { should be > 0 }
+      end
+      describe security_policy do
+        its('MaxTicketAge') { should be <= 10 }
+      end
     end
-    describe security_policy do
-      its('MaxTicketAge') { should be <= 10 }
-    end
-  end if [4, 5].include? domain_role
+  end
 
-  if ![4, 5].include? domain_role
+  if domain_role != '4' && domain_role != '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

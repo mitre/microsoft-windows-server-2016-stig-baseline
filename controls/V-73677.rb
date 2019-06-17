@@ -43,12 +43,14 @@ control 'V-73677' do
   The Security descriptor: must be populated with O:BAG:BAD:(A;;RC;;;BA)
   for the policy to be enforced."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa') do
-    it { should have_property 'RestrictRemoteSAM' }
-    its('RestrictRemoteSAM') { should eq 'O:BAG:BAD:(A;;RC;;;BA)' }
-  end if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
+    describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa') do
+      it { should have_property 'RestrictRemoteSAM' }
+      its('RestrictRemoteSAM') { should eq 'O:BAG:BAD:(A;;RC;;;BA)' }
+    end
+  end
 
-  if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
     impact 0.0
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
   end

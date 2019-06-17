@@ -53,17 +53,17 @@ control 'V-73369' do
   (F) - full access"
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-  describe.one do
-    describe command("Get-Acl -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters' | Format-List | Findstr All") do
-      its('stdout') { should eq "Access : CREATOR OWNER Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  268435456\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Server Operators Allow  -2147483648\r\n         BUILTIN\\Server Operators Allow  ReadKey\r\n" }
-    end
+  if domain_role == '4' || domain_role == '5'
 
-    describe command("Get-Acl -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters' | Format-List | Findstr All") do
-      its('stdout') { should eq "Access : CREATOR OWNER Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Administrators Allow  268435456\r\n         BUILTIN\\Server Operators Allow  ReadKey\r\n         BUILTIN\\Server Operators Allow  -2147483648\r\n" }
+    describe windows_registry("HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters") do
+      it { should be_allowed('full-control', by_user: 'CREATOR OWNER') }
+      it { should be_allowed('full-control', by_user: 'NT AUTHORITY\\SYSTEM') }
+      it { should be_allowed('full-control', by_user: 'BUILTIN\\Administrators') }
+      it { should be_allowed('read', by_user: 'BUILTIN\\Server Operators') }
     end
-  end if [4, 5].include? domain_role
+  end
 
-  if ![4, 5].include? domain_role
+  if domain_role != '4' && domain_role != '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
@@ -71,3 +71,4 @@ control 'V-73369' do
     end
   end
 end
+ 

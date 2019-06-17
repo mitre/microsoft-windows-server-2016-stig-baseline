@@ -62,14 +62,17 @@ control 'V-73379' do
       share_paths.push(path)
     end
   end
-  share_paths.each do |paths|
-    describe "The share path #{paths} should not eqaul" do
-      subject { paths }
-      it { should_not eq database_file }
-    end
-  end if [4, 5].include? domain_role
 
-  if ![4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
+    share_paths.each do |paths|
+      describe "The share path #{paths} should not eqaul" do
+        subject { paths }
+        it { should_not eq database_file }
+      end
+    end
+  end
+
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

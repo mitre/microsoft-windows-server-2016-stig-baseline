@@ -28,6 +28,6 @@ control 'V-73315' do
   Settings >> Security Settings >> Account Policies >> Password Policy >>
   Enforce password history to 24 passwords remembered."
   describe security_policy do
-    its('PasswordHistorySize') { should eq 24 }
+    its('PasswordHistorySize') { should cmp >= 24 }
   end
 end

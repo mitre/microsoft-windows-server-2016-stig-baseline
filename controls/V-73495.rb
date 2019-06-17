@@ -46,12 +46,14 @@ control 'V-73495' do
   be copied to the \\Windows\\PolicyDefinitions and
   \\Windows\\PolicyDefinitions\\en-US directories respectively."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System') do
-    it { should have_property 'LocalAccountTokenFilterPolicy' }
-    its('LocalAccountTokenFilterPolicy') { should cmp 0 }
-  end if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
+    describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System') do
+      it { should have_property 'LocalAccountTokenFilterPolicy' }
+      its('LocalAccountTokenFilterPolicy') { should cmp 0 }
+    end
+  end
 
-  if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
     impact 0.0
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
   end

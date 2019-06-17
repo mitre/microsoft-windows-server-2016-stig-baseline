@@ -37,6 +37,6 @@ control 'V-73561' do
   Configured or Disabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Explorer') do
     it { should have_property 'NoDataExecutionPrevention' }
-    its('NoDataExecutionPrevention') { should cmp 0 }
+    its('NoDataExecutionPrevention') { should_not cmp 1}
   end
 end

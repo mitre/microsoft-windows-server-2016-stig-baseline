@@ -136,17 +136,19 @@ control 'V-73389' do
     end
   end
 
-  names.each do |distinguished_name|
-    describe powershell("Import-Module ActiveDirectory; Get-Acl -Path AD:'#{distinguished_name}' | fl | Findstr All") do
-      its('stdout') { should eq "Access : CREATOR OWNER Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n         NT AUTHORITY\\SYSTEM Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n" }
+  if domain_role == '4' || domain_role == '5'
+    names.each do |distinguished_name|
+      describe powershell("Import-Module ActiveDirectory; Get-Acl -Path AD:'#{distinguished_name}' | fl | Findstr All") do
+        its('stdout') { should eq "Access : CREATOR OWNER Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n         NT AUTHORITY\\SYSTEM Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n" }
+      end
     end
-  end if [4, 5].include? domain_role
+  end
 
-  if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
       skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     end
   end
-end
+end 

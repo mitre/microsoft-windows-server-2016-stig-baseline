@@ -117,12 +117,15 @@ control 'V-73373' do
     get_perms = command("Get-GPPermission -All -Name '#{a}'").stdout
     perms.push(get_perms)
   end
-  describe 'The group policy object permissions' do
-    subject { perms }
-    it { should eq ['', "\r\n\r\nTrustee     : Domain Admins\r\nTrusteeType : Group\r\nPermission  : GpoCustom\r\nInherited   : False\r\n\r\nTrustee     : Enterprise Admins\r\nTrusteeType : Group\r\nPermission  : GpoCustom\r\nInherited   : False\r\n\r\nTrustee     : SYSTEM\r\nTrusteeType : WellKnownGroup\r\nPermission  : GpoEditDeleteModifySecurity\r\nInherited   : False\r\n\r\nTrustee     : Authenticated Users\r\nTrusteeType : WellKnownGroup\r\nPermission  : GpoApply\r\nInherited   : False\r\n\r\nTrustee     : ENTERPRISE DOMAIN CONTROLLERS\r\nTrusteeType : WellKnownGroup\r\nPermission  : GpoRead\r\nInherited   : False\r\n\r\n\r\n\r\n"] }
-  end if [4, 5].include? domain_role
 
-  if ![4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
+    describe 'The group policy object permissions' do
+      subject { perms }
+      it { should eq ['', "\r\n\r\nTrustee     : Domain Admins\r\nTrusteeType : Group\r\nPermission  : GpoCustom\r\nInherited   : False\r\n\r\nTrustee     : Enterprise Admins\r\nTrusteeType : Group\r\nPermission  : GpoCustom\r\nInherited   : False\r\n\r\nTrustee     : SYSTEM\r\nTrusteeType : WellKnownGroup\r\nPermission  : GpoEditDeleteModifySecurity\r\nInherited   : False\r\n\r\nTrustee     : Authenticated Users\r\nTrusteeType : WellKnownGroup\r\nPermission  : GpoApply\r\nInherited   : False\r\n\r\nTrustee     : ENTERPRISE DOMAIN CONTROLLERS\r\nTrusteeType : WellKnownGroup\r\nPermission  : GpoRead\r\nInherited   : False\r\n\r\n\r\n\r\n"] }
+    end
+  end
+
+  if domain_role != '4' && domain_role != '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

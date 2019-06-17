@@ -44,7 +44,7 @@ control 'V-73263' do
   Management for member servers and standalone systems. Document any exceptions
   with the ISSO."
   users_with_passwords_set_to_not_expire = command("Get-CimInstance -Class Win32_Useraccount -Filter 'PasswordExpires=False
-  and LocalAccount=True' | FT Name | Findstr /V 'Name --'").stdout.strip
+  and LocalAccount=True and Disabled=False' | FT Name | Findstr /V 'Name --'").stdout.strip
 
   describe "Users with password set to not expire" do
     subject {users_with_passwords_set_to_not_expire}

@@ -38,17 +38,18 @@ control 'V-73761' do
 
   - Guests Group"
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-
-  describe.one do
-    describe security_policy do
-      its('SeDenyBatchLogonRight') { should eq ['S-1-5-32-546'] }
+  if domain_role == '4' || domain_role == '5'
+    describe.one do
+      describe security_policy do
+        its('SeDenyBatchLogonRight') { should eq ['S-1-5-32-546'] }
+      end
+      describe security_policy do
+        its('SeDenyBatchLogonRight') { should eq [] }
+      end
     end
-    describe security_policy do
-      its('SeDenyBatchLogonRight') { should eq [] }
-    end
-  end if [4, 5].include? domain_role
+  end
 
-  if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

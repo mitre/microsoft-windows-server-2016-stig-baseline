@@ -56,11 +56,13 @@ control 'V-73381' do
   and email from the domain controller."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-  describe 'Domain controllers must run on a machine dedicated to that function' do
-    skip 'Domain controllers must run on a machine dedicated to that function is a manual check'
-  end if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
+    describe 'Domain controllers must run on a machine dedicated to that function' do
+      skip 'Domain controllers must run on a machine dedicated to that function is a manual check'
+    end
+  end
 
-  if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

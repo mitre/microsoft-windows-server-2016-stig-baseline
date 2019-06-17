@@ -40,7 +40,7 @@ control 'V-73773' do
   - Guests Group"
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-  if [4, 5].include? domain_role
+  if domain_role == '4' || domain_role == '5'
     describe.one do
       describe security_policy do
         its('SeDenyRemoteInteractiveLogonRight') { should eq ['S-1-5-32-546'] }
@@ -51,7 +51,7 @@ control 'V-73773' do
     end
   end
 
-  if ![4, 5].include? domain_role
+  if !domain_role == '4' && !domain_role == '5'
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
