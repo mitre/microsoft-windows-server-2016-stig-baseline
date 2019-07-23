@@ -44,7 +44,7 @@ control 'V-73359' do
   if domain_role == '4' || domain_role == '5'
     describe security_policy do
       its('TicketValidateClient') { should eq 1 }
-    end if 
+    end
   end
 
   if domain_role != '4' && domain_role != '5'
