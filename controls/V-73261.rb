@@ -43,7 +43,7 @@ control 'V-73261' do
   line: Net user [username] /passwordreq:yes, substituting [username] with
   the name of the user account."
   users_with_no_password_required = command("Get-CimInstance -Class Win32_Useraccount -Filter 'PasswordRequired=False and LocalAccount=True and Disabled=False' | FT Name | Findstr /V 'Name --'").stdout
-  describe "Windows 2012/2012 R2 accounts configured to not require passwords" do
+  describe "Windows 2016 accounts configured to not require passwords" do
     subject {users_with_no_password_required}
     it { should be_empty }
   end

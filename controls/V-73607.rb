@@ -117,10 +117,14 @@ control 'V-73607' do
 
   The FBCA Cross-Certificate Remover Tool and User Guide are available on IASE at
   http://iase.disa.mil/pki-pke/Pages/tools.aspx."
-  describe 'The DoD Interoperability Root CA cross-certificates installed' do
-    subject { command('Get-ChildItem -Path Cert:Localmachine\\\\disallowed | Where {$_.Issuer -Like
-    "*DoD Interoperability*" -and $_.Subject -Like "*DoD*"} | FL Subject,
-    Issuer, Thumbprint').stdout }
-    it  { should eq "\r\n\r\nSubject    : CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nIssuer     : CN=DoD Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nThumbprint : 22BBE981F0694D246CC1472ED2B021DC8540A22F\r\n\r\nSubject    : CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nIssuer     : CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nThumbprint : FFAD03329B9E527A43EEC66A56F9CBB5393E6E13\r\n\r\nSubject    : CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nIssuer     : CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nThumbprint : FCE1B1E25374DD94F5935BEB86CA643D8C8D1FF4\r\n\r\n\r\n\r\n" }
+  query = 'Get-ChildItem -Path Cert:Localmachine\\\\disallowed | Where {$_.Issuer -Like "*DoD Interoperability*" -and $_.Subject -Like "*DoD*"} | ConvertTo-Json'
+  # describe 'The DoD Interoperability Root CA cross-certificates installed' do
+    # subject { command('Get-ChildItem -Path Cert:Localmachine\\\\disallowed | Where {$_.Issuer -Like
+    # "*DoD Interoperability*" -and $_.Subject -Like "*DoD*"} | FL Subject,
+    # Issuer, Thumbprint, NotAfter').stdout }
+    # it  { should eq "\r\n\r\nSubject    : CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nIssuer     : CN=DoD Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nThumbprint : 22BBE981F0694D246CC1472ED2B021DC8540A22F\r\n\r\nSubject    : CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nIssuer     : CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nThumbprint : FFAD03329B9E527A43EEC66A56F9CBB5393E6E13\r\n\r\nSubject    : CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nIssuer     : CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nThumbprint : FCE1B1E25374DD94F5935BEB86CA643D8C8D1FF4\r\n\r\n\r\n\r\n" }
+  # end
+  describe json({ command: query }) do
+    its([1]) { should cmp 'temp' }
   end
 end
