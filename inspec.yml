@@ -10,56 +10,65 @@ description: >
   2016 v1r4 STIG at 
 version: 0.1.0
 
-attributes:
-
+inputs:
   - name: backup_operators
     description: 'List of authorized users in the Backup Operators Group'
-    default: []
+    type: Array
+    value: []
 
   - name: administrators
     description: 'List of authorized users in the local Administrators group'
-    default: ["Admn",
+    type: Array
+    value: ["Administrator",
             "Domain Admins",
             "Enterprise Admins"]
 
   - name: administrators_domain
     description: 'List of authorized users in the local Administrators domain group'
-    default: ["Admn",
+    type: Array
+    value: ["Administrator",
             "Domain Admins",
             "Enterprise Admins"]
 
   - name: temp_account
     description: 'List of temporary accounts on the system'
-    default: []
+    type: Array
+    value: []
 
   - name: emergency_account
     description: 'List of emergency accounts on the system'
-    default: []
+    type: Array
+    value: []
 
   - name: administrator_domain_group
     description: 'List of authorized users in the local Administrators domain group'
-    default: ["Admn"]
+    type: Array
+    value: ["Administrator"]
 
   - name: shared_accounts
     description: 'List of shared accounts on the system'
-    default: []
+    type: Array
+    value: []
 
   - name: has_ftp_server_role
     description: 'Set to true server has the ftp server role'
     type: boolean
-    default: true
+    value: true
 
   - name: forrest
     description: 'Domain Controller forrest name'
-    default: 'dc=testing, dc=com'
+    type: String
+    value: 'dc=testing, dc=com'
 
   - name: admin_account
     description: 'Default administator account'
-    default: 'admn'
+    type: String
+    value: 'Administrator'
 
   - name: LegalNoticeText
+    description: 'Standard Legal Notice Text shown to the user on login'
     type: string
-    default: "You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.
+    value: "You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.
     By using this IS (which includes any device attached to this IS), you consent
     to the following conditions:
     -The USG routinely intercepts and monitors communications on this IS for
@@ -80,5 +89,6 @@ attributes:
     Agreement for details."
 
   - name: LegalNoticeCaption
+    description: 'Standard Legal Notice Caption to go along with the Standard Legal Notice Text'
     type: string
-    default: "DoD Notice and Consent Banner, US Department of Defense Warning Statement, or a site-defined equivalent."
+    value: "DoD Notice and Consent Banner, US Department of Defense Warning Statement, or a site-defined equivalent."
