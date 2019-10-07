@@ -1,5 +1,3 @@
-site_banner = attribute('site_banner')
-is_site_banner_used = attribute('is_site_banner_used')
 control 'V-73649' do
   title "The Windows dialog box title for the legal banner must be configured
   with the appropriate text."
@@ -49,6 +47,8 @@ control 'V-73649' do
 
   If an organization-defined title is used, it can in no case contravene or
   modify the language of the message text required in WN16-SO-000150."
+  site_banner = attribute('site_banner')
+  is_site_banner_used = attribute('is_site_banner_used')
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System') do
     it { should have_property 'LegalNoticeCaption' }
   end 
