@@ -77,6 +77,7 @@ control 'V-73387' do
   Enter Show values to verify changes.
 
   Enter q at the ldap policy: and ntdsutil: prompts to exit."
+  max_conn_idle_time = input('max_conn_idle_time')
   forrest = attribute('forrest')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   names = []
@@ -100,8 +101,8 @@ control 'V-73387' do
       end
     end
 
-    describe 'The MaxConnIdle' do
-      subject { MaxConnIdleTime }
+    describe 'The MaxConnIdleTime' do
+      subject { max_conn_idle_time }
       it { should cmp <= 300 }
     end
   end

@@ -58,7 +58,7 @@ inputs:
   - name: forrest
     description: 'Domain Controller forrest name'
     type: String
-    value: 'dc=testing, dc=com'
+    value: 'dc=testdomain, dc=com'
 
   - name: admin_account
     description: 'Default administator account'
@@ -102,3 +102,8 @@ inputs:
     description: 'Standard Legal Notice Caption to go along with the Standard Legal Notice Text'
     type: String
     value: "DoD Notice and Consent Banner, US Department of Defense Warning Statement, or a site-defined equivalent."
+
+  - name: max_conn_idle_time
+    description: 'Maximum connectivity time to directory server in seconds'
+    type: Numeric
+    value: 300
