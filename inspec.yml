@@ -70,11 +70,6 @@ inputs:
     type: Boolean
     value: true
 
-  - name: is_logon_banner_used
-    description:
-    type: Boolean
-    value: true
-
   - name: legal_notice_text
     description: 'Standard Legal Notice Text shown to the user on login'
     type: String

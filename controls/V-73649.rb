@@ -47,14 +47,12 @@ control 'V-73649' do
 
   If an organization-defined title is used, it can in no case contravene or
   modify the language of the message text required in WN16-SO-000150."
-  logon_banner = attribute('legal_notice_caption')
-  is_logon_banner_used = attribute('is_logon_banner_used')
+  legal_notice_caption = input('legal_notice_caption')
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System') do
     it { should have_property 'LegalNoticeCaption' }
   end 
 
   key = registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System').LegalNoticeCaption.to_s
-  legal_notice_caption = attribute('LegalNoticeCaption')
   
   describe 'The required legal notice caption' do
     subject { key.scan(/[\w().;,!]/).join}
