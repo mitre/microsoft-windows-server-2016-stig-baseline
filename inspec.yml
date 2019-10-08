@@ -102,3 +102,29 @@ inputs:
     description: 'Maximum connectivity time to directory server in seconds'
     type: Numeric
     value: 300
+
+  - name: is_unclassified_system
+    description: 'Set flag to true if the target system is unclassified'
+    type: Boolean
+    value: true
+
+  - name: dod_certificates
+    description: 'List of DoD Interoperability Root Certificates'
+    type: Array
+    value: [
+      {
+        "Subject": "CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US",
+        "Issuer": "CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
+        "Thumbprint": "FFAD03329B9E527A43EEC66A56F9CBB5393E6E13"
+      },
+      {
+        "Subject": "CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US",
+        "Issuer": "CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
+        "Thumbprint": "FCE1B1E25374DD94F5935BEB86CA643D8C8D1FF4"
+      },
+      {
+        "Subject": "CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
+        "Issuer": "CN=DoD Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US",
+        "Thumbprint": "22BBE981F0694D246CC1472ED2B021DC8540A22F"
+      }
+    ]
