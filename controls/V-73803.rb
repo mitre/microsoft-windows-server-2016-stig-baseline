@@ -48,7 +48,7 @@ control 'V-73803' do
       its('SeTakeOwnershipPrivilege') { should eq ['S-1-5-32-544'] }
     end
     describe security_policy do
-      its('SeRestorePrivilege') { should eq [] }
+      its('SeTakeOwnershipPrivilege') { should eq [] }
     end
   end
 end
