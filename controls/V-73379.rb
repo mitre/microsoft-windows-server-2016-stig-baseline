@@ -45,27 +45,26 @@ control 'V-73379' do
   tag "fix": "Move shares used to store files owned by users to a different
   logical partition than the directory server data files."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  get_registry_value = command("Get-ItemProperty -Path 'HKLM:\\System\\CurrentControlSet\\Services\\NTDS\\Parameters' | Findstr /c:'DSA Database file'").stdout.strip
-
-  database_file = get_registry_value[51..80]
-  share_names = []
-  share_paths = []
-  get = command('Get-WMIObject -Query "SELECT * FROM Win32_Share" | Findstr /V "Name --"').stdout.strip.split("\n")
-
-  get.each do |share|
-    loc_space = share.index(' ')
-
-    names = share[0..loc_space-1]
-    if names != 'C$' && names != 'ADMIN$' && names != 'SYSVOL'
-      share_names.push(names)
-      path = share[9..50]
-      share_paths.push(path)
-    end
-  end
 
   if domain_role == '4' || domain_role == '5'
+    get_registry_value = command("Get-ItemProperty -Path 'HKLM:\\System\\CurrentControlSet\\Services\\NTDS\\Parameters' | Findstr /c:'DSA Database file'").stdout.strip
+    database_file = get_registry_value[51..80]
+    share_names = []
+    share_paths = []
+    get = command('Get-WMIObject -Query "SELECT * FROM Win32_Share" | Findstr /V "Name --"').stdout.strip.split("\n")
+  
+    get.each do |share|
+      loc_space = share.index(' ')
+  
+      names = share[0..loc_space-1]
+      if names != 'C$' && names != 'ADMIN$' && names != 'SYSVOL'
+        share_names.push(names)
+        path = share[9..50]
+        share_paths.push(path)
+      end
+    end
     share_paths.each do |paths|
-      describe "The share path #{paths} should not eqaul" do
+      describe "The share path #{paths}" do
         subject { paths }
         it { should_not eq database_file }
       end
