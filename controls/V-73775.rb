@@ -72,8 +72,8 @@ control 'V-73775' do
   Systems dedicated to the management of Active Directory (AD admin platforms,
   see V-36436 in the Active Directory Domain STIG) are exempt from denying the
   Enterprise Admins and Domain Admins groups."
+  is_AD_only_system = input('is_AD_only_system')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
 
   if !domain_role == '4' && !domain_role == '5'
