@@ -62,13 +62,7 @@ control 'V-73733' do
   if !domain_role == '4' && !domain_role == '5'
     describe.one do
       describe security_policy do
-        its('SeNetworkLogonRight') { should eq ['S-1-5-11', 'S-1-5-32-544'] }
-      end
-      describe security_policy do
-        its('SeNetworkLogonRight') { should eq ['S-1-5-32-544'] }
-      end
-      describe security_policy do
-        its('SeNetworkLogonRight') { should eq ['S-1-5-11'] }
+        its('SeNetworkLogonRight') { should be_in ['S-1-5-11', 'S-1-5-32-544'] }
       end
       describe security_policy do
         its('SeNetworkLogonRight') { should eq [] }
