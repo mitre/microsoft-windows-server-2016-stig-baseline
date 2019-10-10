@@ -68,7 +68,7 @@ inputs:
   - name: is_AD_only_system
     description: 'Set to true if the system is dedicated to the management of Active Directory'
     type: Boolean
-    value: true
+    value: false
 
   - name: legal_notice_text
     description: 'Standard Legal Notice Text shown to the user on login'
