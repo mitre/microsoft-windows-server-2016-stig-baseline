@@ -45,7 +45,12 @@ control 'V-73783' do
 
   - Local Service
   - Network Service"
-  describe security_policy do
-    its('SeAuditPrivilege') { should be_in ['S-1-5-19', 'S-1-5-20'] }
+  describe.one do
+    describe security_policy do
+      its('SeAuditPrivilege') { should be_in ['S-1-5-19', 'S-1-5-20'] }
+    end
+    describe security_policy do
+      its('SeAuditPrivilege') { should eq [] }
+    end
   end
 end
