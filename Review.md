@@ -11,8 +11,8 @@
 ||Consistency across other profile conventions |*|*|*|
 ||Spelling, grammar,linting (e.g., rubocop, etc.)|*|*|*|
 ||Removing debugging documentation and code|*|*|*|
-| Error handling |“Profile Error” containment: “null” responses <br>should only happen if InSpec is run with incorrect privileges (e.g., code fails to reach a describe statement for every control. inspec check can do this. It will say no defined tests)|*|*|*|
-||Slowing the target (e.g. filling up disk, CPU spikes)|*)|*|*|
+| Error handling |“Profile Error” containment: “null” responses <br>should only happen if InSpec is run with incorrect privileges (e.g., code fails to reach a describe statement for every control. inspec check can do this. It will say no defined tests)|Rony Xavier|*|#6|
+||Slowing the target (e.g. filling up disk, CPU spikes)|*|*|*|
 ||Check for risky commands (e.g. rm, del, purge, etc.)|*|*|*|
 ||Check for “stuck” situations (e.g., profile goes on forever due to infinite loop, very large data sets, etc.)|*|*|*|
 
