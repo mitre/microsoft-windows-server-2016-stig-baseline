@@ -82,7 +82,7 @@ control 'V-73759' do
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
 
-  if !domain_role == '4' && !domain_role == '5'
+  if !(domain_role == '4') && !(domain_role == '5')
     if is_domain == 'WORKGROUP'
       describe.one do
         describe security_policy do

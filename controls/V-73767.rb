@@ -52,7 +52,7 @@ control 'V-73767' do
   - Domain Admins Group"
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  if !domain_role == '4' && !domain_role == '5'
+  if !(domain_role == '4') && !(domain_role == '5')
     if is_domain == 'WORKGROUP'
       describe security_policy do
         its('SeDenyServiceLogonRight') { should eq [] }

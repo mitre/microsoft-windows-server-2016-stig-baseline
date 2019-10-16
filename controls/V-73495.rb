@@ -46,7 +46,7 @@ control 'V-73495' do
   be copied to the \\Windows\\PolicyDefinitions and
   \\Windows\\PolicyDefinitions\\en-US directories respectively."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  if !domain_role == '4' && !domain_role == '5'
+  if !(domain_role == '4') && !(domain_role == '5')
     describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System') do
       it { should have_property 'LocalAccountTokenFilterPolicy' }
       its('LocalAccountTokenFilterPolicy') { should cmp 0 }

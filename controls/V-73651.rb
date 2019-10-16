@@ -34,7 +34,7 @@ control 'V-73651' do
   Interactive Logon: Number of previous logons to cache (in case Domain
   Controller is not available) to 4 logons or less."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  if !domain_role == '4' && !domain_role == '5'
+  if !(domain_role == '4') && !(domain_role == '5')
     describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon') do
       it { should have_property 'CachedLogonsCount' }
       its('CachedLogonsCount') { should be <= 4 }

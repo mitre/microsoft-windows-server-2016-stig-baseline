@@ -35,7 +35,7 @@ control 'V-73779' do
   defined but containing no entries (blank)."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-  if !domain_role == '4' && !domain_role == '5'
+  if !(domain_role == '4') && !(domain_role == '5')
     describe security_policy do
       its('SeEnableDelegationPrivilege') { should eq [] }
     end
