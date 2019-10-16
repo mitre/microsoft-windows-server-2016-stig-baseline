@@ -63,7 +63,7 @@ control 'V-73283' do
   Delete any temporary user accounts that are no longer necessary."
 
   temp_account = attribute('temp_account')
-  if temp_account.empty?
+  if !temp_account.empty?
     temp_account.each do |user|
 
       get_account_expires = command("Net User #{user} | Findstr /i 'expires' | Findstr /v 'password'").stdout.strip
