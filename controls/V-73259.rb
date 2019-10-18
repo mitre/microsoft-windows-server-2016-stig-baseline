@@ -62,82 +62,61 @@ control 'V-73259' do
   documented with the ISSO."
   tag "fix": "Regularly review accounts to determine if they are still active.
   Remove or disable accounts that have not been used in the last 35 days."
+  
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
+  
   if domain_role == '4' || domain_role == '5'
-    users = command("Get-CimInstance -Class Win32_Useraccount -Filter 'LocalAccount=True and Disabled=False' | FT Name | Findstr /V 'Name --'").stdout.strip.split(' ')
+    user_query = "Search-ADAccount -AccountInactive -UsersOnly -TimeSpan 35.00:00:00 | Where-Object { ($_.SID -notlike '*500') -and ($_.SID -notlike '*501') -and ($_.Enabled -eq $true) } | Select-Object @{Name=\"name\";Expression={$_.SamAccountName}}, @{Name=\"lastLogin\";Expression={$_.LastLogonDate}} | ConvertTo-Json"
+  else
+    user_query = <<-FOO
+      $users = @() 
+        ([ADSI]('WinNT://{0}' -f $env:COMPUTERNAME)).Children | Where {
+        $_.SchemaClassName -eq 'user' } | ForEach {
+        $user = ([ADSI]$_.Path)
+        $lastLogin = $user.Properties.LastLogin.Value
 
-    get_sids = []
-    get_names = []
-    names = []
-    inactive_accounts = []
+        $enabled = ($user.Properties.UserFlags.Value -band 0x2) -ne 0x2
+        if ($lastLogin -eq $null) {
+        $lastLogin = 'Never'
+        }
+        else {
+        $today = Get-Date
+        $diff = New-TimeSpan -Start "$lastLogin" -End $today
+        $lastLogin = $diff.Days
+        }
 
-    if !users.empty?
-      users.each do |user|
-        get_sids = command("wmic useraccount where \"Name='#{user}'\" get name',' sid| Findstr /v SID").stdout.strip
-        get_last = get_sids[get_sids.length-3, 3]
+        $sid = Get-LocalUser -Name $user.Name.Value | foreach { $_.SID.Value }
 
-        loc_space = get_sids.index(' ')
-        names = get_sids[0, loc_space]
-        if get_last != '500' && get_last != '501'
-          get_names.push(names)
-        end
-      end
-    end
-    
-    if !get_names.empty?
-      get_names.each do |user|
-        get_last_logon = command("Net User #{user} | Findstr /i 'Last Logon' | Findstr /v 'Password script hours'").stdout.strip
-        last_logon = get_last_logon[29..33]
-        if last_logon != 'Never'
-          month = get_last_logon[28..29]
-          day = get_last_logon[31..32]
-          year = get_last_logon[34..37]
+        if (($enabled -eq 'True') -and ($sid -notlike '*500') -and ($sid -notlike '*501')) {
+          $users += (@{ name = $user.Name.Value; lastLogin = $lastLogin; enabled = $enabled; sid= $sid})
+        }
+        }
+      $users | ConvertTo-Json
+      FOO
+  end
 
-          if get_last_logon[32] == '/'
-            month = get_last_logon[28..29]
-            day = get_last_logon[31]
-            year = get_last_logon[33..37]
-          end
-          date = day + '/' + month + '/' + year
-
-          date_last_logged_on = DateTime.now.mjd - DateTime.parse(date).mjd
-          if date_last_logged_on > 35
-            inactive_accounts.push(user)
-          end
-
-          describe "#{user}'s last logon" do
-            describe date_last_logged_on do
-              it { should cmp <= 35 }
-            end
-          end if !inactive_accounts.empty?
-        end
-
-        if !inactive_accounts.empty?
-          if last_logon == 'Never'
-            date_last_logged_on = 'Never'
-            describe "#{user}'s last logon" do
-              describe date_last_logged_on do
-                it { should_not == 'Never' }
-              end
-            end
-          end
-        end
-      end
-    end
-
-    if inactive_accounts.empty?
-      impact 0.0
-      describe 'The system does not have any inactive accounts, control is NA' do
-        skip 'The system does not have any inactive accounts, controls is NA'
-      end
+  users = json(command: user_query).params
+  
+  if users.empty?
+    impact 0.0
+    describe 'The system does not have any inactive accounts, control is NA' do
+      skip 'The system does not have any inactive accounts, controls is NA'
     end
   else
-    if domain_role != '4' && domain_role != '5'
-      impact 0.0
-      desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
-      describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
-        skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    if users.is_a?(Hash)
+      users = [JSON.parse(users.to_json)]        
+    end
+    users.each do |account|
+      describe "Last login for user: #{account['name']}" do
+        subject { account['lastLogin'] }
+        it "should not be nil" do
+          expect(subject).not_to(cmp nil)
+        end
+        subject { account['lastLogin'] }
+        it "should not be more than 35 days" do
+          expect(subject).to(be <= 35)
+        end
       end
     end
   end
- end
+end
