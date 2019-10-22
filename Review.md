@@ -1,7 +1,7 @@
 | Check          | Sub-check                                                                         | Who | Completion Date | Issue #'s |
 |----------------|-----------------------------------------------------------------------------------|-----|-----------------|-----------|
 |Logical checks| Proper profile directory structure	[1]						|*|*|*|
-||JSON output review (e.g., pass/fail on ,<br>hardened, not hardened, edge cases, etc.)|*|*|*|
+||JSON output review (e.g., pass/fail on ,<br>hardened, not hardened, edge cases, etc.)|Rony Xavier|*|#12|
 ||InSpec syntax checker|*|*|*|
 ||Local commands focused on target not the runner [2]|*|*|*|
 |Quality checks|Alignment (including tagging) to original<br> standard (i.e. STIG, CIS Benchmark, NIST Tags)|Rony Xavier|*|#7|
