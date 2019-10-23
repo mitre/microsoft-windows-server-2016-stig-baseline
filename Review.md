@@ -4,7 +4,7 @@
 ||JSON output review (e.g., pass/fail on ,<br>hardened, not hardened, edge cases, etc.)|Rony Xavier|*|#12#13|
 ||InSpec syntax checker|*|*|*|
 ||Local commands focused on target not the runner [2]|*|*|*|
-|Quality checks|Alignment (including tagging) to original<br> standard (i.e. STIG, CIS Benchmark, NIST Tags)|Rony Xavier|*|#7|
+|Quality checks|Alignment (including tagging) to original<br> standard (i.e. STIG, CIS Benchmark, NIST Tags)|Rony Xavier|*|#7#16|
 ||Control robustness (can the control be improved to make it less brittle - not necessarily a blocker on initial releases)|*|*|*|
 ||Descriptive output for findings details (review JSON for findings information that may be confusing to SCA like NilCLass, etc.)|Rony Xavier|*|#11|
 ||Documentation quality (i.e. README)<br> novice level instructions including prerequisites|*|*|*|
