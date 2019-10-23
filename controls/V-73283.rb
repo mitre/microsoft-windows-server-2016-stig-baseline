@@ -62,64 +62,45 @@ control 'V-73283' do
 
   Delete any temporary user accounts that are no longer necessary."
 
-  temp_account = attribute('temp_account')
+  temp_account = input('temp_account')
+  domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
+  
   if !temp_account.empty?
-    temp_account.each do |user|
-
-      get_account_expires = command("Net User #{user} | Findstr /i 'expires' | Findstr /v 'password'").stdout.strip
-
-      month_account_expires = get_account_expires[28..30]
-      day_account_expires = get_account_expires[32..33]
-      year_account_expires = get_account_expires[35..39]
-
-      if get_account_expires[30] == '/'
-        month_account_expires = get_account_expires[28..29]
-        if get_account_expires[32] == '/'
-          day_account_expires = get_account_expires[31]
+    users = []
+    if domain_role == '4' || domain_role == '5'
+      temp_account.each do |temp_user|
+        ad_user = json(command: "Get-ADUser -Filter * -Properties AccountExpirationDate | Where-Object {($_.SamAccountName -eq '#{temp_user}')} | Select-Object @{Name='Name';Expression={$_.SamAccountName}}, @{Name='TimeSpan';Expression={New-TimeSpan -Start ($_.AccountExpirationDate) -End (Get-Date) | Select Days, Hours}} | ConvertTo-JSON").params
+        if ad_user['Name'] == temp_user
+          users.push(ad_user)
         end
-        if get_account_expires[32] != '/'
-          day_account_expires = get_account_expires[31..32]
-        end
-        if get_account_expires[33] == '/'
-          year_account_expires = get_account_expires[34..37]
-        end
-        if get_account_expires[33] != '/'
-          year_account_expires = get_account_expires[33..37]
-        end
-
       end
-
-      date_expires = day_account_expires + '/' + month_account_expires + '/' + year_account_expires
-
-      get_password_last_set = command("Net User #{user}  | Findstr /i 'Password Last Set' | Findstr /v 'expires changeable required may logon'").stdout.strip
-
-      month = get_password_last_set[27..29]
-      day = get_password_last_set[31..32]
-      year = get_password_last_set[34..38]
-
-      if get_password_last_set[32] == '/'
-        month = get_password_last_set[27..29]
-        day = get_password_last_set[31]
-        year = get_password_last_set[33..37]
+    else
+      temp_account.each do |temp_user|
+        local_user = json(command: "Get-LocalUser #{temp_user} | Select Name, @{Name='TimeSpan';Expression={New-TimeSpan -Start ($_.AccountExpires) -End (Get-Date) | Select Days, Hours}} | ConvertTo-JSON").params
+        if local_user['Name'] == temp_user
+          users.push(local_user)
+        end
       end
-      date = day + '/' + month + '/' + year
+    end
 
-      date_expires_minus_password_last_set = DateTime.parse(date_expires).mjd - DateTime.parse(date).mjd
-
-      account_expires = get_account_expires[27..33]
-
-      if account_expires == 'Never'
-        describe "#{user}'s account expires" do
-          describe account_expires do
-            it { should_not == 'Never' }
+    if !users.empty?
+      users.each do |user|
+        if user['TimeSpan'] == nil
+          describe "The Account Expiration for temporary account '#{user['Name']}'" do
+            subject { user['TimeSpan'] }
+            it { should_not cmp nil }
+          end
+        else
+          describe "The number of hours for account expiry for temporary account '#{user['Name']}'" do
+            subject { user['TimeSpan']['Days']*24 + user['TimeSpan']['Hours'] }
+            it { should_not cmp >= 72 }
           end
         end
       end
-      next unless account_expires != 'Never'
-      describe "#{user}'s account expires" do
-        describe date_expires_minus_password_last_set do
-          it { should cmp <= 72 }
-        end
+    else
+      impact 0.0
+      describe 'No accounts exist on this system, control not applicable' do
+        skip 'No accounts exist on this system, control not applicable'
       end
     end
 

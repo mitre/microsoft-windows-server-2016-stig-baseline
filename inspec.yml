@@ -33,7 +33,7 @@ inputs:
   - name: temp_account
     description: 'List of temporary accounts on the system'
     type: Array
-    value: []
+    value: ["tempuser"]
 
   - name: emergency_account
     description: 'List of emergency accounts on the system'
