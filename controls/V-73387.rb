@@ -81,19 +81,15 @@ control 'V-73387' do
   forrest = attribute('forrest')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   if domain_role == '4' || domain_role == '5'
-    ldap_admin_limits = json(command: "get-adobject -SearchBase \"CN=Query-Policies,CN=Directory Service,CN=Windows NT,CN=Services,CN=Configuration,#{forrest}\" -Filter \'ObjectClass -eq \"queryPolicy\" -and Name -eq \"Default Query Policy\"\' -Properties \'lDAPAdminLimits\' | ConvertTo-JSON").params['lDAPAdminLimits']
-    describe "MaxConnIdleTime is be configured" do
-      subject { ldap_admin_limits.any? { |s| s.include?('MaxConnIdleTime') } }
-      it { should be true }
+    query = command("dsquery * \"cn=Default Query Policy,cn=Query-Policies,cn=Directory Service, cn=Windows NT,cn=Services,cn=Configuration,dc=testdomain,dc=com\" -attr LDAPAdminLimits").stdout
+    ldap_admin_limits = parse_config(query.gsub(/;/, "\n")).params
+    describe "MaxConnIdleTime is configured" do
+      subject { ldap_admin_limits }
+      it { should include 'MaxConnIdleTime' }
     end
-    ldap_admin_limits.each do |limit|
-      if limit.include?('MaxConnIdleTime')
-        time = limit.split("=")
-        describe "The MaxConnIdleTime" do
-          subject { time[1].to_i }
-          it { should cmp <= 300 }
-        end
-      end
+    describe "The MaxConnIdleTime" do
+      subject { ldap_admin_limits['MaxConnIdleTime'] }
+      it { should cmp <= 300 }
     end
   else
     impact 0.0
