@@ -80,34 +80,22 @@ control 'V-73387' do
   max_conn_idle_time = input('max_conn_idle_time')
   forrest = attribute('forrest')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  names = []
-  query = command("dsquery * 'cn=Default Query Policy,cn=Query-Policies,cn=Directory Service,
-  cn=Windows NT,cn=Services,cn=Configuration,#{forrest}' -attr LDAPAdminLimits").stdout.strip.split(';')
-  query.each do |data|
-    loc_equalsign = data.index('=')
-    name = data[0..loc_equalsign-1]
-    names.push(name)
-    value_start = loc_equalsign+1
-    value = data[value_start..-1]
-    if name == 'MaxConnIdleTime'
-      MaxConnIdleTime = value
-    end
-  end
   if domain_role == '4' || domain_role == '5'
-    [names].each do |n|
-      describe 'The ldapadminlimits' do
-        subject { n }
-        it { should include 'MaxConnIdleTime' }
+    ldap_admin_limits = json(command: "get-adobject -SearchBase \"CN=Query-Policies,CN=Directory Service,CN=Windows NT,CN=Services,CN=Configuration,#{forrest}\" -Filter \'ObjectClass -eq \"queryPolicy\" -and Name -eq \"Default Query Policy\"\' -Properties \'lDAPAdminLimits\' | ConvertTo-JSON").params['lDAPAdminLimits']
+    describe "MaxConnIdleTime is be configured" do
+      subject { ldap_admin_limits.any? { |s| s.include?('MaxConnIdleTime') } }
+      it { should be true }
+    end
+    ldap_admin_limits.each do |limit|
+      if limit.include?('MaxConnIdleTime')
+        time = limit.split("=")
+        describe "The MaxConnIdleTime" do
+          subject { time[1].to_i }
+          it { should cmp <= 300 }
+        end
       end
     end
-
-    describe 'The MaxConnIdleTime' do
-      subject { max_conn_idle_time }
-      it { should cmp <= 300 }
-    end
-  end
-
-  if !(domain_role == '4') && !(domain_role == '5')
+  else
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
