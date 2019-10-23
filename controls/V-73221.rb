@@ -88,9 +88,9 @@ control 'V-73221' do
 
   if domain_role != '2' && domain_role != '3'
     impact 0.0
-    desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
-    describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
-      skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    desc 'This control applies to member servers and standalone systems. A separate version applies to domain controllers.'
+    describe 'This control applies to member servers and standalone systems. A separate version applies to domain controllers.' do
+      skip 'This control applies to member servers and standalone systems. A separate version applies to domain controllers.'
     end
   end
   if is_AD_only_system
