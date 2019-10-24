@@ -114,13 +114,15 @@ control 'V-73251' do
     it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES') }
   end
 
+  pf_creator = command('Get-Acl -Path "C:\\Program Files" | Format-List | Findstr CREATOR').stdout
   describe "The file permissions on C:\\Program Files for user: CREATOR OWNER" do
-    subject { command('Get-Acl -Path "C:\\Program Files" | Format-List | Findstr CREATOR').stdout }
+    subject { pf_creator }
     it { should eq "Access : CREATOR OWNER Allow  268435456\r\n" }
   end
 
+  pf_admin = command('Get-Acl -Path "C:\\Program Files" | Format-List | Findstr Administrators | findstr 2').stdout
   describe "The file permissions on C:\\Program Files for user: BUILTIN\\Administrators" do
-    subject { command('Get-Acl -Path "C:\\Program Files" | Format-List | Findstr Administrators | findstr 2').stdout }
+    subject { pf_admin }
     it { should cmp "         BUILTIN\\Administrators Allow  268435456\r\n" }
   end
 
@@ -133,13 +135,15 @@ control 'V-73251' do
     it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES') }
   end
 
+  pfx86_creator = command('Get-Acl -Path "C:\\Program Files (x86)" | Format-List | Findstr CREATOR').stdout
   describe "The file permissions on C:\\Program Files (x86) for user: CREATOR OWNER" do
-    subject { command('Get-Acl -Path "C:\\Program Files (x86)" | Format-List | Findstr CREATOR').stdout }
+    subject { pfx86_creator }
     it { should eq "Access : CREATOR OWNER Allow  268435456\r\n" }
   end
 
+  pfx86_admin = command('Get-Acl -Path "C:\\Program Files (x86)" | Format-List | Findstr Administrators | findstr 2').stdout
   describe "The file permissions on C:\\Program Files (x86) for user: BUILTIN\\Administrators" do
-  subject { command('Get-Acl -Path "C:\\Program Files (x86)" | Format-List | Findstr Administrators | findstr 2').stdout }
+    subject { pfx86_admin }
     it { should cmp "         BUILTIN\\Administrators Allow  268435456\r\n" }
   end
 end

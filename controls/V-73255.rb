@@ -97,8 +97,9 @@ control 'V-73255' do
   CREATOR OWNER - Full Control - Subkeys only
   ALL APPLICATION PACKAGES - Read - This key and subkeys"
 
+  hklm_software_perm = command("Get-Acl -Path 'HKLM:\\SOFTWARE' | Format-List | Findstr All").stdout
   describe "The file permissions on 'HKLM:\\SOFTWARE" do
-    subject { command("Get-Acl -Path 'HKLM:\\SOFTWARE' | Format-List | Findstr All").stdout }
+    subject { hklm_software_perm }
     it { should eq "Access : CREATOR OWNER Allow  FullControl\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Users Allow  ReadKey\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  ReadKey\r\n" }
   end
 
@@ -110,8 +111,9 @@ control 'V-73255' do
     it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES') }
   end
 
+  hklm_security_perm = command("Get-Acl -Path 'HKLM:\\SECURITY' | Format-List | Findstr All").stdout
   describe "The file permissions on 'HKLM:\\SECURITY" do
-  subject { command("Get-Acl -Path 'HKLM:\\SECURITY' | Format-List | Findstr All").stdout }
+  subject { hklm_security_perm }
     it { should eq '' }
   end
 

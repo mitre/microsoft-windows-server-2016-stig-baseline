@@ -103,13 +103,15 @@ control 'V-73253' do
   ALL RESTRICTED APPLICATION PACKAGES - Read & execute - This folder, subfolders,
   and files"
 
+  win_creator = command('Get-Acl -Path "C:\\Windows" | Format-List | Findstr CREATOR').stdout
   describe "The file permissions on C:\\Windows for user: CREATOR OWNER" do
-    subject { command('Get-Acl -Path "C:\\Windows" | Format-List | Findstr CREATOR').stdout }
+    subject { win_creator }
     it { should eq "Access : CREATOR OWNER Allow  268435456\r\n" }
   end
 
+  win_admin = command('Get-Acl -Path "C:\\Windows" | Format-List | Findstr Administrators | findstr 2').stdout
   describe "The file permissions on C:\\Windows for user: BUILTIN\\Administrators" do
-    subject { command('Get-Acl -Path "C:\\Windows" | Format-List | Findstr Administrators | findstr 2').stdout }
+    subject { win_admin }
     it { should cmp "         BUILTIN\\Administrators Allow  268435456\r\n" }
   end
 
