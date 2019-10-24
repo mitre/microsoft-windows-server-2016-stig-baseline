@@ -19,10 +19,7 @@ control 'V-73793' do
   tag "fix_id": 'F-80243r1_fix'
   tag "cci": ['CCI-000162', 'CCI-000163', 'CCI-000164', 'CCI-000171',
               'CCI-001914']
-  tag "nist": ['AU-9', 'Rev_4']
-  tag "nist": ['AU-9 (1)', 'Rev_4']
-  tag "nist": ['AU-12 b', 'Rev_4']
-  tag "nist": ['AU-12 (3)', 'Rev_4']
+  tag "nist": ['AU-9', 'AU-9 (1)', 'AU-12 b', 'AU-12 (3)', 'Rev_4']
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 

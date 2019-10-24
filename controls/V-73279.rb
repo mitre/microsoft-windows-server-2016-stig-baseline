@@ -9,8 +9,7 @@ control 'V-73279' do
   tag "stig_id": 'WN16-00-000310'
   tag "fix_id": 'F-79723r1_fix'
   tag "cci": ['CCI-000366', 'CCI-002080']
-  tag "nist": ['CM-6 b', 'Rev_4']
-  tag "nist": ['CA-3 (5)', 'Rev_4']
+  tag "nist": ['CM-6 b', 'CA-3 (5)', 'Rev_4']
   tag "documentable": false
   tag "check": "Determine if a host-based firewall is installed and enabled on
   the system.

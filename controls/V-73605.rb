@@ -14,8 +14,7 @@ control 'V-73605' do
   tag "stig_id": 'WN16-PK-000010'
   tag "fix_id": 'F-87311r1_fix'
   tag "cci": ['CCI-000185', 'CCI-002470']
-  tag "nist": ['IA-5 (2) (a)', 'Rev_4']
-  tag "nist": ['SC-23 (5)', 'Rev_4']
+  tag "nist": ['IA-5 (2) (a)', 'SC-23 (5)', 'Rev_4']
   tag "documentable": false
   tag "check": "The certificates and thumbprints referenced below apply to
   unclassified systems; see PKE documentation for other networks.

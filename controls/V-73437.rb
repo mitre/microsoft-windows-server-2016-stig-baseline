@@ -21,8 +21,7 @@ control 'V-73437' do
   tag "stig_id": 'WN16-DC-000250'
   tag "fix_id": 'F-79879r1_fix'
   tag "cci": ['CCI-000172', 'CCI-002234']
-  tag "nist": ['AU-12 c', 'Rev_4']
-  tag "nist": ['AC-6 (9)', 'Rev_4']
+  tag "nist": ['AU-12 c', 'AC-6 (9)', 'Rev_4']
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
