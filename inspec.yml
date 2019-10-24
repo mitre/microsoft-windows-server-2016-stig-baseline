@@ -115,16 +115,19 @@ inputs:
       {
         "Subject": "CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US",
         "Issuer": "CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Thumbprint": "FFAD03329B9E527A43EEC66A56F9CBB5393E6E13"
+        "Thumbprint": "FFAD03329B9E527A43EEC66A56F9CBB5393E6E13",
+        "NotAfter": "Sunday, September 23, 2018"
       },
       {
         "Subject": "CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US",
         "Issuer": "CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Thumbprint": "FCE1B1E25374DD94F5935BEB86CA643D8C8D1FF4"
+        "Thumbprint": "FCE1B1E25374DD94F5935BEB86CA643D8C8D1FF4",
+        "NotAfter": "Sunday, February 17, 2019"
       },
       {
         "Subject": "CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
         "Issuer": "CN=DoD Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Thumbprint": "22BBE981F0694D246CC1472ED2B021DC8540A22F"
+        "Thumbprint": "22BBE981F0694D246CC1472ED2B021DC8540A22F",
+        "NotAfter": "Friday, September 06, 2019"
       }
     ]

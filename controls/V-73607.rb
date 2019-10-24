@@ -118,9 +118,9 @@ control 'V-73607' do
   The FBCA Cross-Certificate Remover Tool and User Guide are available on IASE at
   http://iase.disa.mil/pki-pke/Pages/tools.aspx."
   is_unclassified_system = input('is_unclassified_system')
+  dod_certificates = JSON.parse(input('dod_certificates').to_json)
   if is_unclassified_system
-    dod_certificates = JSON.parse(input('dod_certificates').to_json)
-    query = json({ command: 'Get-ChildItem -Path Cert:Localmachine\\\\disallowed | Where {$_.Issuer -Like "*DoD Interoperability*" -and $_.Subject -Like "*DoD*"} | Select Subject, Issuer, Thumbprint | ConvertTo-Json' })
+    query = json({ command: 'Get-ChildItem -Path Cert:Localmachine\\\\disallowed | Where {$_.Issuer -Like "*DoD Interoperability*" -and $_.Subject -Like "*DoD*"} | Select Subject, Issuer, Thumbprint, @{Name=\'NotAfter\';Expression={"{0:dddd, MMMM dd, yyyy}" -f [datetime]$_.NotAfter}} | ConvertTo-Json' })
     describe 'The DoD Interoperability Root CA cross-certificates installed' do
       subject { query.params }
       it { should be_in dod_certificates }
