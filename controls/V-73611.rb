@@ -41,8 +41,10 @@ control 'V-73611' do
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   if domain_role == '4' || domain_role == '5'
-    describe command("Get-ChildItem -Path Cert:\\LocalMachine\\My | Findstr /v 'Thumbprint -- PSParentPath'") do
-      its('stdout') { should_not eq ' ' }
+    certs = command("Get-ChildItem -Path Cert:\\LocalMachine\\My | ConvertTo-JSON").stdout
+    describe "The domain controller's  server certificate" do
+      subject { certs }
+      it { should_not cmp '' }
     end
   end
 
