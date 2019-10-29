@@ -14,7 +14,7 @@ control 'V-73607' do
   tag "stig_id": 'WN16-PK-000020'
   tag "fix_id": 'F-87313r2_fix'
   tag "cci": ['CCI-000185', 'CCI-002470']
-  tag "nist": ['IA-5 (2) (a)', 'SC-23 (5)', 'Rev_4'
+  tag "nist": ['IA-5 (2) (a)', 'SC-23 (5)', 'Rev_4']
   tag "documentable": false
   tag "check": "This is applicable to unclassified systems. It is NA for others.
 

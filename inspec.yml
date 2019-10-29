@@ -131,3 +131,8 @@ inputs:
         "NotAfter": "Friday, September 06, 2019"
       }
     ]
+
+  - name: built_in_admin_account
+    description: 'Default account name for Built-In Administrator'
+    type: String
+    value: "Administrator"
