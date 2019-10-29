@@ -136,3 +136,8 @@ inputs:
     description: 'Default account name for Built-In Administrator'
     type: String
     value: "Administrator"
+
+  - name: manually_managed_app_service_accounts
+    description: 'A list of all manually managed Application and Service account names'
+    type: Array
+    value: []
