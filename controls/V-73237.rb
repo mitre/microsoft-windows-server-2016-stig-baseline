@@ -48,15 +48,16 @@ control 'V-73237' do
   end
 
   if is_domain != 'WORKGROUP'
-    tpm_ready = command('Get-Tpm | select -expand TpmReady').stdout.strip
-    tmp_present = command('Get-Tpm | select -expand TpmPresent').stdout.strip
-    describe 'Trusted Platform Module (TPM) TmpReady' do
+    tpm_status = json(command: 'Get-Tpm | ConvertTo-JSON').params
+    tpm_ready = tpm_status['TpmReady']
+    tmp_present = tpm_status['TpmPresent']
+    describe 'Trusted Platform Module\'s (TPM) TmpReady flag' do
       subject { tpm_ready }
-      it { should eq 'True' }
+      it { should cmp true }
     end
-    describe 'Trusted Platform Module (TPM) TmpPresent' do
+    describe 'Trusted Platform Module\'s (TPM) TmpPresent flag' do
       subject { tmp_present }
-      it { should eq 'True' }
+      it { should cmp true }
     end
   end
 end
