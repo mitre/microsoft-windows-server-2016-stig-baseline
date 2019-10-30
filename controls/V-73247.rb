@@ -25,26 +25,30 @@ control 'V-73247' do
   This does not apply to system partitions such the Recovery and EFI System
   Partition."
   tag "fix": 'Format volumes to use NTFS or ReFS.'
-  get_volumes = command("wmic logicaldisk get FileSystem | findstr /r /v '^$' |Findstr /v 'FileSystem'").stdout.strip.split("\r\n")
 
-  get_volumes.each do |volume|
-    volumes = volume.strip
-    describe.one do
-      describe 'The format local volumes' do
-        subject { volumes }
-        it { should eq 'NTFS' }
-      end
-      describe 'The format local volumes' do
-        subject { volumes }
-        it { should eq 'ReFS' }
-      end
-    end
-  end
-  if get_volumes.empty?
+  volumes = json(command: 'Get-WmiObject -Class Win32_LogicalDisk | Where { $_.DriveType -ne 5 } | Select Name, FileSystem, Description | ConvertTo-JSON').params
+
+  if volumes.empty?
     impact 0.0
     desc 'There are no local volumes on this system, therefore this control is not applicable'
     describe 'There are no local volumes on this system, therefore this control is not applicable' do
       skip 'There are no local volumes on this system, therefore this control is not applicable'
+    end
+  else
+    if volumes.is_a?(Hash)
+      volumes = [JSON.parse(volumes.to_json)]
+    end
+    volumes.each do |volume|
+      describe.one do
+        describe "The filesystem format for the local volume #{volume['Name']}" do
+          subject { volume['FileSystem'] }
+          it { should cmp 'NTFS' }
+        end
+        describe "The filesystem format for the local volume #{volume['Name']}" do
+          subject { volume['FileSystem'] }
+          it { should cmp 'ReFS' }
+        end
+      end
     end
   end
 end
