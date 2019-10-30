@@ -149,3 +149,13 @@ inputs:
         "NotAfter": "Friday, September 27, 2019"
       }
     ]
+
+  - name: built_in_admin_account
+    description: 'Default account name for Built-In Administrator'
+    type: String
+    value: "Administrator"
+
+  - name: manually_managed_app_service_accounts
+    description: 'A list of all manually managed Application and Service account names'
+    type: Array
+    value: []
