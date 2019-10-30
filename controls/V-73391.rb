@@ -149,7 +149,7 @@ control 'V-73391' do
       principal = acl_rule['IdentityReference']
       type = acl_rule['AuditFlags']
       is_inherited = acl_rule['IsInherited']
-      access = acl_rule['ActiveDirectoryRights'].parse_csv.collect{|x| x.strip || x}
+      permissions = acl_rule['ActiveDirectoryRights'].parse_csv.collect{|x| x.strip || x}
       inheritance = acl_rule['InheritanceFlags']
       propogation = acl_rule['PropogationFlags']
       
@@ -169,7 +169,7 @@ control 'V-73391' do
         end
         describe "The audit entry 'Access' for Principal: #{principal}" do
           subject { ["GenericAll"] }
-          it { should be_in access }
+          it { should be_in permissions }
         end
         describe "The audit entry 'Applies to'(InheritanceFlags) for principal: #{principal}" do
           subject { inheritance }
@@ -183,7 +183,7 @@ control 'V-73391' do
         if principal == "BUILTIN\\Administrators" || principal == "#{netbiosname}\\Domain Users"
           describe "The audit entry 'Access' for Principal: #{principal}" do
             subject { ["ExtendedRight"] }
-            it { should be_in access }
+            it { should be_in permissions }
           end
           describe "The audit entry 'Applies to'(InheritanceFlags) for principal: #{principal}" do
             subject { inheritance }
@@ -195,7 +195,7 @@ control 'V-73391' do
           if inheritance == "None"
             describe "The audit entry 'Access' for Principal: #{principal}" do
               subject { ["WriteProperty", "WriteDacl", "WriteOwner"] }
-              it { should be_in access }
+              it { should be_in permissions }
             end
             describe "The audit entry 'Applies to'(InheritanceFlags) for principal: #{principal}" do
               subject { inheritance }
@@ -204,7 +204,7 @@ control 'V-73391' do
           elsif 
             describe "The audit entry 'Access' for Principal: #{principal}" do
               subject { ["WriteProperty"] }
-              it { should be_in access }
+              it { should be_in permissions }
             end
             describe "The audit entry 'Applies to'(InheritanceFlags) for principal: #{principal}" do
               subject { inheritance }
