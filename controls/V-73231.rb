@@ -51,23 +51,29 @@ control 'V-73231' do
 
   It is recommended that system-managed service accounts be used whenever
   possible."
-  users = command("net user | Findstr /V 'command -- accounts'").stdout.strip.split(' ')
-  if !users.empty?
-  users.each do |user|
+  manually_managed_app_service_accounts = input('manually_managed_app_service_accounts')
+  domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-    password_age = json({ command:"NEW-TIMESPAN –End (GET-DATE) –Start ([datetime]((net user #{user} | \
-                        Select-String \"Password last set\").Line.Substring(29,10))) | convertto-json"}).Days
-
-    describe "The password age for #{user}" do
-      subject { password_age }
+  if !manually_managed_app_service_accounts.empty?
+    manually_managed_app_service_accounts.each do |account|
+      if domain_role == '4' || domain_role == '5'
+        query = "Get-ADUser -Identity #{account} -Properties SID, PasswordLastSet | Where SID -Like *-500 | Select @{Name='Name';Expression={$_.SamAccountName}}, SID, @{Name='PasswordLastSet';Expression={New-TimeSpan -Start ($_.PasswordLastSet) -End (Get-Date) | Select Days, Hours}}| ConvertTo-JSON"
+      else
+        query = "Get-LocalUser #{account} | Where SID -Like *-500 | Select Name, SID, @{Name='PasswordLastSet';Expression={New-TimeSpan -Start ($_.PasswordLastSet) -End (Get-Date) | Select Days}} | ConvertTo-JSON"
+      end
+    
+      managed_account = json({command: query})
+      pwd_last_set_days = managed_account['PasswordLastSet']['Days']
+      account_name = managed_account['Name']
+  
+      describe "Password age for managed account: #{account_name}" do
+        subject { pwd_last_set_days }
         it { should cmp <= 365 }
       end
     end
-  end
-  if users.empty?
-    desc 'There are no users configured on this system, therefore this control is not applicable'
-    describe 'There are no users configured on this system, therefore this control is not applicable' do
-      skip 'There are no users configured on this system, therefore this control is not applicable'
+  else
+    describe 'There are no manually managed application/service accounts on this system, therefore this control is not applicable' do
+      skip 'There are no manually managed application/service accounts on this system, therefore this control is not applicable'
     end
   end
 end

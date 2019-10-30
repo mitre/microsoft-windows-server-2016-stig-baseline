@@ -22,8 +22,7 @@ control 'V-73453' do
   tag "stig_id": 'WN16-AU-000270'
   tag "fix_id": 'F-79895r1_fix'
   tag "cci": ['CCI-000067', 'CCI-000172']
-  tag "nist": ['AC-17 (1)', 'Rev_4']
-  tag "nist": ['AU-12 c', 'Rev_4']
+  tag "nist": ['AC-17 (1)', 'AU-12 c', 'Rev_4']
   tag "documentable": false
   tag "check": "Security Option Audit: Force audit policy subcategory
   settings (Windows Vista or later) to override audit policy category settings

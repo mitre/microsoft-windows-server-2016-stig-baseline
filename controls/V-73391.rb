@@ -27,8 +27,7 @@ control 'V-73391' do
   tag "stig_id": 'WN16-DC-000180'
   tag "fix_id": 'F-79833r1_fix'
   tag "cci": ['CCI-000172', 'CCI-002234']
-  tag "nist": ['AU-12 c', 'Rev_4']
-  tag "nist": ['AC-6 (9)', 'Rev_4']
+  tag "nist": ['AU-12 c', 'AC-6 (9)', 'Rev_4']
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 
@@ -140,26 +139,89 @@ control 'V-73391' do
   (Access - Special = Permissions: Write all properties, Modify permissions,
   Modify owner.)"
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  get_netbiosname = command('Get-ADDomain | Findstr NetBIOSName').stdout.strip
-  netbiosname = get_netbiosname[37..-1]
-  get_distinguishedname = command('Get-ADDomain | Findstr DistinguishedName').stdout.strip
-  distinguishedName = get_distinguishedname[37..-1]
 
   if domain_role == '4' || domain_role == '5'
-    describe powershell("Import-Module ActiveDirectory; Get-Acl -Path 'AD:#{distinguishedName}' | fl | Findstr All") do
-      its('stdout') { should eq "Access : Everyone Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n         NT AUTHORITY\\SYSTEM Allow  \r\n         BUILTIN\\Administrators Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         CREATOR OWNER Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n         BUILTIN\\Administrators Allow  \r\n         BUILTIN\\Administrators Allow  \r\n         BUILTIN\\Administrators Allow  \r\n         BUILTIN\\Administrators Allow  \r\n         BUILTIN\\Administrators Allow  \r\n         BUILTIN\\Administrators Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Incoming Forest Trust Builders Allow  \r\n         #{netbiosname}\\Enterprise Read-only Domain Controllers Allow  \r\n         #{netbiosname}\\Domain Controllers Allow  \r\n         #{netbiosname}\\Cloneable Domain Controllers Allow  \r\n         #{netbiosname}\\Key Admins Allow  \r\n         #{netbiosname}\\Enterprise Key Admins Allow  \r\n" }
-    end
+    distinguishedName = json(command: '(Get-ADDomain).DistinguishedName | ConvertTo-JSON').params
+    netbiosname = json(command: 'Get-ADDomain | Select NetBIOSName | ConvertTo-JSON').params['NetBIOSName']
+    acl_rules = json(command: "(Get-ACL -Audit -Path AD:'#{distinguishedName}').Audit | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
 
-    describe powershell("Import-Module ActiveDirectory; Get-Acl -Path 'AD:#{distinguishedName}' -Audit | fl | Findstr Success") do
-      its('stdout') { should eq "Audit  : Everyone Success  \r\n         BUILTIN\\Administrators Success  \r\n         #{netbiosname}\\Domain Users Success  \r\n         Everyone Success  \r\n         Everyone Success  \r\n" }
-    end
-  end
+    acl_rules.each do |acl_rule|
+      principal = acl_rule['IdentityReference']
+      type = acl_rule['AuditFlags']
+      is_inherited = acl_rule['IsInherited']
+      access = acl_rule['ActiveDirectoryRights'].parse_csv.collect{|x| x.strip || x}
+      inheritance = acl_rule['InheritanceFlags']
+      propogation = acl_rule['PropogationFlags']
+      
+      describe "The audit entry 'Inherited from' for principal: #{principal}" do
+        subject { is_inherited }
+        it { should cmp "False" }
+      end
+      describe "The audit entry 'Applies to'(PropogationFlags) for principal: #{principal}" do
+        subject { propogation }
+        it { should cmp nil }
+      end
 
-  if !(domain_role == '4') && !(domain_role == '5')
+      if type == "Fail"
+        describe "The audit entry 'Type' for principal: #{principal}" do
+          subject { type }
+          it { should cmp "Fail" }
+        end
+        describe "The audit entry 'Access' for Principal: #{principal}" do
+          subject { ["GenericAll"] }
+          it { should be_in access }
+        end
+        describe "The audit entry 'Applies to'(InheritanceFlags) for principal: #{principal}" do
+          subject { inheritance }
+          it { should cmp "None" }
+        end
+      elsif type == "Success"
+        describe "The audit entry 'Type' for principal: #{principal}" do
+          subject { type }
+          it { should cmp "Success" }
+        end
+        if principal == "BUILTIN\\Administrators" || principal == "#{netbiosname}\\Domain Users"
+          describe "The audit entry 'Access' for Principal: #{principal}" do
+            subject { ["ExtendedRight"] }
+            it { should be_in access }
+          end
+          describe "The audit entry 'Applies to'(InheritanceFlags) for principal: #{principal}" do
+            subject { inheritance }
+            it { should cmp "None" }
+          end
+        end
+  
+        if principal == "Everyone"
+          if inheritance == "None"
+            describe "The audit entry 'Access' for Principal: #{principal}" do
+              subject { ["WriteProperty", "WriteDacl", "WriteOwner"] }
+              it { should be_in access }
+            end
+            describe "The audit entry 'Applies to'(InheritanceFlags) for principal: #{principal}" do
+              subject { inheritance }
+              it { should cmp "None" }
+            end
+          elsif 
+            describe "The audit entry 'Access' for Principal: #{principal}" do
+              subject { ["WriteProperty"] }
+              it { should be_in access }
+            end
+            describe "The audit entry 'Applies to'(InheritanceFlags) for principal: #{principal}" do
+              subject { inheritance }
+              it { should cmp "ContainerInherit" }
+            end
+          end
+        end
+      end
+
+    end
+  else
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
       skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     end
   end
+
+
 end
