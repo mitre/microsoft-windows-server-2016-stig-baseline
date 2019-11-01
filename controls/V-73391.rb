@@ -145,76 +145,71 @@ control 'V-73391' do
     netbiosname = json(command: 'Get-ADDomain | Select NetBIOSName | ConvertTo-JSON').params['NetBIOSName']
     acl_rules = json(command: "(Get-ACL -Audit -Path AD:'#{distinguishedName}').Audit | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
 
-    acl_rules.each do |acl_rule|
-      principal = acl_rule['IdentityReference']
-      type = acl_rule['AuditFlags']
-      is_inherited = acl_rule['IsInherited']
-      permissions = acl_rule['ActiveDirectoryRights'].parse_csv.collect{|x| x.strip || x}
-      inheritance = acl_rule['InheritanceFlags']
-      propogation = acl_rule['PropogationFlags']
-      
-      describe "The audit entry 'Inherited from' for principal: #{principal}" do
-        subject { is_inherited }
-        it { should cmp "False" }
-      end
-      describe "The audit entry 'Applies to'(PropogationFlags) for principal: #{principal}" do
-        subject { propogation }
-        it { should cmp nil }
-      end
-
-      if type == "Fail"
-        describe "The audit entry 'Type' for principal: #{principal}" do
-          subject { type }
-          it { should cmp "Fail" }
-        end
-        describe "The audit entry 'Access' for Principal: #{principal}" do
-          subject { ["GenericAll"] }
-          it { should be_in permissions }
-        end
-        describe "The audit entry 'Applies to'(InheritanceFlags) for principal: #{principal}" do
-          subject { inheritance }
-          it { should cmp "None" }
-        end
-      elsif type == "Success"
-        describe "The audit entry 'Type' for principal: #{principal}" do
-          subject { type }
-          it { should cmp "Success" }
-        end
-        if principal == "BUILTIN\\Administrators" || principal == "#{netbiosname}\\Domain Users"
-          describe "The audit entry 'Access' for Principal: #{principal}" do
-            subject { ["ExtendedRight"] }
-            it { should be_in permissions }
-          end
-          describe "The audit entry 'Applies to'(InheritanceFlags) for principal: #{principal}" do
-            subject { inheritance }
-            it { should cmp "None" }
-          end
-        end
-  
-        if principal == "Everyone"
-          if inheritance == "None"
-            describe "The audit entry 'Access' for Principal: #{principal}" do
-              subject { ["WriteProperty", "WriteDacl", "WriteOwner"] }
-              it { should be_in permissions }
-            end
-            describe "The audit entry 'Applies to'(InheritanceFlags) for principal: #{principal}" do
-              subject { inheritance }
-              it { should cmp "None" }
-            end
-          elsif 
-            describe "The audit entry 'Access' for Principal: #{principal}" do
-              subject { ["WriteProperty"] }
-              it { should be_in permissions }
-            end
-            describe "The audit entry 'Applies to'(InheritanceFlags) for principal: #{principal}" do
-              subject { inheritance }
-              it { should cmp "ContainerInherit" }
-            end
-          end
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['AuditFlags']) { should cmp "Fail" }
+          its(['IdentityReference']) { should cmp "Everyone" }
+          its(['ActiveDirectoryRights']) { should cmp "GenericAll" }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['PropogationFlags']) { should cmp nil }
         end
       end
-
     end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['AuditFlags']) { should cmp "Success" }
+          its(['IdentityReference']) { should cmp "Everyone" }
+          its(['ActiveDirectoryRights']) { should cmp "WriteProperty" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit" }
+          its(['PropogationFlags']) { should cmp nil }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['AuditFlags']) { should cmp "Success" }
+          its(['IdentityReference']) { should cmp "#{netbiosname}\\Domain Users" }
+          its(['ActiveDirectoryRights']) { should cmp "ExtendedRight" }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['PropogationFlags']) { should cmp nil }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['AuditFlags']) { should cmp "Success" }
+          its(['IdentityReference']) { should cmp "BUILTIN\\Administrators" }
+          its(['ActiveDirectoryRights']) { should cmp "ExtendedRight" }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['PropogationFlags']) { should cmp nil }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['AuditFlags']) { should cmp "Success" }
+          its(['IdentityReference']) { should cmp "Everyone" }
+          its(['ActiveDirectoryRights']) { should cmp "WriteProperty, WriteDacl, WriteOwner" }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['PropogationFlags']) { should cmp nil }
+        end
+      end
+    end
+
   else
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
