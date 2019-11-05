@@ -91,7 +91,7 @@ control 'V-73249' do
 
   describe.one do
     acl_rules.each do |acl_rule|
-      describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+      describe "Access rule for principal: #{acl_rule['IdentityReference']}" do
         subject { acl_rule }
         its(['FileSystemRights']) { should cmp "FullControl" }
         its(['AccessControlType']) { should cmp "Allow" }
@@ -105,7 +105,7 @@ control 'V-73249' do
 
   describe.one do
     acl_rules.each do |acl_rule|
-      describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+      describe "Access rule for principal: #{acl_rule['IdentityReference']}" do
         subject { acl_rule }
         its(['FileSystemRights']) { should cmp "FullControl" }
         its(['AccessControlType']) { should cmp "Allow" }
@@ -119,7 +119,7 @@ control 'V-73249' do
 
   describe.one do
     acl_rules.each do |acl_rule|
-      describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+      describe "Access rule for principal: #{acl_rule['IdentityReference']}" do
         subject { acl_rule }
         its(['FileSystemRights']) { should cmp "ReadAndExecute, Synchronize" }
         its(['AccessControlType']) { should cmp "Allow" }
@@ -133,7 +133,7 @@ control 'V-73249' do
 
   describe.one do
     acl_rules.each do |acl_rule|
-      describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+      describe "Access rule for principal: #{acl_rule['IdentityReference']}" do
         subject { acl_rule }
         its(['FileSystemRights']) { should cmp "AppendData" }
         its(['AccessControlType']) { should cmp "Allow" }
@@ -147,7 +147,7 @@ control 'V-73249' do
 
   describe.one do
     acl_rules.each do |acl_rule|
-      describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+      describe "Access rule for principal: #{acl_rule['IdentityReference']}" do
         subject { acl_rule }
         its(['FileSystemRights']) { should cmp "CreateFiles" }
         its(['AccessControlType']) { should cmp "Allow" }
@@ -161,7 +161,7 @@ control 'V-73249' do
 
   describe.one do
     acl_rules.each do |acl_rule|
-      describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+      describe "Access rule for principal: #{acl_rule['IdentityReference']}" do
         subject { acl_rule }
         its(['FileSystemRights']) { should cmp "268435456" }
         its(['AccessControlType']) { should cmp "Allow" }
