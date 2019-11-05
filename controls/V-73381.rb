@@ -57,8 +57,15 @@ control 'V-73381' do
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   if domain_role == '4' || domain_role == '5'
-    describe 'Domain controllers must run on a machine dedicated to that function' do
-      skip 'Domain controllers must run on a machine dedicated to that function is a manual check'
+    role_list = [
+      "Active Directory Domain Services",
+      "DNS Server",
+      "File and Storage Services"
+    ]
+    roles = json(command: "Get-WindowsFeature | Where {($_.installstate -eq 'installed') -and ($_.featuretype -eq 'role')} | foreach { $_.DisplayName } | ConvertTo-JSON").params
+    describe "The list of roles installed on the server" do
+      subject { roles }
+      it { should be_in role_list }
     end
   end
 
