@@ -105,44 +105,6 @@ control 'V-73251' do
   ALL RESTRICTED APPLICATION PACKAGES - Read & execute - This folder, subfolders,
   and files"
 
-  # describe file('C:\\Program Files') do
-  #   it { should be_allowed('modify', by_user: 'NT AUTHORITY\\SYSTEM') }
-  #   it { should be_allowed('modify', by_user: 'BUILTIN\\Administrators') }
-  #   it { should be_allowed('read', by_user: 'BUILTIN\\Users') }
-  #   it { should be_allowed('full-control', by_user: 'NT SERVICE\\TrustedInstaller') }
-  #   it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES') }
-  #   it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES') }
-  # end
-
-  # describe "The file permissions on C:\\Program Files for user: CREATOR OWNER" do
-  #   subject { command('Get-Acl -Path "C:\\Program Files" | Format-List | Findstr CREATOR').stdout }
-  #   it { should eq "Access : CREATOR OWNER Allow  268435456\r\n" }
-  # end
-
-  # describe "The file permissions on C:\\Program Files for user: BUILTIN\\Administrators" do
-  #   subject { command('Get-Acl -Path "C:\\Program Files" | Format-List | Findstr Administrators | findstr 2').stdout }
-  #   it { should cmp "         BUILTIN\\Administrators Allow  268435456\r\n" }
-  # end
-
-  # describe file('C:\\Program Files (x86)') do
-  #   it { should be_allowed('modify', by_user: 'NT AUTHORITY\\SYSTEM') }
-  #   it { should be_allowed('modify', by_user: 'BUILTIN\\Administrators') }
-  #   it { should be_allowed('read', by_user: 'BUILTIN\\Users') }
-  #   it { should be_allowed('full-control', by_user: 'NT SERVICE\\TrustedInstaller') }
-  #   it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES') }
-  #   it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES') }
-  # end
-
-  # describe "The file permissions on C:\\Program Files (x86) for user: CREATOR OWNER" do
-  #   subject { command('Get-Acl -Path "C:\\Program Files (x86)" | Format-List | Findstr CREATOR').stdout }
-  #   it { should eq "Access : CREATOR OWNER Allow  268435456\r\n" }
-  # end
-
-  # describe "The file permissions on C:\\Program Files (x86) for user: BUILTIN\\Administrators" do
-  # subject { command('Get-Acl -Path "C:\\Program Files (x86)" | Format-List | Findstr Administrators | findstr 2').stdout }
-  #   it { should cmp "         BUILTIN\\Administrators Allow  268435456\r\n" }
-  # end
-
   paths = [
     "C:\\Program Files",
     "C:\\Program Files (x86)"
