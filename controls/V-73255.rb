@@ -97,40 +97,6 @@ control 'V-73255' do
   CREATOR OWNER - Full Control - Subkeys only
   ALL APPLICATION PACKAGES - Read - This key and subkeys"
 
-  # describe "The file permissions on 'HKLM:\\SOFTWARE" do
-  #   subject { command("Get-Acl -Path 'HKLM:\\SOFTWARE' | Format-List | Findstr All").stdout }
-  #   it { should eq "Access : CREATOR OWNER Allow  FullControl\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Users Allow  ReadKey\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  ReadKey\r\n" }
-  # end
-
-  # describe windows_registry("HKLM:\\Software\\") do
-  #   it { should be_allowed('full-control', by_user: 'CREATOR OWNER') }
-  #   it { should be_allowed('full-control', by_user: 'NT AUTHORITY\\SYSTEM') }
-  #   it { should be_allowed('full-control', by_user: 'BUILTIN\\Administrators') }
-  #   it { should be_allowed('read', by_user: 'BUILTIN\\Users') }
-  #   it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES') }
-  # end
-
-  # describe "The file permissions on 'HKLM:\\SECURITY" do
-  # subject { command("Get-Acl -Path 'HKLM:\\SECURITY' | Format-List | Findstr All").stdout }
-  #   it { should eq '' }
-  # end
-
-  # creator_owner_perms = command("Get-Acl -Path 'HKLM:\\SYSTEM' | Format-List | Findstr All").stdout
-  # hklm_system_perms = command("Get-Acl -Path 'HKLM:\\SYSTEM' | Format-List | Findstr All").stdout
-
-  # describe "The file permissions on 'HKLM:\\SYSTEM" do
-  #   subject { hklm_system_perms }
-  #   it { should eq "Access : CREATOR OWNER Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  268435456\r\n         NT AUTHORITY\\SYSTEM Allow  FullControl\r\n         BUILTIN\\Administrators Allow  268435456\r\n         BUILTIN\\Administrators Allow  FullControl\r\n         BUILTIN\\Users Allow  -2147483648\r\n         BUILTIN\\Users Allow  ReadKey\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  ReadKey\r\n         APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES Allow  -2147483648\r\n" }
-  # end
-
-  # describe windows_registry("HKLM:\\SYSTEM") do
-  #   it { should be_allowed('full-control', by_user: 'CREATOR OWNER') }
-  #   it { should be_allowed('full-control', by_user: 'NT AUTHORITY\\SYSTEM') }
-  #   it { should be_allowed('full-control', by_user: 'BUILTIN\\Administrators') }
-  #   it { should be_allowed('read', by_user: 'BUILTIN\\Users') }
-  #   it { should be_allowed('read', by_user: 'APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES') }
-  # end
-
   paths = [
     "HKLM:\\\\Security",
     "HKLM:\\\\Software",
