@@ -87,22 +87,98 @@ control 'V-73249' do
   Users - Create folders/append data - This folder and subfolders
   Users - Create files/write data - Subfolders only
   CREATOR OWNER - Full Control - Subfolders and files only"
-  describe file('C:\\') do
-    it { should be_allowed('full-control', by_user: 'NT AUTHORITY\\SYSTEM') }
-    it { should be_allowed('full-control', by_user: 'BUILTIN\\Administrators') }
-    it { should be_allowed('read', by_user: 'BUILTIN\\Users') }
-  end
-  get_perms = command('Get-Acl -Path "C:\\" | Format-List | Findstr CREATOR').stdout
-  get_perms_full = command('Get-Acl -Path "C:\\" | Format-List | Findstr CREATOR').stdout
-  describe.one do
 
-    describe "The file permissions on C:\\ for user: CREATOR OWNER" do
-    subject { get_perms }
-      it { should eq "Access : CREATOR OWNER Allow  268435456\r\n" }
+  paths = [
+    "C:\\"
+  ]
+
+  paths.each do |path|
+    acl_rules = json(command: "(Get-ACL -Path '#{path}').Access | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "The '#{path}' folder\'s access rule property:" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "FullControl" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "NT AUTHORITY\\SYSTEM" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit, ObjectInherit" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
     end
-    describe "The file permissions on C:\\ for user: CREATOR OWNER" do
-    subject { get_perms_full }
-      it { should eq "Access : CREATOR OWNER Allow  FullControl\r\n" }
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "The '#{path}' folder\'s access rule property:" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "FullControl" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "BUILTIN\\Administrators" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit, ObjectInherit" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "The '#{path}' folder\'s access rule property:" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "ReadAndExecute, Synchronize" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "BUILTIN\\Users" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit, ObjectInherit" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "The '#{path}' folder\'s access rule property:" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "AppendData" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "BUILTIN\\Users" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "The '#{path}' folder\'s access rule property:" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "CreateFiles" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "BUILTIN\\Users" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit" }
+          its(['PropagationFlags']) { should cmp "InheritOnly" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "The '#{path}' folder\'s access rule property:" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "268435456" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "CREATOR OWNER" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit, ObjectInherit" }
+          its(['PropagationFlags']) { should cmp "InheritOnly" }
+        end
+      end
     end
   end
+
+  
 end
