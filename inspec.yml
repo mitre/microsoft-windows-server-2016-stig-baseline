@@ -132,6 +132,24 @@ inputs:
       }
     ]
 
+  - name: dod_cceb_certificates
+    description: 'List of DoD Interoperability Root Certificates'
+    type: Array
+    value: [
+      {
+        "Subject": "CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
+        "Issuer": "CN=US DoD CCEB Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US",
+        "Thumbprint": "DA36FAF56B2F6FBA1604F5BE46D864C9FA013BA3",
+        "NotAfter": "Saturday, March 09, 2019"
+      },
+      {
+        "Subject": "CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US",
+        "Issuer": "CN=US DoD CCEB Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
+        "Thumbprint": "929BF3196896994C0A201DF4A5B71F603FEFBF2E",
+        "NotAfter": "Friday, September 27, 2019"
+      }
+    ]
+    
   - name: built_in_admin_account
     description: 'Default account name for Built-In Administrator'
     type: String

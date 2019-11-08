@@ -102,10 +102,20 @@ control 'V-73609' do
 
   The FBCA Cross-Certificate Remover Tool and User Guide are available on IASE at
   http://iase.disa.mil/pki-pke/Pages/tools.aspx."
-  describe 'The US DoD CCEB Interoperability Root CA cross-certificates installed' do
-    subject { command('Get-ChildItem -Path Cert:Localmachine\\\\disallowed | Where $_.Issuer -Like
-    "*CCEB Interoperability*" | FL Subject,
-    Issuer, Thumbprint').stdout }
-    it { should eq "\r\n\r\nSubject    : CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nIssuer     : CN=US DoD CCEB Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nThumbprint : 22BBE981F0694D246CC1472ED2B021DC8540A22F\r\n\r\nSubject    : CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nIssuer     : CN=US DoD CCEB Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US\r\nThumbprint : FFAD03329B9E527A43EEC66A56F9CBB5393E6E13\r\n\r\n\r\n\r\n" }
+
+  is_unclassified_system = input('is_unclassified_system')
+  dod_cceb_certificates = JSON.parse(input('dod_cceb_certificates').to_json)
+  if is_unclassified_system
+    query = json({command: 'Get-ChildItem -Path Cert:Localmachine\\\\disallowed | Where {$_.Issuer -Like "*CCEB Interoperability*"} | Select Subject, Issuer, Thumbprint, @{Name=\'NotAfter\';Expression={"{0:dddd, MMMM dd, yyyy}" -f [datetime]$_.NotAfter}} | ConvertTo-Json'})
+    describe 'The US DoD CCEB Interoperability Root CA cross-certificates installed' do
+      subject { query.params }
+      it { should be_in dod_cceb_certificates }
+    end
+  else
+    impact 0.0
+    desc 'This is NOT an unclassified system, therefore this control is not applicable'
+    describe 'This is NOT an unclassified system, therefore this control is not applicable' do
+      skip 'This is NOT an unclassified system, therefore this control is not applicable'
+    end
   end
 end 

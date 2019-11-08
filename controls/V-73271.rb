@@ -26,8 +26,10 @@ control 'V-73271' do
 
   This does not apply to server-based applications that have a requirement for
   certificate files."
+
+  where_cmd = command('where /R c: *.p12 *.pfx').stdout
   describe "Software certificate installation files found on this system" do
-    subject { command('where /R c: *.p12 *.pfx').stdout }
+    subject { where_cmd }
     it { should eq '' }
   end
 end
