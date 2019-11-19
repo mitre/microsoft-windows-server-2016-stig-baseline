@@ -98,20 +98,145 @@ control 'V-73371' do
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   if domain_role == '4' || domain_role == '5'
-    describe file('C:\\Windows\\SYSVOL\\sysvol') do
-      it { should be_allowed('full-control', by_user: 'CREATOR OWNER') }
-      it { should be_allowed('read', by_user: 'NT AUTHORITY\\Authenticated Users Allow') }
-      it { should be_allowed('full-control', by_user: 'NT AUTHORITY\\SYSTEM') }
-      it { should be_allowed('read', by_user: 'BUILTIN\\Administrators') }
-      it { should be_allowed('read', by_user: 'BUILTIN\\Server Operators') }
-    end
-  end
+    path = json(command: "Get-WmiObject -Query \"SELECT * FROM Win32_Share WHERE Name = 'SYSVOL'\" | Select -Property Path | ConvertTo-JSON").params['Path']
+    acl_rules = json(command: "(Get-ACL -Path '#{path}') | Select -Property PSChildName -ExpandProperty Access | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
 
-  if domain_role != '4' && domain_role != '5'
+    if acl_rules.is_a?(Hash)
+      acl_rules = [JSON.parse(acl_rules.to_json)]
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Access rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "-536084480" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "CREATOR OWNER" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit, ObjectInherit" }
+          its(['PropagationFlags']) { should cmp "InheritOnly" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Access rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "-1610612736" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "NT AUTHORITY\\Authenticated Users" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit, ObjectInherit" }
+          its(['PropagationFlags']) { should cmp "InheritOnly" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Access rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "ReadAndExecute, Synchronize" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "NT AUTHORITY\\Authenticated Users" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Access rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "268435456" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "NT AUTHORITY\\SYSTEM" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit, ObjectInherit" }
+          its(['PropagationFlags']) { should cmp "InheritOnly" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Access rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "FullControl" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "NT AUTHORITY\\SYSTEM" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Access rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "-536084480" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "BUILTIN\\Administrators" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit, ObjectInherit" }
+          its(['PropagationFlags']) { should cmp "InheritOnly" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Access rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "Write, ReadAndExecute, ChangePermissions, TakeOwnership, Synchronize" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "BUILTIN\\Administrators" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Access rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "-1610612736" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "BUILTIN\\Server Operators" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit, ObjectInherit" }
+          its(['PropagationFlags']) { should cmp "InheritOnly" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Access rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "ReadAndExecute, Synchronize" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "BUILTIN\\Server Operators" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+  else
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
       skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     end
   end
+
 end

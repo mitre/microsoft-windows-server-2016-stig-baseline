@@ -131,41 +131,7 @@ control 'V-73375' do
   if domain_role == '4' || domain_role == '5'
     distinguishedName = json(command: '(Get-ADDomain).DistinguishedName | ConvertTo-JSON').params
     netbiosname = json(command: 'Get-ADDomain | Select NetBIOSName | ConvertTo-JSON').params['NetBIOSName']
-    acl_rules = json(command: "(Get-ACL -Path AD:'#{distinguishedName}').Access | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
-
-    describe.one do
-      acl_rules.each do |acl_rule|
-        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
-          subject { acl_rule }
-          its(['AccessControlType']) { should cmp "Allow" }
-          its(['IdentityReference']) { should cmp "CREATOR OWNER" }
-          its(['ActiveDirectoryRights']) { should match (/(genericwrite)|(genericread)|(genericall)|(genericall)|(delete)|(create)|(extendedright)/i) }
-        end
-      end
-    end
-
-    describe.one do
-      acl_rules.each do |acl_rule|
-        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
-          subject { acl_rule }
-          its(['AccessControlType']) { should cmp "Allow" }
-          its(['IdentityReference']) { should cmp "SELF" }
-          its(['ActiveDirectoryRights']) { should match (/(genericwrite)|(genericread)|(genericall)|(genericall)|(delete)|(create)|(extendedright)/i) }
-        end
-      end
-    end
-
-    describe.one do
-      acl_rules.each do |acl_rule|
-        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
-          subject { acl_rule }
-          its(['AccessControlType']) { should cmp "Allow" }
-          its(['IdentityReference']) { should cmp "NT AUTHORITY\\Authenticated Users" }
-          its(['ActiveDirectoryRights']) { should match (/(read)/i) }
-          its(['ActiveDirectoryRights']) { should_not match (/(write)|(delete)|(create)|(extendedright)/i) }
-        end
-      end
-    end
+    acl_rules = json(command: "(Get-ACL -Path AD:'OU=Domain Controllers,#{distinguishedName}').Access | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
 
     describe.one do
       acl_rules.each do |acl_rule|
@@ -174,45 +140,6 @@ control 'V-73375' do
           its(['AccessControlType']) { should cmp "Allow" }
           its(['IdentityReference']) { should cmp "NT AUTHORITY\\System" }
           its(['ActiveDirectoryRights']) { should cmp "GenericAll" }
-        end
-      end
-    end
-
-    describe.one do
-      acl_rules.each do |acl_rule|
-        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
-          subject { acl_rule }
-          its(['AccessControlType']) { should cmp "Allow" }
-          its(['IdentityReference']) { should cmp "#{netbiosname}\\Domain Admins" }
-          its(['ActiveDirectoryRights']) { should match (/(read)|(write)|(create)|(extendedright)/i) }
-        end
-      end
-    end
-
-    describe.one do
-      acl_rules.each do |acl_rule|
-        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
-          subject { acl_rule }
-          its(['AccessControlType']) { should cmp "Allow" }
-          its(['IdentityReference']) { should cmp "#{netbiosname}\\Key Admins" }
-          its(['ActiveDirectoryRights']) { should_not cmp "GenericAll" }
-          its(['ActiveDirectoryRights']) { should_not cmp "GenericWrite" }
-          its(['ActiveDirectoryRights']) { should_not cmp "GenericRead" }
-          its(['ActiveDirectoryRights']) { should_not cmp "GenericExecute" }
-        end
-      end
-    end
- 
-    describe.one do
-      acl_rules.each do |acl_rule|
-        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
-          subject { acl_rule }
-          its(['AccessControlType']) { should cmp "Allow" }
-          its(['IdentityReference']) { should cmp "#{netbiosname}\\Enterprise Key Admins" }
-          its(['ActiveDirectoryRights']) { should_not cmp "GenericAll" }
-          its(['ActiveDirectoryRights']) { should_not cmp "GenericWrite" }
-          its(['ActiveDirectoryRights']) { should_not cmp "GenericRead" }
-          its(['ActiveDirectoryRights']) { should_not cmp "GenericExecute" }
         end
       end
     end
@@ -244,8 +171,74 @@ control 'V-73375' do
         describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
           subject { acl_rule }
           its(['AccessControlType']) { should cmp "Allow" }
-          its(['IdentityReference']) { should cmp "BUILTIN\\Pre-Windows 2000 Compatible Access" }
-          its(['ActiveDirectoryRights']) { should cmp "ReadProperty" }
+          its(['IdentityReference']) { should cmp "#{netbiosname}\\Domain Admins" }
+          its(['ActiveDirectoryRights']) { should match (/(read)|(write)|(create)|(extendedright)/i) }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+          subject { acl_rule }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "CREATOR OWNER" }
+          its(['ActiveDirectoryRights']) { should_not match (/(genericwrite)|(genericread)|(genericall)|(genericexecute)/i) }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+          subject { acl_rule }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "NT AUTHORITY\\SELF" }
+          its(['ActiveDirectoryRights']) { should_not match (/(genericwrite)|(genericread)|(genericall)|(genericexecute)/i) }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+          subject { acl_rule }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "#{netbiosname}\\Key Admins" }
+          its(['ActiveDirectoryRights']) { should_not match (/(genericwrite)|(genericread)|(genericall)|(genericexecute)/i) }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+          subject { acl_rule }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "#{netbiosname}\\Enterprise Key Admins" }
+          its(['ActiveDirectoryRights']) { should match (/(read)|(write)|(create)|(extendedright)/i) }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+          subject { acl_rule }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS" }
+          its(['ActiveDirectoryRights']) { should_not match (/(genericwrite)|(genericall)|(genericexecute)/i) }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+          subject { acl_rule }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IdentityReference']) { should cmp "NT AUTHORITY\\Authenticated Users" }
+          its(['ActiveDirectoryRights']) { should match (/(read)/i) }
           its(['ActiveDirectoryRights']) { should_not match (/(write)|(delete)|(create)|(extendedright)/i) }
         end
       end
@@ -257,19 +250,7 @@ control 'V-73375' do
           subject { acl_rule }
           its(['AccessControlType']) { should cmp "Allow" }
           its(['IdentityReference']) { should cmp "BUILTIN\\Pre-Windows 2000 Compatible Access" }
-          its(['ActiveDirectoryRights']) { should cmp "GenericRead" }
-          its(['ActiveDirectoryRights']) { should_not match (/(write)|(delete)|(create)|(extendedright)/i) }
-        end
-      end
-    end
-
-    describe.one do
-      acl_rules.each do |acl_rule|
-        describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
-          subject { acl_rule }
-          its(['AccessControlType']) { should cmp "Allow" }
-          its(['IdentityReference']) { should cmp "BUILTIN\\Pre-Windows 2000 Compatible Access" }
-          its(['ActiveDirectoryRights']) { should cmp "ListChildren" }
+          its(['ActiveDirectoryRights']) { should match (/(read)/i) }
           its(['ActiveDirectoryRights']) { should_not match (/(write)|(delete)|(create)|(extendedright)/i) }
         end
       end
