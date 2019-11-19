@@ -145,6 +145,10 @@ control 'V-73391' do
     netbiosname = json(command: 'Get-ADDomain | Select NetBIOSName | ConvertTo-JSON').params['NetBIOSName']
     acl_rules = json(command: "(Get-ACL -Audit -Path AD:'#{distinguishedName}').Audit | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
 
+    if acl_rules.is_a?(Hash)
+      acl_rules = [JSON.parse(acl_rules.to_json)]
+    end
+
     describe.one do
       acl_rules.each do |acl_rule|
         describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
@@ -153,7 +157,8 @@ control 'V-73391' do
           its(['IdentityReference']) { should cmp "Everyone" }
           its(['ActiveDirectoryRights']) { should cmp "GenericAll" }
           its(['InheritanceFlags']) { should cmp "None" }
-          its(['PropogationFlags']) { should cmp nil }
+          its(['InheritanceType']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
         end
       end
     end
@@ -166,7 +171,8 @@ control 'V-73391' do
           its(['IdentityReference']) { should cmp "Everyone" }
           its(['ActiveDirectoryRights']) { should cmp "WriteProperty" }
           its(['InheritanceFlags']) { should cmp "ContainerInherit" }
-          its(['PropogationFlags']) { should cmp nil }
+          its(['InheritanceType']) { should cmp "All" }
+          its(['PropagationFlags']) { should cmp "None" }
         end
       end
     end
@@ -179,7 +185,8 @@ control 'V-73391' do
           its(['IdentityReference']) { should cmp "#{netbiosname}\\Domain Users" }
           its(['ActiveDirectoryRights']) { should cmp "ExtendedRight" }
           its(['InheritanceFlags']) { should cmp "None" }
-          its(['PropogationFlags']) { should cmp nil }
+          its(['InheritanceType']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
         end
       end
     end
@@ -192,7 +199,8 @@ control 'V-73391' do
           its(['IdentityReference']) { should cmp "BUILTIN\\Administrators" }
           its(['ActiveDirectoryRights']) { should cmp "ExtendedRight" }
           its(['InheritanceFlags']) { should cmp "None" }
-          its(['PropogationFlags']) { should cmp nil }
+          its(['InheritanceType']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
         end
       end
     end
@@ -205,7 +213,8 @@ control 'V-73391' do
           its(['IdentityReference']) { should cmp "Everyone" }
           its(['ActiveDirectoryRights']) { should cmp "WriteProperty, WriteDacl, WriteOwner" }
           its(['InheritanceFlags']) { should cmp "None" }
-          its(['PropogationFlags']) { should cmp nil }
+          its(['InheritanceType']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
         end
       end
     end

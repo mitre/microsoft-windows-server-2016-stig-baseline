@@ -129,14 +129,160 @@ The special permissions for Pre-Windows 2000 Compatible Access are for Read
 types.
 
 ENTERPRISE DOMAIN CONTROLLERS - Read, Special permissions"':'
-  domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  get_netbiosname = command('Get-ADDomain | Findstr NetBIOSName').stdout.strip
-  netbiosname = get_netbiosname[37..-1]
-  get_ou = command("Get-ADOrganizationalUnit -LDAPFilter '(name=*)' | Findstr DistinguishedName").stdout.strip
-  ou = get_ou[27..70]
+domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   if domain_role == '4' || domain_role == '5'
-    describe powershell("Import-Module ActiveDirectory; Get-Acl -Path 'AD:#{ou}' | Fl | Findstr All") do
-      its('stdout') { should eq "Access : NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n         NT AUTHORITY\\SYSTEM Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         #{netbiosname}\\Key Admins Allow  \r\n         #{netbiosname}\\Enterprise Key Admins Allow  \r\n         CREATOR OWNER Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Administrators Allow  \r\n" }
+    ous = json(command: "Get-ADOrganizationalUnit -Filter * | Select Name, DistinguishedName | ConvertTo-JSON").params
+    if ous.is_a?(Hash)
+      ous = [JSON.parse(ous.to_json)]
+    end
+    # if ous.count == 1 && ous[0]['Name'] == 'Domain Controllers'
+    #   impact 0.0
+    #   desc 'This system does not have any other OUs other than Domain Controller OU, therefore this control is not applicable as it only applies to OUs that are not Domain Controllers'
+    #   describe 'This system does not have any other OUs other than Domain Controller OU, therefore this control is not applicable as it only applies to OUs that are not Domain Controllers' do
+    #     skip 'This system does not have any other OUs other than Domain Controller OU, therefore this control is not applicable as it only applies to OUs that are not Domain Controllers'
+    #   end
+    # end
+    netbiosname = json(command: 'Get-ADDomain | Select NetBIOSName | ConvertTo-JSON').params['NetBIOSName']
+    ous.each do |ou|
+      # if ou['Name'] == 'Domain Controllers'
+        acl_rules = json(command: "(Get-ACL -Path AD:'#{ou['DistinguishedName']}').Access | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
+
+        describe.one do
+          acl_rules.each do |acl_rule|
+            describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+              subject { acl_rule }
+              its(['AccessControlType']) { should cmp "Allow" }
+              its(['IdentityReference']) { should cmp "NT AUTHORITY\\Self" }
+              its(['ActiveDirectoryRights']) { should_not cmp "GenericAll" }
+              its(['ActiveDirectoryRights']) { should_not cmp "ReadProperty, WriteProperty" }
+            end
+          end
+        end
+
+        describe.one do
+          acl_rules.each do |acl_rule|
+            describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+              subject { acl_rule }
+              its(['AccessControlType']) { should cmp "Allow" }
+              its(['IdentityReference']) { should cmp "NT AUTHORITY\\Authenticated Users" }
+              its(['ActiveDirectoryRights']) { should cmp "GenericRead" }
+            end
+          end
+        end
+
+        describe.one do
+          acl_rules.each do |acl_rule|
+            describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+              subject { acl_rule }
+              its(['AccessControlType']) { should cmp "Allow" }
+              its(['IdentityReference']) { should cmp "NT AUTHORITY\\SYSTEM" }
+              its(['ActiveDirectoryRights']) { should cmp "GenericAll" }
+            end
+          end
+        end
+
+        # describe.one do
+        #   acl_rules.each do |acl_rule|
+        #     describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+        #       subject { acl_rule }
+        #       its(['AccessControlType']) { should cmp "Allow" }
+        #       its(['IdentityReference']) { should cmp "#{netbiosname}\\Domain Admins" }
+        #       its(['ActiveDirectoryRights']) { should cmp "GenericAll" }
+        #     end
+        #   end
+        # end
+
+        describe.one do
+          acl_rules.each do |acl_rule|
+            describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+              subject { acl_rule }
+              its(['AccessControlType']) { should cmp "Allow" }
+              its(['IdentityReference']) { should cmp "#{netbiosname}\\Enterprise Admins" }
+              its(['ActiveDirectoryRights']) { should cmp "GenericAll" }
+            end
+          end
+        end
+
+        # describe.one do
+        #   acl_rules.each do |acl_rule|
+        #     describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+        #       subject { acl_rule }
+        #       its(['AccessControlType']) { should cmp "Allow" }
+        #       its(['IdentityReference']) { should cmp "#{netbiosname}\\Key Admins" }
+        #       its(['ActiveDirectoryRights']) { should_not cmp "GenericAll" }
+        #       its(['ActiveDirectoryRights']) { should_not cmp "ReadProperty, WriteProperty" }
+        #     end
+        #   end
+        # end
+
+        # describe.one do
+        #   acl_rules.each do |acl_rule|
+        #     describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+        #       subject { acl_rule }
+        #       its(['AccessControlType']) { should cmp "Allow" }
+        #       its(['IdentityReference']) { should cmp "#{netbiosname}\\Enterprise Key Admins" }
+        #       its(['ActiveDirectoryRights']) { should_not cmp "GenericAll" }
+        #       its(['ActiveDirectoryRights']) { should_not cmp "ReadProperty, WriteProperty" }
+        #     end
+        #   end
+        # end
+
+        describe.one do
+          acl_rules.each do |acl_rule|
+            describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+              subject { acl_rule }
+              its(['AccessControlType']) { should cmp "Allow" }
+              its(['IdentityReference']) { should cmp "BUILTIN\\Pre-Windows 2000 Compatible Access" }
+              its(['ActiveDirectoryRights']) { should cmp "ReadProperty" }
+            end
+          end
+        end
+
+        describe.one do
+          acl_rules.each do |acl_rule|
+            describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+              subject { acl_rule }
+              its(['AccessControlType']) { should cmp "Allow" }
+              its(['IdentityReference']) { should cmp "BUILTIN\\Pre-Windows 2000 Compatible Access" }
+              its(['ActiveDirectoryRights']) { should cmp "GenericRead" }
+            end
+          end
+        end
+
+        describe.one do
+          acl_rules.each do |acl_rule|
+            describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+              subject { acl_rule }
+              its(['AccessControlType']) { should cmp "Allow" }
+              its(['IdentityReference']) { should cmp "BUILTIN\\Pre-Windows 2000 Compatible Access" }
+              its(['ActiveDirectoryRights']) { should cmp "ListChildren" }
+            end
+          end
+        end
+
+        describe.one do
+          acl_rules.each do |acl_rule|
+            describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+              subject { acl_rule }
+              its(['AccessControlType']) { should cmp "Allow" }
+              its(['IdentityReference']) { should cmp "NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS" }
+              its(['ActiveDirectoryRights']) { should cmp "GenericRead" }
+            end
+          end
+        end
+
+        describe.one do
+          acl_rules.each do |acl_rule|
+            describe "The #{acl_rule['IdentityReference']} principal\'s access rule property" do
+              subject { acl_rule }
+              its(['AccessControlType']) { should cmp "Allow" }
+              its(['IdentityReference']) { should cmp "NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS" }
+              its(['ActiveDirectoryRights']) { should cmp "ReadProperty" }
+            end
+          end
+        end
+
+      # end
     end
   end
 

@@ -111,21 +111,60 @@ control 'V-73399' do
   Access - (blank)
   Inherited from - (CN of domain)"
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  get_netbiosname = command('Get-ADDomain | Findstr NetBIOSName').stdout.strip
-  netbiosname = get_netbiosname[37..-1]
-  get_distinguishedname = command('Get-ADDomain | Findstr DistinguishedName').stdout.strip
-  distinguishedName = get_distinguishedname[37..-1]
 
   if domain_role == '4' || domain_role == '5'
-    describe powershell("Import-Module ActiveDirectory; Get-Acl -Path AD:'CN=RID Manager$,CN=System,#{distinguishedName}' | fl | Findstr All") do
-      its('stdout') { should eq "Access : NT AUTHORITY\\Authenticated Users Allow  \r\n         NT AUTHORITY\\SYSTEM Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         #{netbiosname}\\Key Admins Allow  \r\n         #{netbiosname}\\Enterprise Key Admins Allow  \r\n         CREATOR OWNER Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         NT AUTHORITY\\SELF Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         BUILTIN\\Pre-Windows 2000 Compatible Access Allow  \r\n         BUILTIN\\Administrators Allow  \r\n" }
-    end
-    describe powershell("Import-Module ActiveDirectory; Get-Acl -Path AD:'CN=RID Manager$,CN=System,#{distinguishedName}'  -Audit| fl | Findstr Success") do
-      its('stdout') { should eq "Audit  : Everyone Success  \r\n         Everyone Success  \r\n         Everyone Success  \r\n" }
-    end
-  end
+    distinguishedName = json(command: '(Get-ADDomain).DistinguishedName | ConvertTo-JSON').params
+    netbiosname = json(command: 'Get-ADDomain | Select NetBIOSName | ConvertTo-JSON').params['NetBIOSName']
+    acl_rules = json(command: "(Get-ACL -Audit -Path AD:'CN=RID Manager$,CN=System,#{distinguishedName}').Audit | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
 
-  if domain_role != '4' && domain_role != '5'
+    if acl_rules.is_a?(Hash)
+      acl_rules = [JSON.parse(acl_rules.to_json)]
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['AuditFlags']) { should cmp "Fail" }
+          its(['IdentityReference']) { should cmp "Everyone" }
+          its(['ActiveDirectoryRights']) { should cmp "GenericAll" }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['InheritanceType']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['AuditFlags']) { should cmp "Success" }
+          its(['IdentityReference']) { should cmp "Everyone" }
+          its(['ActiveDirectoryRights']) { should match /^(?=.*?\bWriteProperty\b)(?=.*?\ExtendedRight\b).*$/ }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['InheritanceType']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['AuditFlags']) { should cmp "Success" }
+          its(['IdentityReference']) { should cmp "Everyone" }
+          its(['ActiveDirectoryRights']) { should cmp "WriteProperty" }
+          its(['IsInherited']) { should cmp "True" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit" }
+          its(['InheritanceType']) { should cmp "Descendents" }
+          its(['PropagationFlags']) { should cmp "InheritOnly" }
+        end
+      end
+    end
+
+  else
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
