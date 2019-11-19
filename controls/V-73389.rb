@@ -124,26 +124,53 @@ control 'V-73389' do
   Inherited from - Parent Object
   Applies to - Descendant Organization Unit Objects"
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  names = []
-  get_netbiosname = command('Get-ADDomain | Findstr NetBIOSName').stdout.strip
-  netbiosname = get_netbiosname[37..-1]
-  get_distinguished_name = command("Get-ADObject -Filter { objectclass -eq 'groupPolicyContainer'} | Findstr /v 'DistinguishedName --'").stdout.strip.split(' ')
-  get_distinguished_name.each do |name|
-    loc_bracket = name.index('CN=')
-    if loc_bracket == 0
-      names.push(name)
-    end
-  end
-
   if domain_role == '4' || domain_role == '5'
-    names.each do |distinguished_name|
-      describe powershell("Import-Module ActiveDirectory; Get-Acl -Path AD:'#{distinguished_name}' | fl | Findstr All") do
-        its('stdout') { should eq "Access : CREATOR OWNER Allow  \r\n         NT AUTHORITY\\ENTERPRISE DOMAIN CONTROLLERS Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n         NT AUTHORITY\\SYSTEM Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         #{netbiosname}\\Domain Admins Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         #{netbiosname}\\Enterprise Admins Allow  \r\n         NT AUTHORITY\\Authenticated Users Allow  \r\n" }
+    distinguishedNames = json(command: "Get-ADObject -Filter { objectclass -eq 'groupPolicyContainer'} | foreach {$_.DistinguishedName} | ConvertTo-JSON").params
+    distinguishedNames.each do |distinguishedName|
+      acl_rules = json(command: "(Get-ACL -Audit -Path AD:'#{distinguishedName}').Audit | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
+
+      if acl_rules.is_a?(Hash)
+        acl_rules = [JSON.parse(acl_rules.to_json)]
+      end
+
+      describe.one do
+        acl_rules.each do |acl_rule|
+          describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+            subject { acl_rule }
+            its(['AuditFlags']) { should cmp "Fail" }
+            its(['IdentityReference']) { should cmp "Everyone" }
+            its(['ActiveDirectoryRights']) { should cmp /(GenericAll)/ }
+          end
+        end
+      end
+
+      describe.one do
+        acl_rules.each do |acl_rule|
+          describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+            subject { acl_rule }
+            its(['AuditFlags']) { should cmp "Success" }
+            its(['IdentityReference']) { should cmp "Everyone" }
+            its(['ActiveDirectoryRights']) { should cmp /(WriteProperty)|(WriteDacl)/ }
+            its(['IsInherited']) { should cmp "True" }
+            its(['InheritanceType']) { should cmp "All" }
+          end
+        end
+      end
+
+      describe.one do
+        acl_rules.each do |acl_rule|
+          describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+            subject { acl_rule }
+            its(['AuditFlags']) { should cmp "Success" }
+            its(['IdentityReference']) { should cmp "Everyone" }
+            its(['ActiveDirectoryRights']) { should cmp /(WriteProperty)/ }
+            its(['IsInherited']) { should cmp "True" }
+            its(['InheritanceType']) { should cmp "Descendents" }
+          end
+        end
       end
     end
-  end
-
-  if !(domain_role == '4') && !(domain_role == '5')
+  else
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
