@@ -21,7 +21,7 @@ control 'V-73379' do
   tag "cci": ['CCI-001090']
   tag "nist": ['SC-4', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Run Regedit.
 
@@ -42,7 +42,7 @@ control 'V-73379' do
 
   If user shares are located on the same logical partition as the directory
   server data files, this is a finding."
-  tag "fix": "Move shares used to store files owned by users to a different
+  desc "fix", "Move shares used to store files owned by users to a different
   logical partition than the directory server data files."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 

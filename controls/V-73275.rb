@@ -29,13 +29,13 @@ control 'V-73275' do
   tag "cci": ['CCI-002420', 'CCI-002422']
   tag "nist": ['SC-8 (2)', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the data owner has a strict requirement for ensuring data
+  desc "check", "If the data owner has a strict requirement for ensuring data
   integrity and confidentiality is maintained at every step of the data transfer
   and handling process, verify protection methods such as TLS, encrypted VPNs, or
   IPsec have been implemented.
 
   If protection methods have not been implemented, this is a finding."
-  tag "fix": "Configure protection methods such as TLS, encrypted VPNs, or
+  desc "fix", "Configure protection methods such as TLS, encrypted VPNs, or
   IPsec when the data owner has a strict requirement for ensuring data integrity
   and confidentiality is maintained at every step of the data transfer and
   handling process."

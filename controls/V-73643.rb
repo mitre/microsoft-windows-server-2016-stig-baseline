@@ -17,7 +17,7 @@ control 'V-73643' do
   tag "cci": ['CCI-002418', 'CCI-002421']
   tag "nist": ['SC-8', 'SC-8 (1)', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
@@ -30,7 +30,7 @@ control 'V-73643' do
 
   This setting may prevent a system from being joined to a domain if not
   configured consistently between systems."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >> Domain
   member: Require strong (Windows 2000 or Later) session key to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters') do

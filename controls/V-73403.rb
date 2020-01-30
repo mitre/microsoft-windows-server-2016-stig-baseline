@@ -13,12 +13,12 @@ control 'V-73403' do
   tag "cci": ['CCI-001851']
   tag "nist": ['AU-4 (1)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the audit records, at a minimum, are off-loaded for
+  desc "check", "Verify the audit records, at a minimum, are off-loaded for
   interconnected systems in real time and off-loaded for standalone systems
   weekly.
 
   If they are not, this is a finding."
-  tag "fix": "Configure the system to, at a minimum, off-load audit records of
+  desc "fix", "Configure the system to, at a minimum, off-load audit records of
   interconnected systems in real time and off-load standalone systems weekly."
   describe "A manual review is required to verify the operating system is, at a minimum, off-loading audit records of
   interconnected systems in real time and off-loading standalone systems weekly" do

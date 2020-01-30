@@ -12,7 +12,7 @@ control 'V-73557' do
   tag "cci": ['CCI-001849']
   tag "nist": ['AU-4', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the system is configured to write events directly to an
+  desc "check", "If the system is configured to write events directly to an
   audit server, this is NA.
 
   If the following registry value does not exist or is not configured as
@@ -25,7 +25,7 @@ control 'V-73557' do
 
   Type: REG_DWORD
   Value: 0x00008000 (32768) (or greater)"
-  tag "fix": "Configure the policy value for Computer Configuration >>
+  desc "fix", "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> Event Log Service >> System
   >> Specify the maximum log file size (KB) to Enabled with a Maximum
   Log Size (KB) of 32768 or greater."

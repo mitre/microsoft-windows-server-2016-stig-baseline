@@ -16,7 +16,7 @@ control 'V-73651' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to member servers. For domain controllers and
+  desc "check", "This applies to member servers. For domain controllers and
   standalone systems, this is NA.
 
   If the following registry value does not exist or is not configured as
@@ -29,7 +29,7 @@ control 'V-73651' do
 
   Value Type:  REG_SZ
   Value:  4 (or less)"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
   Interactive Logon: Number of previous logons to cache (in case Domain
   Controller is not available) to 4 logons or less."

@@ -13,14 +13,14 @@ control 'V-73229' do
   tag "cci": ['CCI-000205']
   tag "nist": ['IA-5 (1) (a)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Determine if manually managed application/service accounts
+  desc "check", "Determine if manually managed application/service accounts
   exist. If none exist, this is NA.
 
   Verify the organization has a policy to ensure passwords for manually managed
   application/service accounts are at least 15 characters in length.
 
   If such a policy does not exist or has not been implemented, this is a finding."
-  tag "fix": "Establish a policy that requires application/service account
+  desc "fix", "Establish a policy that requires application/service account
   passwords that are manually managed to be at least 15 characters in length.
   Ensure the policy is enforced."
   describe security_policy do

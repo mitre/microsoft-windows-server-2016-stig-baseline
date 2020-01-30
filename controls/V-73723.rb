@@ -13,7 +13,7 @@ control 'V-73723' do
   tag "cci": ['CCI-000060']
   tag "nist": ['AC-11 (1)', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive: HKEY_CURRENT_USER
@@ -31,7 +31,7 @@ control 'V-73723' do
   - The logon session does not have administrator rights.
   - The display station (e.g., keyboard, monitor, etc.) is located in a
   controlled access area."
-  tag "fix": "Configure the policy value for User Configuration >>
+  desc "fix", "Configure the policy value for User Configuration >>
   Administrative Templates >> Control Panel >> Personalization >> Enable screen
   saver to Enabled."
   describe registry_key("HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Control

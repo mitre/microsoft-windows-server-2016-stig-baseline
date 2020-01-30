@@ -15,7 +15,7 @@ control 'V-73227' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "If no accounts are members of the Backup Operators group, this
+  desc "check", "If no accounts are members of the Backup Operators group, this
   is NA.
 
   Verify users with accounts in the Backup Operators group have a separate user
@@ -23,7 +23,7 @@ control 'V-73227' do
 
   If users with accounts in the Backup Operators group do not have separate
   accounts for backup functions and standard user functions, this is a finding."
-  tag "fix": "Ensure each member of the Backup Operators group has separate
+  desc "fix", "Ensure each member of the Backup Operators group has separate
   accounts for backup functions and standard user functions."
 
   backup_operators = attribute('backup_operators')

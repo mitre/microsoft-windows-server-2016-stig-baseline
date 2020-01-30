@@ -12,7 +12,7 @@ control 'V-73493' do
   tag "cci": ['CCI-000381']
   tag "nist": ['CM-7 a', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the registry value below.
+  desc "check", "Verify the registry value below.
 
   If it does not exist or is not configured as specified, this is a finding.
 
@@ -23,7 +23,7 @@ control 'V-73493' do
 
   Value Type: REG_DWORD
   Value: 0x00000001 (1)"
-  tag "fix": "Configure the policy value for Computer Configuration >>
+  desc "fix", "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Control Panel >> Personalization >> Prevent
   enabling lock screen slide show to Enabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\Personalization') do

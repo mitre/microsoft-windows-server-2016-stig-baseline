@@ -12,7 +12,7 @@ control 'V-73561' do
   tag "cci": ['CCI-002824']
   tag "nist": ['SI-16', 'Rev_4']
   tag "documentable": false
-  tag "check": "The default behavior is for Data Execution Prevention to be
+  desc "check", "The default behavior is for Data Execution Prevention to be
   turned on for File Explorer.
 
   If the registry value name below does not exist, this is not a finding.
@@ -28,7 +28,7 @@ control 'V-73561' do
 
   Value Type: REG_DWORD
   Value: 0x00000000 (0) (or if the Value Name does not exist)"
-  tag "fix": "The default behavior is for data execution prevention to be
+  desc "fix", "The default behavior is for data execution prevention to be
   turned on for File Explorer.
 
   If this needs to be corrected, configure the policy value for Computer

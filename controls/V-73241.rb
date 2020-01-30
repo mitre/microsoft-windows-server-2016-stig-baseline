@@ -12,12 +12,12 @@ control 'V-73241' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify an anti-virus solution is installed on the system. The
+  desc "check", "Verify an anti-virus solution is installed on the system. The
   anti-virus solution may be bundled with an approved host-based security
   solution.
 
   If there is no anti-virus solution installed on the system, this is a finding."
-  tag "fix": 'Install an anti-virus solution on the system.'
+  desc "fix", 'Install an anti-virus solution on the system.'
   describe.one do
     describe registry_key('HKLM\SOFTWARE\Symantec\Symantec Endpoint Protection\CurrentVersion') do
       it { should exist }

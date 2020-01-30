@@ -13,7 +13,7 @@ control 'V-73267' do
   tag "cci": ['CCI-001090']
   tag "nist": ['SC-4', 'Rev_4']
   tag "documentable": false
-  tag "check": "If only system-created shares such as ADMIN$, C$, and
+  desc "check", "If only system-created shares such as ADMIN$, C$, and
   IPC$ exist on the system, this is NA. (System-created shares will display a
   message that it has been shared for administrative purposes when Properties
   is selected.)
@@ -35,7 +35,7 @@ control 'V-73267' do
 
   If the permissions have not been configured to restrict permissions to the
   specific groups or accounts that require access, this is a finding."
-  tag "fix": "If a non-system-created share is required on a system, configure
+  desc "fix", "If a non-system-created share is required on a system, configure
   the share and NTFS permissions to limit access to the specific groups or
   accounts that require it.
 

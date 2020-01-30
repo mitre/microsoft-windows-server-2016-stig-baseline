@@ -29,7 +29,7 @@ control 'V-73389' do
   tag "cci": ['CCI-000172', 'CCI-002234']
   tag "nist": ['AU-12 c', 'AC-6 (9)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Review the auditing configuration for all Group Policy objects.
 
@@ -77,7 +77,7 @@ control 'V-73389' do
   gPLink, one instance - Write gPOptions)
   Inherited from - Parent Object
   Applies to - Descendant Organization Unit Objects"
-  tag "fix": "Configure the audit settings for Group Policy objects to include
+  desc "fix", "Configure the audit settings for Group Policy objects to include
   the following.
 
   This can be done at the Policy level in Active Directory to apply to all group

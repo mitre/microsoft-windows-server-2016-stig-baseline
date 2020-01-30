@@ -13,7 +13,7 @@ control 'V-78123' do
   tag "cci": ['CCI-000381']
   tag "nist": ['CM-7 a', 'Rev_4']
   tag "documentable": false
-  tag "check": "Different methods are available to disable SMBv1 on Windows
+  desc "check", "Different methods are available to disable SMBv1 on Windows
   2016, if V-73299 is configured, this is NA.
 
   If the following registry value does not exist or is not configured as
@@ -26,7 +26,7 @@ control 'V-78123' do
 
   Type: REG_DWORD
   Value: 0x00000000 (0)"
-  tag "fix": "Configure the policy value for Computer Configuration >>
+  desc "fix", "Configure the policy value for Computer Configuration >>
   Administrative Templates >> MS Security Guide >> Configure SMBv1 Server to
   Disabled.
 

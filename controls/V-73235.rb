@@ -19,7 +19,7 @@ control 'V-73235' do
   tag "cci": ['CCI-001774']
   tag "nist": ['CM-7 (5) (b)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This is applicable to unclassified systems. For other systems,
+  desc "check", "This is applicable to unclassified systems. For other systems,
   this is NA.
 
   Verify the operating system employs a deny-all, permit-by-exception policy to
@@ -56,7 +56,7 @@ control 'V-73235' do
   Application Whitelisting using Microsoft AppLocker at the following link:
 
   https://www.iad.gov/iad/library/ia-guidance/tech-briefs/application-whitelisting-using-microsoft-applocker.cfm"
-  tag "fix": "Configure an application whitelisting program to employ a
+  desc "fix", "Configure an application whitelisting program to employ a
   deny-all, permit-by-exception policy to allow the execution of authorized
   software programs.
 

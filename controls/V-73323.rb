@@ -17,7 +17,7 @@ control 'V-73323' do
   tag "cci": ['CCI-000192', 'CCI-000193', 'CCI-000194', 'CCI-001619']
   tag "nist": ['IA-5 (1) (a)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the effective setting in Local Group Policy Editor.
+  desc "check", "Verify the effective setting in Local Group Policy Editor.
 
   Run gpedit.msc.
 
@@ -31,7 +31,7 @@ control 'V-73323' do
   types and requires this setting to be set to Disabled, this would not be
   considered a finding. If this setting does not affect the use of an external
   password filter, it must be enabled for fallback purposes."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Password Policy >>
   Password must meet complexity requirements to Enabled."
   describe security_policy do

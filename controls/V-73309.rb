@@ -14,7 +14,7 @@ control 'V-73309' do
   tag "cci": ['CCI-002238']
   tag "nist": ['AC-7 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the effective setting in Local Group Policy Editor.
+  desc "check", "Verify the effective setting in Local Group Policy Editor.
   Run gpedit.msc.
 
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
@@ -25,7 +25,7 @@ control 'V-73309' do
 
   Configuring this to 0, requiring an administrator to unlock the account, is
   more restrictive and is not a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Account Lockout Policy >>
   Account lockout duration to 15 minutes or greater.
 

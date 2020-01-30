@@ -15,7 +15,7 @@ control 'V-73237' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "For standalone systems, this is NA.
+  desc "check", "For standalone systems, this is NA.
 
   Current hardware and virtual environments may not support virtualization-based
   security features, including Credential Guard, due to specific supporting
@@ -34,7 +34,7 @@ control 'V-73237' do
   TPM Manufacturer Information - Specific Version = 2.0 or 1.2
 
   If a TPM is not found or is not ready for use, this is a finding."
-  tag "fix": "Ensure domain-joined systems have a TPM that is configured for
+  desc "fix", "Ensure domain-joined systems have a TPM that is configured for
   use. (Versions 2.0 or 1.2 support Credential Guard.)
 
   The TPM must be enabled in the firmware.

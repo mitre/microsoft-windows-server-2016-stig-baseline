@@ -17,7 +17,7 @@ control 'V-73737' do
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Verify the effective setting in Local Group Policy Editor.
 
@@ -30,7 +30,7 @@ control 'V-73737' do
   workstations to domain right, this is a finding.
 
   - Administrators"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
   Add workstations to domain to include only the following accounts or groups:
 

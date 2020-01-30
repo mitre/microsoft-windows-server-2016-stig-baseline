@@ -12,7 +12,7 @@ control 'V-73547' do
   tag "cci": ['CCI-001764']
   tag "nist": ['CM-7 (2)', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
@@ -23,7 +23,7 @@ control 'V-73547' do
 
   Type: REG_DWORD
   Value: 0x00000001 (1)"
-  tag "fix": "Configure the policy value for Computer Configuration >>
+  desc "fix", "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> AutoPlay Policies >> Set
   the default behavior for AutoRun to Enabled with Do not execute any
   autorun commands selected."

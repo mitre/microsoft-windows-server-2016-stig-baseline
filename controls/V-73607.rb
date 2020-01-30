@@ -16,7 +16,7 @@ control 'V-73607' do
   tag "cci": ['CCI-000185', 'CCI-002470']
   tag "nist": ['IA-5 (2) (a)', 'SC-23 (5)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This is applicable to unclassified systems. It is NA for others.
+  desc "check", "This is applicable to unclassified systems. It is NA for others.
 
   Open PowerShell as an administrator.
 
@@ -97,7 +97,7 @@ control 'V-73607' do
   Issued By: DoD Interoperability Root CA 2
   Thumbprint: FCE1B1E25374DD94F5935BEB86CA643D8C8D1FF4
   Valid to: Sunday, February 17, 2019"
-  tag "fix": "Install the DoD Interoperability Root CA cross-certificates on
+  desc "fix", "Install the DoD Interoperability Root CA cross-certificates on
   unclassified systems.
 
   Issued To - Issued By - Thumbprint

@@ -29,7 +29,7 @@ control 'V-73399' do
   tag "cci": ['CCI-000172', 'CCI-002234']
   tag "nist": ['AU-12 c', 'AC-6 (9)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Review the auditing configuration for the RID Manager$ object.
 
@@ -72,7 +72,7 @@ control 'V-73399' do
   Principal - Everyone
   Access - (blank)
   Inherited from - (CN of domain)"
-  tag "fix": "Open Active Directory Users and Computers (available from
+  desc "fix", "Open Active Directory Users and Computers (available from
   various menus or run dsa.msc).
 
   Ensure Advanced Features is selected in the View menu.

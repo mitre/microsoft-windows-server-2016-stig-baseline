@@ -14,7 +14,7 @@ control 'V-73509' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "This requirement is applicable to domain-joined systems. For
+  desc "check", "This requirement is applicable to domain-joined systems. For
   standalone systems, this is NA.
 
   If the following registry values do not exist or are not configured as
@@ -33,7 +33,7 @@ control 'V-73509' do
   Value: RequireMutualAuthentication=1, RequireIntegrity=1
 
   Additional entries would not be a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >>
+  desc "fix", "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Network >> Network Provider >> Hardened UNC
   Paths to Enabled with at least the following configured in Hardened UNC
   Paths: (click the Show button to display)

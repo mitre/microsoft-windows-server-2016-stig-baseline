@@ -15,7 +15,7 @@ control 'V-73649' do
               'CCI-001387', 'CCI-001388']
   tag "nist": ['AC-8 a', 'AC-8 b', 'AC-8 c 1', 'AC-8 c 2', 'AC-8 c 3', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
@@ -35,7 +35,7 @@ control 'V-73649' do
 
   Automated tools may only search for the titles defined above. If an
   organization-defined title is used, a manual review will be required."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
   Interactive Logon: Message title for users attempting to log on to DoD
   Notice and Consent Banner, US Department of Defense Warning Statement, or

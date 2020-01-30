@@ -18,7 +18,7 @@ control 'V-73495' do
   tag "cci": ['CCI-001084']
   tag "nist": ['SC-3', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to member servers. For domain controllers and
+  desc "check", "This applies to member servers. For domain controllers and
   standalone systems, this is NA.
 
   If the following registry value does not exist or is not configured as
@@ -37,7 +37,7 @@ control 'V-73495' do
   where possible. If a local administrative account must be used, temporarily
   enabling the privileged token by configuring the registry value to 1 may be
   required."
-  tag "fix": "Configure the policy value for Computer Configuration >>
+  desc "fix", "Configure the policy value for Computer Configuration >>
   Administrative Templates >> MS Security Guide >> Apply UAC restrictions to
   local accounts on network logons to Enabled.
 

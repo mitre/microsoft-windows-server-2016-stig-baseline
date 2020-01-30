@@ -17,7 +17,7 @@ control 'V-73647' do
               'CCI-001386', 'CCI-001387', 'CCI-001388']
   tag "nist": ['AC-8 a', 'AC-8 b', 'AC-8 c 1', 'AC-8 c 2', 'AC-8 c 3', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
@@ -55,7 +55,7 @@ control 'V-73647' do
   by attorneys, psychotherapists, or clergy, and their assistants. Such
   communications and work product are private and confidential. See User
   Agreement for details."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
   Interactive Logon: Message text for users attempting to log on to the
   following:

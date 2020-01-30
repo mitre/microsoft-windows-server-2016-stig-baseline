@@ -14,7 +14,7 @@ control 'V-73517' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "For standalone systems, this is NA.
+  desc "check", "For standalone systems, this is NA.
 
   Current hardware and virtual environments may not support virtualization-based
   security features, including Credential Guard, due to specific supporting
@@ -51,7 +51,7 @@ control 'V-73517' do
   Value Type: REG_DWORD
   Value: 0x00000001 (1) (Enabled with UEFI lock), or 0x00000002 (2) (Enabled
   without lock)"
-  tag "fix": "Configure the policy value for Computer Configuration >>
+  desc "fix", "Configure the policy value for Computer Configuration >>
   Administrative Templates >> System >> Device Guard >> Turn On Virtualization
   Based Security to Enabled with Enabled with UEFI lock or Enabled
   without lock selected for Virtualization Based Protection for Code

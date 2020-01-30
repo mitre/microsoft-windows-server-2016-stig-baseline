@@ -18,7 +18,7 @@ control 'V-73733' do
   tag "cci": ['CCI-000213']
   tag "nist": ['AC-3', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to member servers and standalone systems. A
+  desc "check", "This applies to member servers and standalone systems. A
   separate version applies to domain controllers.
 
   Verify the effective setting in Local Group Policy Editor.
@@ -47,7 +47,7 @@ control 'V-73733' do
   The application account must meet requirements for application account
   passwords, such as length (WN16-00-000060) and required frequency of changes
   (WN16-00-000070)."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
   Access this computer from the network to include only the following
   accounts or groups:

@@ -19,7 +19,7 @@ control 'V-73757' do
   tag "cci": ['CCI-000213']
   tag "nist": ['AC-3', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. A separate version applies
+  desc "check", "This applies to domain controllers. A separate version applies
   to other systems.
 
   Verify the effective setting in Local Group Policy Editor.
@@ -33,7 +33,7 @@ control 'V-73757' do
   this computer from the network user right, this is a finding.
 
   - Guests Group"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
   Deny access to this computer from the network to include the following:
 

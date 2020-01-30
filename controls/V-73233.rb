@@ -13,7 +13,7 @@ control 'V-73233' do
   tag "cci": ['CCI-000764']
   tag "nist": ['IA-2', 'Rev_4']
   tag "documentable": false
-  tag "check": "Determine whether any shared accounts exist. If no shared
+  desc "check", "Determine whether any shared accounts exist. If no shared
   accounts exist, this is NA.
 
   Shared accounts, such as required by an application, may be approved by the
@@ -23,7 +23,7 @@ control 'V-73233' do
   activity.
 
   If unapproved shared accounts exist, this is a finding."
-  tag "fix": "Remove unapproved shared accounts from the system.
+  desc "fix", "Remove unapproved shared accounts from the system.
 
   Document required shared accounts with the ISSO. Documentation must include the
   reason for the account, who has access to the account, and how the risk of

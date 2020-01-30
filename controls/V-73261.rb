@@ -13,7 +13,7 @@ control 'V-73261' do
   tag "cci": ['CCI-000764']
   tag "nist": ['IA-2', 'Rev_4']
   tag "documentable": false
-  tag "check": "Review the password required status for enabled user accounts.
+  desc "check", "Review the password required status for enabled user accounts.
 
   Open PowerShell.
 
@@ -37,7 +37,7 @@ control 'V-73261' do
 
   If any enabled user accounts are returned with a PasswordRequired status of
   False, this is a finding."
-  tag "fix": "Configure all enabled accounts to require passwords.
+  desc "fix", "Configure all enabled accounts to require passwords.
 
   The password required flag can be set by entering the following on a command
   line: Net user [username] /passwordreq:yes, substituting [username] with

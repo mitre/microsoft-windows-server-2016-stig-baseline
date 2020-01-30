@@ -13,7 +13,7 @@ control 'V-73807' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b)', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
@@ -29,7 +29,7 @@ control 'V-73807' do
   the servers, such as administrative console logons, are manually locked or
   logged off when unattended or not in use, this would be acceptable. This must
   be documented with the ISSO."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
   Interactive logon: Smart card removal behavior to Lock Workstation or
   Force Logoff."

@@ -12,7 +12,7 @@ control 'V-73563' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "The default behavior is for File Explorer heap termination on
+  desc "check", "The default behavior is for File Explorer heap termination on
   corruption to be enabled.
 
   If the registry Value Name below does not exist, this is not a finding.
@@ -28,7 +28,7 @@ control 'V-73563' do
 
   Value Type: REG_DWORD
   Value: 0x00000000 (0) (or if the Value Name does not exist)"
-  tag "fix": "The default behavior is for File Explorer heap termination on
+  desc "fix", "The default behavior is for File Explorer heap termination on
   corruption to be disabled.
 
   If this needs to be corrected, configure the policy value for Computer

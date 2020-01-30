@@ -31,7 +31,7 @@ control 'V-73285' do
   tag "cci": ['CCI-001682']
   tag "nist": ['AC-2 (2)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Determine if emergency administrator accounts are used and
+  desc "check", "Determine if emergency administrator accounts are used and
   identify any that exist. If none exist, this is NA.
 
   If emergency administrator accounts cannot be configured with an expiration
@@ -60,7 +60,7 @@ control 'V-73285' do
 
   If Account expires has been defined and is not within 72 hours for an
   emergency administrator account, this is a finding."
-  tag "fix": "Remove emergency administrator accounts after a crisis has been
+  desc "fix", "Remove emergency administrator accounts after a crisis has been
   resolved or configure the accounts to automatically expire within 72 hours.
 
   Domain accounts can be configured with an account expiration date, under

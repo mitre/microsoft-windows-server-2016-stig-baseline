@@ -32,7 +32,7 @@ control 'V-73221' do
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to member servers and standalone systems. A
+  desc "check", "This applies to member servers and standalone systems. A
   separate version applies to domain controllers.
 
   Open Computer Management.
@@ -60,7 +60,7 @@ control 'V-73221' do
 
   If the built-in Administrator account or other required administrative accounts
   are found on the system, this is not a finding."
-  tag "fix": "Configure the local \"Administrators\" group to include only
+  desc "fix", "Configure the local \"Administrators\" group to include only
   administrator groups or accounts responsible for administration of the system.
 
   For domain-joined member servers, replace the Domain Admins group with a domain

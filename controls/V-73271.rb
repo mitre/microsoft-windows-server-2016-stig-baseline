@@ -13,7 +13,7 @@ control 'V-73271' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "Search all drives for *.p12 and *.pfx files.
+  desc "check", "Search all drives for *.p12 and *.pfx files.
 
   If any files with these extensions exist, this is a finding.
 
@@ -21,7 +21,7 @@ control 'V-73271' do
   certificate files. Some applications create files with extensions of .p12 that
   are not certificate installation files. Removal of non-certificate installation
   files from systems is not required. These must be documented with the ISSO."
-  tag "fix": "Remove any certificate installation files (*.p12 and *.pfx) found
+  desc "fix", "Remove any certificate installation files (*.p12 and *.pfx) found
   on a system.
 
   This does not apply to server-based applications that have a requirement for

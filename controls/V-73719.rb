@@ -15,7 +15,7 @@ control 'V-73719' do
   tag "cci": ['CCI-002038']
   tag "nist": ['IA-11', 'Rev_4']
   tag "documentable": false
-  tag "check": "UAC requirements are NA for Server Core installations (this is
+  desc "check", "UAC requirements are NA for Server Core installations (this is
   the default installation option for Windows Server 2016 versus Server with
   Desktop Experience) as well as Nano Server.
 
@@ -30,7 +30,7 @@ control 'V-73719' do
 
   Value Type: REG_DWORD
   Value: 0x00000001 (1)"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >> User
   Account Control: Run all administrators in Admin Approval Mode to
   Enabled."

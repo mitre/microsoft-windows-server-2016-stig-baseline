@@ -14,7 +14,7 @@ control 'V-73615' do
   tag "cci": ['CCI-000185']
   tag "nist": ['IA-5 (2) (a)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Review user account mappings to PKI certificates.
 
@@ -42,7 +42,7 @@ control 'V-73615' do
 
   If the mappings are to certificates issued by a CA authorized by the
   Component's CIO, this is a CAT II finding."
-  tag "fix": "Map user accounts to PKI certificates using the appropriate User
+  desc "fix", "Map user accounts to PKI certificates using the appropriate User
   Principal Name (UPN) for the network. See PKE documentation for details."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.to_s.strip
   query = 'Get-ADUser -Filter \'enabled -eq $true\' | Select-Object -Property Name, UserPrincipalName | ConvertTo-Json'
