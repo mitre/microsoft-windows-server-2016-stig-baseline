@@ -14,8 +14,7 @@ control 'V-73701' do
   tag "stig_id": 'WN16-SO-000430'
   tag "fix_id": 'F-80151r1_fix'
   tag "cci": ['CCI-000068', 'CCI-002450']
-  tag "nist": ['AC-17 (2)', 'Rev_4']
-  tag "nist": ['SC-13', 'Rev_4']
+  tag "nist": ['AC-17 (2)', 'SC-13', 'Rev_4']
   tag "documentable": false
   tag "check": "If the following registry value does not exist or is not
   configured as specified, this is a finding.

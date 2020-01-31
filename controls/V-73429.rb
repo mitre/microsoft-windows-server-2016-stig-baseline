@@ -22,8 +22,7 @@ control 'V-73429' do
   tag "fix_id": 'F-79871r1_fix'
   tag "cci": ['CCI-000018', 'CCI-000172', 'CCI-001403', 'CCI-001404',
               'CCI-001405', 'CCI-002130']
-  tag "nist": ['AC-2 (4)', 'Rev_4']
-  tag "nist": ['AU-12 c', 'Rev_4']
+  tag "nist": ['AC-2 (4)', 'AU-12 c', 'Rev_4']
   tag "documentable": false
   tag "check": "Security Option Audit: Force audit policy subcategory
   settings (Windows Vista or later) to override audit policy category settings

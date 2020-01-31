@@ -15,8 +15,7 @@ control 'V-73361' do
   tag "stig_id": 'WN16-DC-000030'
   tag "fix_id": 'F-79803r1_fix'
   tag "cci": ['CCI-001941', 'CCI-001942']
-  tag "nist": ['IA-2 (8)', 'Rev_4']
-  tag "nist": ['IA-2 (9)', 'Rev_4']
+  tag "nist": ['IA-2 (8)', 'IA-2 (9)', 'Rev_4']
   tag "documentable": false
   tag "check": "This applies to domain controllers. It is NA for other systems.
 

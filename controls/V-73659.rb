@@ -15,8 +15,7 @@ control 'V-73659' do
   tag "stig_id": 'WN16-SO-000220'
   tag "fix_id": 'F-80109r1_fix'
   tag "cci": ['CCI-001133', 'CCI-002361']
-  tag "nist": ['SC-10', 'Rev_4']
-  tag "nist": ['AC-12', 'Rev_4']
+  tag "nist": ['SC-10', 'AC-12', 'Rev_4']
   tag "documentable": false
   tag "check": "If the following registry value does not exist or is not
   configured as specified, this is a finding.

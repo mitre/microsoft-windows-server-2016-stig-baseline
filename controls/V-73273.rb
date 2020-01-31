@@ -24,8 +24,7 @@ control 'V-73273' do
   tag "stig_id": 'WN16-00-000280'
   tag "fix_id": 'F-79717r1_fix'
   tag "cci": ['CCI-001199', 'CCI-002475', 'CCI-002476']
-  tag "nist": ['SC-28', 'Rev_4']
-  tag "nist": ['SC-28 (1)', 'Rev_4']
+  tag "nist": ['SC-28', 'SC-28 (1)', 'Rev_4']
   tag "documentable": false
   tag "check": "Verify systems that require additional protections due to
   factors such as inadequate physical protection or sensitivity of the data
