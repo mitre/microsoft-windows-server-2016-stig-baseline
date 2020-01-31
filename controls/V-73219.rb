@@ -19,7 +19,6 @@ control 'V-73219' do
   tag "fix_id": 'F-79665r1_fix'
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
-  tag "nist": ['CCI-002235']
   tag "documentable": false
   tag "check": "This applies to domain controllers. A separate version applies
   to other systems.

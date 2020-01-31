@@ -13,8 +13,7 @@ control 'V-73259' do
   tag "stig_id": 'WN16-00-000210'
   tag "fix_id": 'F-79703r1_fix'
   tag "cci": ['CCI-000764', 'CCI-000795']
-  tag "nist": ['IA-2', 'Rev_4']
-  tag "nist": ['IA-5 e', 'Rev_4']
+  tag "nist": ['IA-2', 'IA-5 e', 'Rev_4']
   tag "documentable": false
   tag "check": "Open Windows PowerShell.
 

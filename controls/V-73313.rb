@@ -15,8 +15,7 @@ control 'V-73313' do
   tag "stig_id": 'WN16-AC-000030'
   tag "fix_id": 'F-79755r1_fix'
   tag "cci": ['CCI-000044', 'CCI-002238']
-  tag "nist": ['AC-7 a', 'Rev_4']
-  tag "nist": ['AC 7 b', 'Rev_4']
+  tag "nist": ['AC-7 a', 'AC 7 b', 'Rev_4']
   tag "documentable": false
   tag "check": "Verify the effective setting in Local Group Policy Editor.
 
