@@ -44,29 +44,18 @@ control 'V-73615' do
   Component's CIO, this is a CAT II finding."
   tag "fix": "Map user accounts to PKI certificates using the appropriate User
   Principal Name (UPN) for the network. See PKE documentation for details."
-  domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  query = command("Get-ADUser -Filter 'enabled -eq $true' | FT Name, UserPrincipalName | Findstr /v 'Name --- UserPrincipalName'").stdout.strip.split("\n")
-  names = []
-  user_principalnames = []
+  domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.to_s.strip
+  query = 'Get-ADUser -Filter \'enabled -eq $true\' | Select-Object -Property Name, UserPrincipalName | ConvertTo-Json'
 
   if domain_role == '4' || domain_role == '5'
-    query.each do |value|
-      account_name = value[0..12]
-      names.push(account_name)
-      userprincipalname = value[14..-1]
-
-      user_principalnames.push(userprincipalname)
-    end
-
-    user_principalnames.each do |principalname|
-      principalname.strip
-      describe principalname do
-        it { should match(/[\w*]@mil/) }
+    json({ command: query }).each do |user|
+      describe json({ content: user.to_json }) do
+        its('UserPrincipalName') { should match(/[\w*]@mil/) }
       end
     end
   end
 
-  if !domain_role == '4' && !domain_role == '5'
+  if !(domain_role == '4') && !(domain_role == '5')
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

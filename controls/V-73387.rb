@@ -77,36 +77,21 @@ control 'V-73387' do
   Enter Show values to verify changes.
 
   Enter q at the ldap policy: and ntdsutil: prompts to exit."
+  max_conn_idle_time = input('max_conn_idle_time')
   forrest = attribute('forrest')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  names = []
-  query = command("dsquery * 'cn=Default Query Policy,cn=Query-Policies,cn=Directory Service,
-  cn=Windows NT,cn=Services,cn=Configuration,#{forrest}' -attr LDAPAdminLimits").stdout.strip.split(';')
-  query.each do |data|
-    loc_equalsign = data.index('=')
-    name = data[0..loc_equalsign-1]
-    names.push(name)
-    value_start = loc_equalsign+1
-    value = data[value_start..-1]
-    if name == 'MaxConnIdleTime'
-      MaxConnIdleTime = value
-    end
-  end
   if domain_role == '4' || domain_role == '5'
-    [names].each do |n|
-      describe 'The ldapadminlimits' do
-        subject { n }
-        it { should include 'MaxConnIdleTime' }
-      end
+    query = command("dsquery * \"cn=Default Query Policy,cn=Query-Policies,cn=Directory Service, cn=Windows NT,cn=Services,cn=Configuration,dc=testdomain,dc=com\" -attr LDAPAdminLimits").stdout
+    ldap_admin_limits = parse_config(query.gsub(/;/, "\n")).params
+    describe "MaxConnIdleTime is configured" do
+      subject { ldap_admin_limits }
+      it { should include 'MaxConnIdleTime' }
     end
-
-    describe 'The MaxConnIdle' do
-      subject { MaxConnIdleTime }
+    describe "The MaxConnIdleTime" do
+      subject { ldap_admin_limits['MaxConnIdleTime'] }
       it { should cmp <= 300 }
     end
-  end
-
-  if !domain_role == '4' && !domain_role == '5'
+  else
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

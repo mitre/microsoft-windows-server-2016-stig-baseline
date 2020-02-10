@@ -128,16 +128,75 @@ control 'V-73395' do
   Inherited from - (CN of domain)
   Applies to - Descendant Organizational Unit objects"
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  get_ou = command("Import-Module ActiveDirectory | Get-ADOrganizationalUnit -LDAPFilter '(name=*)' | Findstr DistinguishedName | Findstr Controllers").stdout.strip
-  ou = get_ou[27..70]
 
   if domain_role == '4' || domain_role == '5'
-    describe powershell("Import-Module ActiveDirectory; Get-Acl -Path 'AD:#{ou}' -Audit | Fl | Findstr Success") do
-      its('stdout') { should eq "Audit  : Everyone Success  \r\n         Everyone Success  \r\n         Everyone Success  \r\n         Everyone Success  \r\n" }
-    end
-  end
+    distinguishedName = json(command: '(Get-ADDomain).DistinguishedName | ConvertTo-JSON').params
+    netbiosname = json(command: 'Get-ADDomain | Select NetBIOSName | ConvertTo-JSON').params['NetBIOSName']
+    acl_rules = json(command: "(Get-ACL -Audit -Path AD:'OU=Domain Controllers,#{distinguishedName}').Audit | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
 
-  if !domain_role == '4' && domain_role == '5'
+    if acl_rules.is_a?(Hash)
+      acl_rules = [JSON.parse(acl_rules.to_json)]
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['AuditFlags']) { should cmp "Fail" }
+          its(['IdentityReference']) { should cmp "Everyone" }
+          its(['ActiveDirectoryRights']) { should cmp "GenericAll" }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['InheritanceType']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['AuditFlags']) { should cmp "Success" }
+          its(['IdentityReference']) { should cmp "Everyone" }
+          its(['ActiveDirectoryRights']) { should match /(Create)|(Delete)|(Write)/ }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['InheritanceType']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['AuditFlags']) { should cmp "Success" }
+          its(['IdentityReference']) { should cmp "Everyone" }
+          its(['ActiveDirectoryRights']) { should cmp "WriteProperty" }
+          its(['IsInherited']) { should cmp "False" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit" }
+          its(['InheritanceType']) { should cmp "All" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+    describe.one do
+      acl_rules.each do |acl_rule|
+        describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
+          subject { acl_rule }
+          its(['AuditFlags']) { should cmp "Success" }
+          its(['IdentityReference']) { should cmp "Everyone" }
+          its(['ActiveDirectoryRights']) { should cmp "WriteProperty" }
+          its(['IsInherited']) { should cmp "True" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit" }
+          its(['InheritanceType']) { should cmp "All" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+      end
+    end
+
+  else
     impact 0.0
     desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do

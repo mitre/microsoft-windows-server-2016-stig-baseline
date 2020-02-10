@@ -51,23 +51,57 @@ control 'V-73369' do
 
   (I) - permission inherited from parent container
   (F) - full access"
+
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   if domain_role == '4' || domain_role == '5'
-
-    describe windows_registry("HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters") do
-      it { should be_allowed('full-control', by_user: 'CREATOR OWNER') }
-      it { should be_allowed('full-control', by_user: 'NT AUTHORITY\\SYSTEM') }
-      it { should be_allowed('full-control', by_user: 'BUILTIN\\Administrators') }
-      it { should be_allowed('read', by_user: 'BUILTIN\\Server Operators') }
+    default_path = "\\Windows\\NTDS"
+    reg_params = registry_key('HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NTDS\Parameters')
+    dsa_db_file_path = reg_params['DSA Database file'].split(":")[1]
+    db_log_files_path = reg_params['Database log files path'].split(":")[1]
+    if !dsa_db_file_path.start_with?(default_path) || !db_log_files_path.start_with?(default_path)
+      acl_rules = []
+      if !dsa_db_file_path.start_with?(default_path)
+        acl_rules = json(command: "(Get-ACL -Path '#{reg_params['DSA Database file']}') | Select -Property PSChildName -ExpandProperty Access | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
+      end
+      if !db_log_files_path.start_with?(default_path)
+        acl_rules.push(*json(command: "(Get-ACL -Path '#{reg_params['Database log files path']}\\\*.\*') | Select -Property PSChildName -ExpandProperty Access | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params)
+      end
+      acl_rules.each do |acl_rule|
+        describe "The #{acl_rule['PSChildName']} file\'s access rule property" do
+          subject { acl_rule }
+          its(['FileSystemRights']) { should cmp "FullControl" }
+          its(['AccessControlType']) { should cmp "Allow" }
+          its(['IsInherited']) { should cmp "True" }
+          its(['InheritanceFlags']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "None" }
+        end
+        describe.one do
+          describe "The #{acl_rule['PSChildName']} file\'s access rule property" do
+            subject { acl_rule }
+            its(['IdentityReference']) { should cmp "NT AUTHORITY\\SYSTEM" }
+          end
+          describe "The #{acl_rule['PSChildName']} file\'s access rule property" do
+            subject { acl_rule }
+            its(['IdentityReference']) { should cmp "BUILTIN\\Administrators" }
+          end
+        end
+      end
+    else
+      describe "Database log files path" do
+        subject { db_log_files_path }
+        it { should cmp default_path }
+      end
+      describe "DSA Database file" do
+        subject { dsa_db_file_path }
+        it { should start_with default_path}
+      end
     end
-  end
-
-  if domain_role != '4' && domain_role != '5'
+  else
     impact 0.0
-    desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
-    describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
-      skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    desc 'This system is not a domain controller, therefore this control is not applicable.'
+    describe 'This system is not a domain controller, therefore this control is not applicable.' do
+      skip 'This system is not a domain controller, therefore this control is not applicable.'
     end
   end
 end

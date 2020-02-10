@@ -72,11 +72,11 @@ control 'V-73775' do
   Systems dedicated to the management of Active Directory (AD admin platforms,
   see V-36436 in the Active Directory Domain STIG) are exempt from denying the
   Enterprise Admins and Domain Admins groups."
+  is_AD_only_system = input('is_AD_only_system')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
 
-  if domain_role == '4' || domain_role == '5'
+  if !(domain_role == '4') && !(domain_role == '5')
     if is_domain == 'WORKGROUP'
       describe.one do
         describe security_policy do
@@ -88,25 +88,33 @@ control 'V-73775' do
       end
 
     else
-      get_domain_sid = command('wmic useraccount get sid | FINDSTR /V SID | Select -First 2').stdout.strip
-      domain_sid = get_domain_sid[9..40]
-      describe security_policy do
-        its('SeDenyRemoteInteractiveLogonRight') { should include "S-1-21-#{domain_sid}-512" }
-      end
-      describe security_policy do
-        its('SeDenyRemoteInteractiveLogonRight') { should include "S-1-21-#{domain_sid}-519" }
-      end
-      describe security_policy do
-        its('SeDenyRemoteInteractiveLogonRight') { should include 'S-1-2-0' }
+      if is_AD_only_system
+        impact 0.0
+        desc 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
+        describe 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control' do
+          skip 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
+        end
+      else
+        get_domain_sid = command('wmic useraccount get sid | FINDSTR /V SID | Select -First 2').stdout.strip
+        domain_sid = get_domain_sid[9..40]
+        describe security_policy do
+          its('SeDenyRemoteInteractiveLogonRight') { should include "S-1-21-#{domain_sid}-512" }
+        end
+        describe security_policy do
+          its('SeDenyRemoteInteractiveLogonRight') { should include "S-1-21-#{domain_sid}-519" }
+        end
+        describe security_policy do
+          its('SeDenyRemoteInteractiveLogonRight') { should include 'S-1-2-0' }
+        end
       end
     end
   end
 
-  if !domain_role == '4' && !domain_role == '5'
+  if domain_role == '4' || domain_role == '5'
     impact 0.0
-    desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
-    describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
-      skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    desc 'This system is a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    describe 'This system is a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
+      skip 'This system is a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     end
   end
 end

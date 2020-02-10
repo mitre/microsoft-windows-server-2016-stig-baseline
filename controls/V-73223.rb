@@ -51,24 +51,33 @@ control 'V-73223' do
 
   Automated tools, such as Microsoft's LAPS, may be used on domain-joined member
   servers to accomplish this."
-  require 'date'
-  administrators = attribute('administrators')
 
-  if !administrators.empty?
-    administrators.each do |admin|
-      password_age = json({ command:"NEW-TIMESPAN –End (GET-DATE) –Start ([datetime]((net user #{admin} | \
-                        Select-String \"Password last set\").Line.Substring(29,10))) | convertto-json"}).Days
+  built_in_admin_account = input('built_in_admin_account')
+  domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-      describe "Administrator Password age for #{admin}" do
-        subject { password_age }
-        it { should cmp <= 60 }
-      end
-    end
+  if domain_role == '4' || domain_role == '5'
+    query = 'Get-ADUser -Filter * -Properties SID, PasswordLastSet | Where SID -Like *-500 | Select @{Name="Name";Expression={$_.SamAccountName}}, SID, @{Name="PasswordLastSet";Expression={New-TimeSpan -Start ($_.PasswordLastSet) -End (Get-Date) | Select Days, Hours}}| ConvertTo-JSON'
+  else
+    query = 'Get-LocalUser | Where SID -Like *-500 | Select Name, SID, @{Name="PasswordLastSet";Expression={New-TimeSpan -Start ($_.PasswordLastSet) -End (Get-Date) | Select Days}} | ConvertTo-JSON'
   end
 
-  if administrators.empty?
+  admin_account = json({command: query})
+  sid = admin_account['SID']['Value']
+  pwd_last_set_days = admin_account['PasswordLastSet']['Days']
+  account_name = admin_account['Name']
+
+  if !admin_account.empty? && sid.to_s.end_with?('-500') && account_name.to_s.eql?(built_in_admin_account)
+    describe "Password age for built-in Adminstrator account" do
+      subject { pwd_last_set_days }
+      it { should cmp <= 60 }
+    end
+    describe "The built-in Administrator account name" do
+      subject { account_name }
+      it { should_not cmp 'Administrator' }
+    end
+  else
     describe 'There are no administrative accounts on this system' do
       skip 'There are no administrative accounts on this system'
     end
   end
-end 
+end

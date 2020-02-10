@@ -78,11 +78,11 @@ control 'V-73759' do
   Note: These are built-in security groups. Local account is more restrictive
   but may cause issues on servers such as systems that provide failover
   clustering."
-
+  is_AD_only_system = input('is_AD_only_system')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
 
-  if !domain_role == '4' && !domain_role == '5'
+  if !(domain_role == '4') && !(domain_role == '5')
     if is_domain == 'WORKGROUP'
       describe.one do
         describe security_policy do
@@ -93,13 +93,21 @@ control 'V-73759' do
         end
       end
     else
-      get_domain_sid = command('wmic useraccount get sid | FINDSTR /V SID | Select -First 2').stdout.strip
-      domain_sid = get_domain_sid[9..40]
-      describe security_policy do
-        its('SeDenyNetworkLogonRight') { should include "S-1-21-#{domain_sid}-512" }
-      end
-      describe security_policy do
-        its('SeDenyNetworkLogonRight') { should include "S-1-21-#{domain_sid}-519" }
+      if is_AD_only_system
+        impact 0.0
+        desc 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
+        describe 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control' do
+          skip 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
+        end
+      else
+        get_domain_sid = command('wmic useraccount get sid | FINDSTR /V SID | Select -First 2').stdout.strip
+        domain_sid = get_domain_sid[9..40]
+        describe security_policy do
+          its('SeDenyNetworkLogonRight') { should include "S-1-21-#{domain_sid}-512" }
+        end
+        describe security_policy do
+          its('SeDenyNetworkLogonRight') { should include "S-1-21-#{domain_sid}-519" }
+        end
       end
     end
   end

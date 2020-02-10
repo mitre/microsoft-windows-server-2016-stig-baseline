@@ -74,22 +74,30 @@ control 'V-73221' do
 
   Remove any standard user accounts."
   administrators = attribute('administrators')
+  is_AD_only_system = input('is_AD_only_system')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split('\n')
 
-  if domain_role == '4' || domain_role == '5'
+  if (domain_role == '2' || domain_role == '3') && !is_AD_only_system
     administrator_group.each do |user|
       describe user.to_s do
         it { should be_in administrators }
       end
-    end 
+    end
   end
 
-  if domain_role != '4' && domain_role != '5'
+  if domain_role != '2' && domain_role != '3'
     impact 0.0
-    desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
-    describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
-      skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    desc 'This control applies to member servers and standalone systems. A separate version applies to domain controllers.'
+    describe 'This control applies to member servers and standalone systems. A separate version applies to domain controllers.' do
+      skip 'This control applies to member servers and standalone systems. A separate version applies to domain controllers.'
+    end
+  end
+  if is_AD_only_system
+    impact 0.0
+    desc 'This system is dedicated to the management of Active Directory, therefore this control is not applicable'
+    describe 'This system is dedicated to the management of Active Directory, therefore this control is not applicable' do
+      skip 'This system is dedicated to the management of Active Directory, therefore this control is not applicable'
     end
   end
   if administrator_group.empty?

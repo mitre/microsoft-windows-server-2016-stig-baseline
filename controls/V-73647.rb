@@ -93,7 +93,7 @@ control 'V-73647' do
   key = registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System').LegalNoticeText.to_s
 
   k = key.gsub("\u0000", '')
-  legal_notice_text = attribute('LegalNoticeText')
+  legal_notice_text = attribute('legal_notice_text')
 
   describe 'The required legal notice text' do
     subject { k.scan(/[\w().;,!]/).join }

@@ -31,7 +31,7 @@ control 'V-73541' do
   Unauthenticated RPC clients to Enabled with Authenticated selected."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
-  if !domain_role == '4' && !domain_role == '5'
+  if !(domain_role == '4') && !(domain_role == '5')
     describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc') do
       it { should have_property 'RestrictRemoteClients' }
       its('RestrictRemoteClients') { should cmp 1 }

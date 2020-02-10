@@ -36,8 +36,16 @@ control 'V-78123' do
   included with the STIG package. SecGuide.admx and SecGuide.adml must be
   copied to the \\Windows\\PolicyDefinitions and
   \\Windows\\PolicyDefinitions\\en-US directories respectively."
-  describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters') do
-    it { should have_property 'SMB1' }
-    its('SMB1') { should cmp 0 }
+  if windows_feature('FS-SMB1').installed?
+    describe registry_key('HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters') do
+      it { should have_property 'SMB1' }
+      its('SMB1') { should cmp 0 }
+    end
+  else
+    impact 0.0
+    desc 'SMBv1 is not installed on this system, therefore this control is not applicable'
+    describe 'SMBv1 is not installed on this system, therefore this control is not applicable' do
+      skip 'SMBv1 is not installed on this system, therefore this control is not applicable'
+    end
   end
 end
