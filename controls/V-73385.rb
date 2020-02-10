@@ -15,7 +15,7 @@ control 'V-73385' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Open Command Prompt (not elevated).
 
@@ -53,7 +53,7 @@ control 'V-73385' do
   Premise firewall or host restrictions prevent access to ports 389, 636, 3268,
   and 3269 from client hosts not explicitly identified by domain (.mil) or IP
   address."
-  tag "fix": "Configure directory data (outside the root DSE) of a non-public
+  desc "fix", "Configure directory data (outside the root DSE) of a non-public
   directory to prevent anonymous access.
 
   For AD, there are multiple configuration items that could enable anonymous

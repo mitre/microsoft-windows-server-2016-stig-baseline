@@ -14,7 +14,7 @@ control 'V-73689' do
   tag "cci": ['CCI-001133']
   tag "nist": ['SC-10', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the effective setting in Local Group Policy Editor.
+  desc "check", "Verify the effective setting in Local Group Policy Editor.
 
   Run gpedit.msc.
 
@@ -23,7 +23,7 @@ control 'V-73689' do
 
   If the value for Network security: Force logoff when logon hours expire is
   not set to Enabled, this is a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
   Network security: Force logoff when logon hours expire to Enabled."
   describe security_policy do

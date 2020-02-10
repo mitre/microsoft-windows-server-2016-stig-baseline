@@ -13,13 +13,13 @@ control 'V-73217' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify each user with administrative privileges has been
+  desc "check", "Verify each user with administrative privileges has been
   assigned a unique administrative account separate from their standard user
   account.
 
   If users with administrative privileges do not have separate accounts for
   administrative functions and standard user functions, this is a finding."
-  tag "fix": "Ensure each user with administrative privileges has a separate
+  desc "fix", "Ensure each user with administrative privileges has a separate
   account for user duties and one for privileged duties."
   administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split("\n")
   administrators = attribute('administrators')

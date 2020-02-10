@@ -15,7 +15,7 @@ control 'V-73231' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "Determine if manually managed application/service accounts
+  desc "check", "Determine if manually managed application/service accounts
   exist. If none exist, this is NA.
 
   If passwords for manually managed application/service accounts are not changed
@@ -45,7 +45,7 @@ control 'V-73231' do
   application/service account.
 
   If the Password Last Set date is more than one year old, this is a finding."
-  tag "fix": "Change passwords for manually managed application/service
+  desc "fix", "Change passwords for manually managed application/service
   accounts at least annually or when an administrator with knowledge of the
   password leaves the organization.
 

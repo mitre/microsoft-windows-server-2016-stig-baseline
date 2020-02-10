@@ -12,7 +12,7 @@ control 'V-73665' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the effective setting in Local Group Policy Editor.
+  desc "check", "Verify the effective setting in Local Group Policy Editor.
 
   Run gpedit.msc.
 
@@ -21,7 +21,7 @@ control 'V-73665' do
 
   If the value for Network access: Allow anonymous SID/Name translation is
   not set to Disabled, this is a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
   Network access: Allow anonymous SID/Name translation to Disabled."
   describe security_policy do

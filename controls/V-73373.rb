@@ -24,7 +24,7 @@ control 'V-73373' do
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Review the permissions on Group Policy objects.
 
@@ -80,7 +80,7 @@ control 'V-73373' do
   objects permission on the two default Group Policy objects: Default Domain
   Policy and Default Domain Controllers Policy. They will have this permission on
   organization created Group Policy objects."
-  tag "fix": "Maintain the permissions on Group Policy objects to not allow
+  desc "fix", "Maintain the permissions on Group Policy objects to not allow
   greater than Read and Apply group policy for standard user accounts or
   groups. The default permissions below meet this requirement.
 

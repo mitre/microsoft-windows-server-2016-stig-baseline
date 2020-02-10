@@ -13,7 +13,7 @@ control 'V-73257' do
   tag "cci": ['CCI-000213']
   tag "nist": ['AC-3', 'Rev_4']
   tag "documentable": false
-  tag "check": "Open Devices and Printers.
+  desc "check", "Open Devices and Printers.
 
   If there are no printers configured, this is NA. (Exclude Microsoft Print to
   PDF and Microsoft XPS Document Writer, which do not support sharing.)
@@ -35,7 +35,7 @@ control 'V-73257' do
 
   All APPLICATION PACKAGES and CREATOR OWNER are not standard user
   accounts."
-  tag "fix": "Configure the permissions on shared printers to restrict standard
+  desc "fix", "Configure the permissions on shared printers to restrict standard
   users to only have Print permissions."
   describe "Nonadministrative user accounts or groups must only have print
   permissions on printer shares." do

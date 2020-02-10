@@ -15,7 +15,7 @@ control 'V-73259' do
   tag "cci": ['CCI-000764', 'CCI-000795']
   tag "nist": ['IA-2', 'IA-5 e', 'Rev_4']
   tag "documentable": false
-  tag "check": "Open Windows PowerShell.
+  desc "check", "Open Windows PowerShell.
 
   Domain Controllers:
 
@@ -59,7 +59,7 @@ control 'V-73259' do
 
   Inactive accounts that have been reviewed and deemed to be required must be
   documented with the ISSO."
-  tag "fix": "Regularly review accounts to determine if they are still active.
+  desc "fix", "Regularly review accounts to determine if they are still active.
   Remove or disable accounts that have not been used in the last 35 days."
   
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip

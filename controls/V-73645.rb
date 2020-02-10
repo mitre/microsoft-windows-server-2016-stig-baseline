@@ -14,7 +14,7 @@ control 'V-73645' do
   tag "cci": ['CCI-000057']
   tag "nist": ['AC-11 a', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
@@ -25,7 +25,7 @@ control 'V-73645' do
 
   Value Type: REG_DWORD
   Value: 0x00000384 (900) (or less)"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
   Interactive logon: Machine inactivity limit to 900 seconds or less."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System') do

@@ -29,7 +29,7 @@ control 'V-73225' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "Determine whether organization policy, at a minimum, prohibits
+  desc "check", "Determine whether organization policy, at a minimum, prohibits
   administrative accounts from using applications that access the Internet, such
   as web browsers, or with potential Internet sources, such as email, except as
   necessary for local service administration.
@@ -38,7 +38,7 @@ control 'V-73225' do
 
   The organization may use technical means such as whitelisting to prevent the
   use of browsers and mail applications to enforce this requirement."
-  tag "fix": "Establish a policy, at minimum, to prohibit administrative
+  desc "fix", "Establish a policy, at minimum, to prohibit administrative
   accounts from using applications that access the Internet, such as web
   browsers, or with potential Internet sources, such as email. Ensure the policy
   is enforced.

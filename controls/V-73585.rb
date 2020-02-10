@@ -13,7 +13,7 @@ control 'V-73585' do
   tag "cci": ['CCI-001812']
   tag "nist": ['CM-11 (2)', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
@@ -23,7 +23,7 @@ control 'V-73585' do
 
   Type: REG_DWORD
   Value: 0x00000000 (0)"
-  tag "fix": "Configure the policy value for Computer Configuration >>
+  desc "fix", "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> Windows Installer >> Always
   install with elevated privileges to Disabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Installer') do

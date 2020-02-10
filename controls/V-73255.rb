@@ -13,7 +13,7 @@ control 'V-73255' do
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Review the registry permissions for the keys of the
+  desc "check", "Review the registry permissions for the keys of the
   HKEY_LOCAL_MACHINE hive noted below.
 
   If any non-privileged groups such as Everyone, Users, or Authenticated Users
@@ -62,7 +62,7 @@ control 'V-73255' do
   instances where non-privileged groups have greater than Read permission.
 
   If the defaults have not been changed, these are not a finding."
-  tag "fix": "Maintain the default permissions for the HKEY_LOCAL_MACHINE
+  desc "fix", "Maintain the default permissions for the HKEY_LOCAL_MACHINE
   registry hive.
 
   The default permissions of the higher-level keys are noted below.

@@ -20,7 +20,7 @@ control 'V-73219' do
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. A separate version applies
+  desc "check", "This applies to domain controllers. A separate version applies
   to other systems.
 
   Review the Administrators group. Only the appropriate administrator groups or
@@ -34,7 +34,7 @@ control 'V-73219' do
 
   If the built-in Administrator account or other required administrative accounts
   are found on the system, this is not a finding."
-  tag "fix": "Configure the Administrators group to include only administrator
+  desc "fix", "Configure the Administrators group to include only administrator
   groups or accounts that are responsible for the system.
 
   Remove any standard user accounts."

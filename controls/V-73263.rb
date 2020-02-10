@@ -11,7 +11,7 @@ control 'V-73263' do
   tag "cci": ['CCI-000199']
   tag "nist": ['IA-5 (1) (d)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Review the password never expires status for enabled user
+  desc "check", "Review the password never expires status for enabled user
   accounts.
 
   Open PowerShell.
@@ -37,7 +37,7 @@ control 'V-73263' do
 
   If any enabled user accounts are returned with a PasswordExpires status of
   False, this is a finding."
-  tag "fix": "Configure all enabled user account passwords to expire.
+  desc "fix", "Configure all enabled user account passwords to expire.
 
   Uncheck Password never expires for all enabled user accounts in Active
   Directory Users and Computers for domain accounts and Users in Computer

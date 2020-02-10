@@ -12,7 +12,7 @@ control 'V-73685' do
   tag "cci": ['CCI-000803']
   tag "nist": ['IA-7', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
@@ -23,7 +23,7 @@ control 'V-73685' do
 
   Value Type: REG_DWORD
   Value: 0x7ffffff8 (2147483640)"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
   Network security: Configure encryption types allowed for Kerberos to
   Enabled with only the following selected:

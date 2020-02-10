@@ -12,7 +12,7 @@ control 'V-73533' do
   tag "cci": ['CCI-000381']
   tag "nist": ['CM-7 a', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to member servers. For domain controllers and
+  desc "check", "This applies to member servers. For domain controllers and
   standalone systems, this is NA.
 
   If the following registry value does not exist or is not configured as
@@ -25,7 +25,7 @@ control 'V-73533' do
 
   Type: REG_DWORD
   Value: 0x00000000 (0)"
-  tag "fix": "Configure the policy value for Computer Configuration >>
+  desc "fix", "Configure the policy value for Computer Configuration >>
   Administrative Templates >> System >> Logon >> Enumerate local users on
   domain-joined computers to Disabled."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip

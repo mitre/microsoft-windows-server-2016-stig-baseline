@@ -13,7 +13,7 @@ control 'V-73317' do
   tag "cci": ['CCI-000199']
   tag "nist": ['IA-5 (1) (d)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the effective setting in Local Group Policy Editor.
+  desc "check", "Verify the effective setting in Local Group Policy Editor.
 
   Run gpedit.msc.
 
@@ -24,7 +24,7 @@ control 'V-73317' do
   is a finding.
 
   If the value is set to 0 (never expires), this is a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Password Policy >>
   Maximum password age to 60 days or less (excluding 0, which is
   unacceptable)."

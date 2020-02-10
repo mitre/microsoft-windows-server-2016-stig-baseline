@@ -13,7 +13,7 @@ control 'V-73667' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
@@ -23,7 +23,7 @@ control 'V-73667' do
 
   Value Type: REG_DWORD
   Value: 0x00000001 (1)"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
   Network access: Do not allow anonymous enumeration of SAM accounts to
   Enabled."

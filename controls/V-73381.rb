@@ -20,7 +20,7 @@ control 'V-73381' do
   tag "cci": ['CCI-000381']
   tag "nist": ['CM-7', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers, It is NA for other systems.
+  desc "check", "This applies to domain controllers, It is NA for other systems.
 
   Review the installed roles the domain controller is supporting.
 
@@ -52,7 +52,7 @@ control 'V-73381' do
 
   If any applications are installed that are not required for the domain
   controller, this is a finding."
-  tag "fix": "Remove additional roles or applications such as web, database,
+  desc "fix", "Remove additional roles or applications such as web, database,
   and email from the domain controller."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 

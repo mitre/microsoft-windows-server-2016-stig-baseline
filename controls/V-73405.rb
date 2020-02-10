@@ -19,7 +19,7 @@ control 'V-73405' do
   tag "cci": ['CCI-000162', 'CCI-000163', 'CCI-000164']
   tag "nist": ['AU-9', 'Rev_4']
   tag "documentable": false
-  tag "check": "Navigate to the Application event log file.
+  desc "check", "Navigate to the Application event log file.
 
   The default location is the %SystemRoot%\\System32\\winevt\\Logs folder.
   However, the logs may have been moved to another folder.
@@ -30,7 +30,7 @@ control 'V-73405' do
   Eventlog - Full Control
   SYSTEM - Full Control
   Administrators - Full Control"
-  tag "fix": "Configure the permissions on the Application event log file
+  desc "fix", "Configure the permissions on the Application event log file
   (Application.evtx) to prevent access by non-privileged accounts. The default
   permissions listed below satisfy this requirement:
 

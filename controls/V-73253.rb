@@ -20,7 +20,7 @@ control 'V-73253' do
   tag "cci": ['CCI-002165']
   tag "nist": ['AC-3 (4)', 'Rev_4']
   tag "documentable": false
-  tag "check": "The default permissions are adequate when the Security Option
+  desc "check", "The default permissions are adequate when the Security Option
   Network access: Let everyone permissions apply to anonymous users is set to
   Disabled (WN16-SO-000290).
 
@@ -82,7 +82,7 @@ control 'V-73253' do
   APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION
   PACKAGES:(OI)(CI)(IO)(GR,GE)
   Successfully processed 1 files; Failed processing 0 files"
-  tag "fix": "Maintain the default file ACLs and configure the Security Option
+  desc "fix", "Maintain the default file ACLs and configure the Security Option
   Network access: Let everyone permissions apply to anonymous users to
   Disabled (WN16-SO-000290).
 

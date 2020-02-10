@@ -12,14 +12,14 @@ control 'V-73291' do
   tag "cci": ['CCI-000381']
   tag "nist": ['CM-7', 'Rev_4']
   tag "documentable": false
-  tag "check": "Open PowerShell.
+  desc "check", "Open PowerShell.
 
   Enter Get-WindowsFeature | Where Name -eq PNRP.
 
   If Installed State is Installed, this is a finding.
 
   An Installed State of Available or Removed is not a finding."
-  tag "fix": "Uninstall the Peer Name Resolution Protocol feature.
+  desc "fix", "Uninstall the Peer Name Resolution Protocol feature.
 
   Start Server Manager.
 

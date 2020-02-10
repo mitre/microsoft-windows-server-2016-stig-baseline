@@ -21,7 +21,7 @@ control 'V-73629' do
   tag "cci": ['CCI-002418', 'CCI-002421']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   If the following registry value does not exist or is not configured as
   specified, this is a finding.
@@ -33,7 +33,7 @@ control 'V-73629' do
 
   Value Type: REG_DWORD
   Value: 0x00000002 (2)"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >> Domain
   controller: LDAP server signing requirements to Require signing."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip

@@ -13,7 +13,7 @@ control 'V-73247' do
   tag "cci": ['CCI-000213']
   tag "nist": ['AC-3', 'Rev_4']
   tag "documentable": false
-  tag "check": "Open Computer Management.
+  desc "check", "Open Computer Management.
 
   Select Disk Management under Storage.
 
@@ -24,7 +24,7 @@ control 'V-73247' do
 
   This does not apply to system partitions such the Recovery and EFI System
   Partition."
-  tag "fix": 'Format volumes to use NTFS or ReFS.'
+  desc "fix", 'Format volumes to use NTFS or ReFS.'
 
   volumes = json(command: 'Get-WmiObject -Class Win32_LogicalDisk | Where { $_.DriveType -ne 5 } | Select Name, FileSystem, Description | ConvertTo-JSON').params
 

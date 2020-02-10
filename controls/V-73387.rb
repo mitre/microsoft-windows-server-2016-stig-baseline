@@ -18,7 +18,7 @@ control 'V-73387' do
   tag "cci": ['CCI-001133']
   tag "nist": ['SC-10', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Open an elevated Command Prompt (run as administrator).
 
@@ -54,7 +54,7 @@ control 'V-73387' do
 
   If the results do not specify a MaxConnIdleTime or it has a value greater
   than 300 (5 minutes), this is a finding."
-  tag "fix": "Configure the directory service to terminate LDAP-based network
+  desc "fix", "Configure the directory service to terminate LDAP-based network
   connections to the directory server after 5 minutes of inactivity.
 
   Open an elevated Command prompt (run as administrator).

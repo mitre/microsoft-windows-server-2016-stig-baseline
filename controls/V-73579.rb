@@ -11,7 +11,7 @@ control 'V-73579' do
   tag "cci": ['CCI-000381']
   tag "nist": ['CM-7 a', 'Rev_4']
   tag "documentable": false
-  tag "check": "The default behavior is for the Windows RSS platform to not use
+  desc "check", "The default behavior is for the Windows RSS platform to not use
   Basic authentication over HTTP connections.
 
   If the registry value name below does not exist, this is not a finding.
@@ -27,7 +27,7 @@ control 'V-73579' do
 
   Value Type: REG_DWORD
   Value: 0x00000000 (0) (or if the Value Name does not exist)"
-  tag "fix": "The default behavior is for the Windows RSS platform to not use
+  desc "fix", "The default behavior is for the Windows RSS platform to not use
   Basic authentication over HTTP connections.
 
   If this needs to be corrected, configure the policy value for Computer

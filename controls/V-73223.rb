@@ -21,7 +21,7 @@ control 'V-73223' do
   tag "cci": ['CCI-000199']
   tag "nist": ['IA-5 (1) (d)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Review the password last set date for the built-in
+  desc "check", "Review the password last set date for the built-in
   Administrator account.
  
   Domain controllers:
@@ -46,7 +46,7 @@ control 'V-73223' do
 
   If the PasswordLastSet date is greater than 60 days old, this is a
   finding."
-  tag "fix": "Change the built-in Administrator account password at least every
+  desc "fix", "Change the built-in Administrator account password at least every
   60 days.
 
   Automated tools, such as Microsoft's LAPS, may be used on domain-joined member

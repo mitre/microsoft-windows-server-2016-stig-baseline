@@ -19,7 +19,7 @@ control 'V-73773' do
   tag "cci": ['CCI-002314']
   tag "nist": ['AC-17 (1)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. A separate version applies
+  desc "check", "This applies to domain controllers. A separate version applies
   to other systems.
 
   Verify the effective setting in Local Group Policy Editor.
@@ -33,7 +33,7 @@ control 'V-73773' do
   through Remote Desktop Services user right, this is a finding.
 
   - Guests Group"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
   Deny log on through Remote Desktop Services to include the following:
 

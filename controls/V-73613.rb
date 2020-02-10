@@ -17,7 +17,7 @@ control 'V-73613' do
   tag "cci": ['CCI-000185']
   tag "nist": ['IA-5 (2) (a)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Run MMC.
 
@@ -60,7 +60,7 @@ control 'V-73613' do
   the PKI and PKE Tools page on IASE:
 
   http://iase.disa.mil/pki-pke/function_pages/tools.html"
-  tag "fix": "Obtain a server certificate for the domain controller issued by
+  desc "fix", "Obtain a server certificate for the domain controller issued by
   the DoD PKI or an approved ECA."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 

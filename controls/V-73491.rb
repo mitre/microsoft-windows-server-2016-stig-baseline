@@ -22,7 +22,7 @@ control 'V-73491' do
   tag "cci": ['CCI-000172', 'CCI-002234']
   tag "nist": ['AU-12 c', 'AC-6 (9)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Security Option Audit: Force audit policy subcategory
+  desc "check", "Security Option Audit: Force audit policy subcategory
   settings (Windows Vista or later) to override audit policy category settings
   must be set to Enabled (WN16-SO-000050) for the detailed auditing
   subcategories to be effective.
@@ -38,7 +38,7 @@ control 'V-73491' do
   If the system does not audit the following, this is a finding.
 
   System >> System Integrity - Failure"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Advanced Audit Policy Configuration >> System
   Audit Policies >> System >> Audit System Integrity with Failure
   selected."

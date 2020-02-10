@@ -15,7 +15,7 @@ control 'V-73603' do
   tag "cci": ['CCI-002038']
   tag "nist": ['IA-11', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
@@ -25,7 +25,7 @@ control 'V-73603' do
 
   Type: REG_DWORD
   Value: 0x00000001 (1)"
-  tag "fix": "Configure the policy value for Computer Configuration >>
+  desc "fix", "Configure the policy value for Computer Configuration >>
   Administrative Templates >> Windows Components >> Windows Remote Management
   (WinRM) >> WinRM Service >> Disallow WinRM from storing RunAs credentials
   to Enabled."

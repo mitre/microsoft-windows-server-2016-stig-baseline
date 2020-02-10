@@ -17,7 +17,7 @@ control 'V-73659' do
   tag "cci": ['CCI-001133', 'CCI-002361']
   tag "nist": ['SC-10', 'AC-12', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive:  HKEY_LOCAL_MACHINE
@@ -28,7 +28,7 @@ control 'V-73659' do
 
   Value Type:  REG_DWORD
   Value:  0x0000000f (15) (or less)"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
   Microsoft Network Server: Amount of idle time required before suspending
   session to 15 minutes or less."

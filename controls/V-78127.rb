@@ -16,7 +16,7 @@ some reason."
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "Review the effective User Rights setting in Local Group Policy
+  desc "check", "Review the effective User Rights setting in Local Group Policy
   Editor.
   Run gpedit.msc.
 
@@ -29,7 +29,7 @@ some reason."
 
   If any unresolved SIDs exist and are not for currently valid accounts or
   groups, this is a finding."
-  tag "fix": "Remove any unresolved SIDs found in User Rights assignments and
+  desc "fix", "Remove any unresolved SIDs found in User Rights assignments and
   determined to not be for currently valid accounts or groups by removing the
   accounts or groups from the appropriate group policy."
   describe "Orphaned security identifiers (SIDs) must be removed from user rights

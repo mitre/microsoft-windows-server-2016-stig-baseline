@@ -16,7 +16,7 @@ control 'V-73741' do
   tag "cci": ['CCI-000213']
   tag "nist": ['AC-3', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers, it is NA for other systems.
+  desc "check", "This applies to domain controllers, it is NA for other systems.
 
   Verify the effective setting in Local Group Policy Editor.
   Run gpedit.msc.
@@ -28,7 +28,7 @@ control 'V-73741' do
   on through Remote Desktop Services user right, this is a finding.
 
   - Administrators"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
   Allow log on through Remote Desktop Services to include only the following
   accounts or groups:

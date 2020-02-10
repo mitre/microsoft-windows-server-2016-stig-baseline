@@ -13,7 +13,7 @@ control 'V-73369' do
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Run Regedit.
 
@@ -43,7 +43,7 @@ control 'V-73369' do
 
   (I) - permission inherited from parent container
   (F) - full access"
-  tag "fix": "Maintain the permissions on NTDS database and log files as
+  desc "fix", "Maintain the permissions on NTDS database and log files as
   follows:
 
   NT AUTHORITY\\SYSTEM:(I)(F)

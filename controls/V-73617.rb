@@ -20,7 +20,7 @@ control 'V-73617' do
               'CCI-001948']
   tag "nist": ['IA-2 (1)', 'IA-2 (2)', 'IA-2 (3)', 'IA-2 (4)', 'IA-2 (11)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Open PowerShell.
 
@@ -49,7 +49,7 @@ control 'V-73617' do
   If any user accounts, including administrators, do not have Smart card is
   required for interactive logon checked in the Account Options area, this
   is a finding."
-  tag "fix": "Configure all user accounts, including administrator accounts, in
+  desc "fix", "Configure all user accounts, including administrator accounts, in
   Active Directory to enable the option Smart card is required for interactive
   logon.
 

@@ -17,7 +17,7 @@ control 'V-73609' do
   tag "cci": ['CCI-000185', 'CCI-002470']
   tag "nist": ['IA-5 (2) (a)', 'SC-23 (5)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This is applicable to unclassified systems. It is NA for others.
+  desc "check", "This is applicable to unclassified systems. It is NA for others.
 
   Open PowerShell as an administrator.
 
@@ -86,7 +86,7 @@ control 'V-73609' do
   Issuer by: US DoD CCEB Interoperability Root CA 2
   Thumbprint: 929BF3196896994C0A201DF4A5B71F603FEFBF2E
   Valid: Friday, September 27, 2019"
-  tag "fix": "Install the US DoD CCEB Interoperability Root CA
+  desc "fix", "Install the US DoD CCEB Interoperability Root CA
   cross-certificate on unclassified systems.
 
   Issued To - Issued By - Thumbprint

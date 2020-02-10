@@ -12,7 +12,7 @@ control 'V-73325' do
   tag "cci": ['CCI-000196']
   tag "nist": ['IA-5 (1) (c)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the effective setting in Local Group Policy Editor.
+  desc "check", "Verify the effective setting in Local Group Policy Editor.
 
   Run gpedit.msc.
 
@@ -21,7 +21,7 @@ control 'V-73325' do
 
   If the value for Store passwords using reversible encryption is not set to
   Disabled, this is a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Password Policy >> Store
   passwords using reversible encryption to Disabled."
   describe security_policy do

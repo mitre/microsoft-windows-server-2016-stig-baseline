@@ -13,7 +13,7 @@ control 'V-73587' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "The default behavior is for Internet Explorer to warn users and
+  desc "check", "The default behavior is for Internet Explorer to warn users and
   select whether to allow or refuse installation when a web-based program
   attempts to install software on the system.
 
@@ -30,7 +30,7 @@ control 'V-73587' do
 
   Value Type: REG_DWORD
   Value: 0x00000000 (0) (or if the Value Name does not exist)"
-  tag "fix": "The default behavior is for Internet Explorer to warn users and
+  desc "fix", "The default behavior is for Internet Explorer to warn users and
   select whether to allow or refuse installation when a web-based program
   attempts to install software on the system.
 

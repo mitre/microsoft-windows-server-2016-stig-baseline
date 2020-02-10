@@ -15,7 +15,7 @@ control 'V-73521' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "The default behavior is for Early Launch Antimalware -
+  desc "check", "The default behavior is for Early Launch Antimalware -
   Boot-Start Driver Initialization policy to enforce Good, unknown and bad but
   critical (preventing bad).
 
@@ -38,7 +38,7 @@ control 'V-73521' do
   1 - Good and unknown
   3 - Good, unknown and bad but critical
   7 - All (which includes bad and would be a finding)"
-  tag "fix": "The default behavior is for Early Launch Antimalware - Boot-Start
+  desc "fix", "The default behavior is for Early Launch Antimalware - Boot-Start
   Driver Initialization policy to enforce Good, unknown and bad but critical
   (preventing bad).
 

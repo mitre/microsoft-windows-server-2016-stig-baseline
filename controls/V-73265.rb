@@ -11,7 +11,7 @@ control 'V-73265' do
   tag "cci": ['CCI-001744']
   tag "nist": ['CM-3 (5)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Determine whether the system is monitored for unauthorized
+  desc "check", "Determine whether the system is monitored for unauthorized
   changes to system files (e.g., *.exe, *.bat, *.com, *.cmd, and *.dll) against a
   baseline on a weekly basis.
 
@@ -20,7 +20,7 @@ control 'V-73265' do
   A properly configured HBSS Policy Auditor 5.2 or later File Integrity Monitor
   (FIM) module will meet the requirement for file integrity checking. The Asset
   module within HBSS does not meet this requirement."
-  tag "fix": "Monitor the system for unauthorized changes to system files
+  desc "fix", "Monitor the system for unauthorized changes to system files
   (e.g., *.exe, *.bat, *.com, *.cmd, and *.dll) against a baseline on a weekly
   basis. This can be done with the use of various monitoring tools."
   describe 'A manual review is required to verify that system files are monitored for unauthorized changes' do

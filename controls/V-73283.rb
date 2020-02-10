@@ -27,7 +27,7 @@ control 'V-73283' do
   tag "cci": ['CCI-000016']
   tag "nist": ['AC-2 (2)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Review temporary user accounts for expiration dates.
+  desc "check", "Review temporary user accounts for expiration dates.
 
   Determine if temporary user accounts are used and identify any that exist. If
   none exist, this is NA.
@@ -50,7 +50,7 @@ control 'V-73283' do
 
   If Account expires has not been defined within 72 hours for any temporary
   user account, this is a finding."
-  tag "fix": "Configure temporary user accounts to automatically expire within
+  desc "fix", "Configure temporary user accounts to automatically expire within
   72 hours.
 
   Domain accounts can be configured with an account expiration date, under

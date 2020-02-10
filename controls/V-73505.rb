@@ -15,7 +15,7 @@ control 'V-73505' do
   tag "cci": ['CCI-002385']
   tag "nist": ['SC-5', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive:  HKEY_LOCAL_MACHINE
@@ -25,7 +25,7 @@ control 'V-73505' do
 
   Value Type:  REG_DWORD
   Value:  0x00000001 (1)"
-  tag "fix": "Configure the policy value for Computer Configuration >>
+  desc "fix", "Configure the policy value for Computer Configuration >>
   Administrative Templates >> MSS (Legacy) >> \"MSS: (NoNameReleaseOnDemand)
   Allow the computer to ignore NetBIOS name release requests except from WINS
   servers to Enabled.
