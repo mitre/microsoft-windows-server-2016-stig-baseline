@@ -16,7 +16,7 @@ control 'V-73303' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "If FTP is not installed on the system, this is NA.
+  desc "check", "If FTP is not installed on the system, this is NA.
 
   Open Internet Information Services (IIS) Manager.
 
@@ -25,7 +25,7 @@ control 'V-73303' do
   Double-click FTP Authentication.
 
   If the Anonymous Authentication status is Enabled, this is a finding."
-  tag "fix": "Configure the FTP service to prevent anonymous logons.
+  desc "fix", "Configure the FTP service to prevent anonymous logons.
 
   Open Internet Information Services (IIS) Manager.
 

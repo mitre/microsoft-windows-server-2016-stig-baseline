@@ -17,7 +17,7 @@ control 'V-73371' do
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Open a command prompt.
 
@@ -77,7 +77,7 @@ control 'V-73371' do
   CREATOR OWNER - Full control - Subfolders and files only
   Administrators - Full control - Subfolders and files only
   SYSTEM - Full control - This folder, subfolders, and files"
-  tag "fix": "Maintain the permissions on the SYSVOL directory. Do not allow
+  desc "fix", "Maintain the permissions on the SYSVOL directory. Do not allow
   greater than Read & execute permissions for standard user accounts or
   groups. The defaults below meet this requirement.
 

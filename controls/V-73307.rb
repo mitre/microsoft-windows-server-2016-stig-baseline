@@ -15,7 +15,7 @@ control 'V-73307' do
   tag "cci": ['CCI-001891']
   tag "nist": ['AU-8 (1) (a)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Review the Windows time service configuration.
+  desc "check", "Review the Windows time service configuration.
 
   Open an elevated Command Prompt (run as administrator).
 
@@ -38,7 +38,7 @@ control 'V-73307' do
   Open PowerShell.
 
   Enter Get-ADDomain | FT PDCEmulator."
-  tag "fix": "Configure the system to synchronize time with an appropriate DoD
+  desc "fix", "Configure the system to synchronize time with an appropriate DoD
   time source.
 
   Domain-joined systems use NT5DS to synchronize time from other systems in the

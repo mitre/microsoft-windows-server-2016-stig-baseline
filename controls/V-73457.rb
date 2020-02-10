@@ -20,7 +20,7 @@ control 'V-73457' do
   tag "cci": ['CCI-000172']
   tag "nist": ['AU-12 c', 'Rev_4']
   tag "documentable": false
-  tag "check": "Security Option Audit: Force audit policy subcategory
+  desc "check", "Security Option Audit: Force audit policy subcategory
   settings (Windows Vista or later) to override audit policy category settings
   must be set to Enabled (WN16-SO-000050) for the detailed auditing
   subcategories to be effective.
@@ -41,7 +41,7 @@ control 'V-73457' do
   excessive audit events for secondary virtual drives or the network attached
   storage when this setting is enabled. This may be set to Not Configured in such
   cases and would not be a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Advanced Audit Policy Configuration >> System
   Audit Policies >> Object Access >> Audit Removable Storage with Success
   selected."

@@ -12,7 +12,7 @@ control 'V-73299' do
   tag "cci": ['CCI-000381']
   tag "nist": ['CM-7', 'Rev_4']
   tag "documentable": false
-  tag "check": "Different methods are available to disable SMBv1 on Windows
+  desc "check", "Different methods are available to disable SMBv1 on Windows
   2016.  This is the preferred method, however if V-78123 and V-78125 are
   configured, this is NA.
 
@@ -23,7 +23,7 @@ control 'V-73299' do
   If Installed State is Installed, this is a finding.
 
   An Installed State of Available or Removed is not a finding."
-  tag "fix": "Uninstall the SMBv1 protocol.
+  desc "fix", "Uninstall the SMBv1 protocol.
 
   Open Windows PowerShell with elevated privileges (run as administrator).
 

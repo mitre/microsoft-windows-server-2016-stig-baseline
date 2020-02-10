@@ -14,7 +14,7 @@ control 'V-73611' do
   tag "cci": ['CCI-000185']
   tag "nist": ['IA-5 (2) (a)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Run MMC.
 
@@ -37,7 +37,7 @@ control 'V-73611' do
 
   If no certificate for the domain controller exists in the right pane, this is a
   finding."
-  tag "fix": 'Obtain a server certificate for the domain controller.'
+  desc "fix", 'Obtain a server certificate for the domain controller.'
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   if domain_role == '4' || domain_role == '5'

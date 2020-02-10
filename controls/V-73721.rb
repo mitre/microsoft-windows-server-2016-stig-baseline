@@ -14,7 +14,7 @@ control 'V-73721' do
   tag "cci": ['CCI-001084']
   tag "nist": ['SC-3', 'Rev_4']
   tag "documentable": false
-  tag "check": "UAC requirements are NA for Server Core installations (this is
+  desc "check", "UAC requirements are NA for Server Core installations (this is
   the default installation option for Windows Server 2016 versus Server with
   Desktop Experience) as well as Nano Server.
 
@@ -29,7 +29,7 @@ control 'V-73721' do
 
   Value Type: REG_DWORD
   Value: 0x00000001 (1)"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >> User
   Account Control: Virtualize file and registry write failures to per-user
   locations to Enabled."

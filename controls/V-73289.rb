@@ -11,7 +11,7 @@ control 'V-73289' do
   tag "cci": ['CCI-000382']
   tag "nist": ['CM-7', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the server has the role of an FTP server, this is NA.
+  desc "check", "If the server has the role of an FTP server, this is NA.
 
   Open PowerShell.
 
@@ -23,7 +23,7 @@ control 'V-73289' do
 
   If the system has the role of an FTP server, this must be documented with the
   ISSO."
-  tag "fix": "Uninstall the FTP Server role.
+  desc "fix", "Uninstall the FTP Server role.
 
   Start Server Manager.
 

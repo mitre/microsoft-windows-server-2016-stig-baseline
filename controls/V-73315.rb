@@ -15,7 +15,7 @@ control 'V-73315' do
   tag "cci": ['CCI-000200']
   tag "nist": ['AC-4 (12)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the effective setting in Local Group Policy Editor.
+  desc "check", "Verify the effective setting in Local Group Policy Editor.
 
   Run gpedit.msc.
 
@@ -24,7 +24,7 @@ control 'V-73315' do
 
   If the value for Enforce password history is less than 24 passwords
   remembered, this is a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Password Policy >>
   Enforce password history to 24 passwords remembered."
   describe security_policy do

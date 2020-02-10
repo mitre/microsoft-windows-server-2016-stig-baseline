@@ -13,7 +13,7 @@ control 'V-73319' do
   tag "cci": ['CCI-000198']
   tag "nist": ['IA-5 (1) (d)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the effective setting in Local Group Policy Editor.
+  desc "check", "Verify the effective setting in Local Group Policy Editor.
 
   Run gpedit.msc.
 
@@ -22,7 +22,7 @@ control 'V-73319' do
 
   If the value for the Minimum password age is set to 0 days (Password
   can be changed immediately), this is a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Password Policy >>
   Minimum password age to at least 1 day."
   describe security_policy do

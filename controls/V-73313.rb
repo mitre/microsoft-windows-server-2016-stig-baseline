@@ -17,7 +17,7 @@ control 'V-73313' do
   tag "cci": ['CCI-000044', 'CCI-002238']
   tag "nist": ['AC-7 a', 'AC 7 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the effective setting in Local Group Policy Editor.
+  desc "check", "Verify the effective setting in Local Group Policy Editor.
 
   Run gpedit.msc.
 
@@ -26,7 +26,7 @@ control 'V-73313' do
 
   If the Reset account lockout counter after value is less than 15
   minutes, this is a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Account Lockout Policy >>
   Reset account lockout counter after to at least 15 minutes."
   describe security_policy do

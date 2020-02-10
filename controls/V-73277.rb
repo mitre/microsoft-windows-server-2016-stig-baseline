@@ -13,7 +13,7 @@ control 'V-73277' do
   tag "cci": ['CCI-000381']
   tag "nist": ['CM-7 a', 'Rev_4']
   tag "documentable": false
-  tag "check": "Required roles and features will vary based on the function of
+  desc "check", "Required roles and features will vary based on the function of
   the individual system.
 
   Roles and features specifically required to be disabled per the STIG are
@@ -24,7 +24,7 @@ control 'V-73277' do
 
   The PowerShell command Get-WindowsFeature will list all roles and features
   with an Install State."
-  tag "fix": "Document the roles and features required for the system to
+  desc "fix", "Document the roles and features required for the system to
   operate. Uninstall any that are not required."
   describe 'A manual review is required to verify that the roles and features required by the system are documented' do
     skip 'A manual review is required to verify that the roles and features required by the system are documented'

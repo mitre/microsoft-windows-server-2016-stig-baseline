@@ -29,7 +29,7 @@ control 'V-73775' do
   tag "cci": ['CCI-002314']
   tag "nist": ['AC-17 (1)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to member servers and standalone systems. A
+  desc "check", "This applies to member servers and standalone systems. A
   separate version applies to domain controllers.
 
   Verify the effective setting in Local Group Policy Editor.
@@ -55,7 +55,7 @@ control 'V-73775' do
   Systems dedicated to the management of Active Directory (AD admin platforms,
   see V-36436 in the Active Directory Domain STIG) are exempt from denying the
   Enterprise Admins and Domain Admins groups."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
   Deny log on through Remote Desktop Services to include the following:
 

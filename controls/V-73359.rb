@@ -16,7 +16,7 @@ control 'V-73359' do
   tag "cci": ['CCI-001941', 'CCI-001942']
   tag "nist": ['IA-2 (8)', 'IA-2 (9)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Verify the following is configured in the Default Domain Policy.
 
@@ -34,7 +34,7 @@ control 'V-73359' do
 
   If the Enforce user logon restrictions is not set to Enabled, this is a
   finding."
-  tag "fix": "Configure the policy value in the Default Domain Policy for
+  desc "fix", "Configure the policy value in the Default Domain Policy for
   Computer Configuration >> Policies >> Windows Settings >> Security Settings >>
   Account Policies >> Kerberos Policy >> Enforce user logon restrictions to
   Enabled."

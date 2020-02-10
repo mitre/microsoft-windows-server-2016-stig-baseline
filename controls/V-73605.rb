@@ -16,7 +16,7 @@ control 'V-73605' do
   tag "cci": ['CCI-000185', 'CCI-002470']
   tag "nist": ['IA-5 (2) (a)', 'SC-23 (5)', 'Rev_4']
   tag "documentable": false
-  tag "check": "The certificates and thumbprints referenced below apply to
+  desc "check", "The certificates and thumbprints referenced below apply to
   unclassified systems; see PKE documentation for other networks.
 
   Open Windows PowerShell as an administrator.
@@ -95,7 +95,7 @@ control 'V-73605' do
   DoD Root CA 5
   Thumbprint: 4ECB5CC3095670454DA1CBD410FC921F46B8564B
   Valid to: Friday, June 14, 2041"
-  tag "fix": "Install the DoD Root CA certificates:
+  desc "fix", "Install the DoD Root CA certificates:
   DoD Root CA 2
   DoD Root CA 3
   DoD Root CA 4

@@ -24,7 +24,7 @@ or a denial of service to authorized users.
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
 Review the permissions on domain-defined OUs.
 
@@ -94,7 +94,7 @@ accounts, including service/application accounts).
 If an OU with improper permissions does not include identification and
 authentication data used by systems to determine access control, the severity
 is CAT II (e.g., Workstation, Printer OUs)."
-  tag "fix": "Maintain the permissions on domain-defined OUs to be at least as
+  desc "fix", "Maintain the permissions on domain-defined OUs to be at least as
 restrictive as the defaults below.
 
 Document any additional permissions above Read with the ISSO if an approved

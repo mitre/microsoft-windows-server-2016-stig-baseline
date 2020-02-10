@@ -20,7 +20,7 @@ control 'V-73413' do
   tag "cci": ['CCI-000172']
   tag "nist": ['AU-12 c', 'Rev_4']
   tag "documentable": false
-  tag "check": "Security Option Audit: Force audit policy subcategory
+  desc "check", "Security Option Audit: Force audit policy subcategory
   settings (Windows Vista or later) to override audit policy category settings
   must be set to Enabled (WN16-SO-000050) for the detailed auditing
   subcategories to be effective.
@@ -36,7 +36,7 @@ control 'V-73413' do
   If the system does not audit the following, this is a finding.
 
   Account Logon >> Credential Validation - Success"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Advanced Audit Policy Configuration >> System
   Audit Policies >> Account Logon >> Audit Credential Validation with
   Success selected."

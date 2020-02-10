@@ -25,7 +25,7 @@ control 'V-73767' do
   tag "cci": ['CCI-000213']
   tag "nist": ['AC-3', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to member servers and standalone systems. A
+  desc "check", "This applies to member servers and standalone systems. A
   separate version applies to domain controllers.
 
   Verify the effective setting in Local Group Policy Editor.
@@ -43,7 +43,7 @@ control 'V-73767' do
 
   If any accounts or groups are defined for the Deny log on as a service user
   right on non-domain-joined systems, this is a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
   Deny log on as a service to include the following:
 

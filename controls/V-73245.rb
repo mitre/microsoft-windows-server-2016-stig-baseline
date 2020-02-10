@@ -15,7 +15,7 @@ control 'V-73245' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "Determine whether there is a HIDS or HIPS on each server.
+  desc "check", "Determine whether there is a HIDS or HIPS on each server.
 
   If the HIPS component of HBSS is installed and active on the host and the
   alerts of blocked activity are being logged and monitored, this meets the
@@ -26,7 +26,7 @@ control 'V-73245' do
   ISSO.
 
   If a HIDS is not installed on the system, this is a finding."
-  tag "fix": 'Install a HIDS or HIPS on each server.'
+  desc "fix", 'Install a HIDS or HIPS on each server.'
   describe 'A manual review is required to determine whether this server has a host-based Intrusion Detection System installed' do
     skip 'A manual review is required to determine whether this server has a host-based Intrusion Detection System installed'
   end

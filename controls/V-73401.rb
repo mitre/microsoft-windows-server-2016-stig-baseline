@@ -13,11 +13,11 @@ control 'V-73401' do
   tag "cci": ['CCI-001851']
   tag "nist": ['AU-4 (1)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Determine if a process to back up log data to a different
+  desc "check", "Determine if a process to back up log data to a different
   system or media than the system being audited has been implemented.
 
   If it has not, this is a finding."
-  tag "fix": "Establish and implement a process for backing up log data to
+  desc "fix", "Establish and implement a process for backing up log data to
   another system or media other than the system being audited."
   describe 'A manual review is required to verify audit records are being backed up onto a different system or media than the system being audited' do
     skip 'A manual review is required to verify audit records are being backed up onto a different system or media than the system being audited'

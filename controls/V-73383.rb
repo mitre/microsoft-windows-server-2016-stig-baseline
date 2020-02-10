@@ -16,7 +16,7 @@ control 'V-73383' do
   tag "cci": ['CCI-002450']
   tag "nist": ['SC-13', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Review the organization network diagram(s) or documentation to determine the
   level of classification for the network(s) over which replication data is
@@ -32,7 +32,7 @@ control 'V-73383' do
   If the classification level of the Windows domain controller is higher than the
   level of the network traversed and NSA-approved encryption is not used, this is
   a finding."
-  tag "fix": "Configure NSA-approved (Type 1) cryptography to protect the
+  desc "fix", "Configure NSA-approved (Type 1) cryptography to protect the
   directory data in transit for directory service implementations at a classified
   confidentiality level that transfer replication data through a network cleared
   to a lower level than the data."

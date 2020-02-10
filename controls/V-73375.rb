@@ -23,7 +23,7 @@ control 'V-73375' do
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Review the permissions on the Domain Controllers OU.
 
@@ -89,7 +89,7 @@ control 'V-73375' do
   Permissions or Properties, this is a finding.
 
   ENTERPRISE DOMAIN CONTROLLERS - Read, Special permissions"
-  tag "fix": "Limit the permissions on the Domain Controllers OU to restrict
+  desc "fix", "Limit the permissions on the Domain Controllers OU to restrict
   changes to System, Domain Admins, Enterprise Admins and Administrators.
 
   The default permissions listed below satisfy this requirement.

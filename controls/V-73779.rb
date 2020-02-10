@@ -17,7 +17,7 @@ control 'V-73779' do
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to member servers and standalone systems. A
+  desc "check", "This applies to member servers and standalone systems. A
   separate version applies to domain controllers.
 
   Verify the effective setting in Local Group Policy Editor.
@@ -29,7 +29,7 @@ control 'V-73779' do
 
   If any accounts or groups are granted the Enable computer and user accounts
   to be trusted for delegation user right, this is a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> User Rights Assignment >>
   Enable computer and user accounts to be trusted for delegation to be
   defined but containing no entries (blank)."

@@ -14,7 +14,7 @@ control 'V-73639' do
   tag "cci": ['CCI-001967']
   tag "nist": ['IA-3 (1)', 'Rev_4']
   tag "documentable": false
-  tag "check": "If the following registry value does not exist or is not
+  desc "check", "If the following registry value does not exist or is not
   configured as specified, this is a finding.
 
   Registry Hive: HKEY_LOCAL_MACHINE
@@ -24,7 +24,7 @@ control 'V-73639' do
 
   Value Type: REG_DWORD
   Value: 0x00000000 (0)"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >> Domain
   member: Disable machine account password changes to Disabled."
   describe registry_key('HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters') do

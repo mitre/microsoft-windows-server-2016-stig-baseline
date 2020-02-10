@@ -13,7 +13,7 @@ control 'V-73321' do
   tag "cci": ['CCI-000205']
   tag "nist": ['IA-5 (1) (a)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the effective setting in Local Group Policy Editor.
+  desc "check", "Verify the effective setting in Local Group Policy Editor.
 
   Run gpedit.msc.
 
@@ -22,7 +22,7 @@ control 'V-73321' do
 
   If the value for the Minimum password length, is less than 14
   characters, this is a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Password Policy >>
   Minimum password length to 14 characters."
   describe security_policy do

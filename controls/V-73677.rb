@@ -13,7 +13,7 @@ control 'V-73677' do
   tag "cci": ['CCI-002235']
   tag "nist": ['AC-6 (10)', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to member servers and standalone systems; it is NA
+  desc "check", "This applies to member servers and standalone systems; it is NA
   for domain controllers.
 
   If the following registry value does not exist or is not configured as
@@ -26,7 +26,7 @@ control 'V-73677' do
 
   Value Type: REG_SZ
   Value: O:BAG:BAD:(A;;RC;;;BA)"
-  tag "fix": "Navigate to the policy Computer Configuration >> Windows Settings
+  desc "fix", "Navigate to the policy Computer Configuration >> Windows Settings
   >> Security Settings >> Local Policies >> Security Options >> Network access:
   Restrict clients allowed to make remote calls to SAM.
   Select Edit Security to configure the Security descriptor:.

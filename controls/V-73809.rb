@@ -13,7 +13,7 @@ control 'V-73809' do
   tag "cci": ['CCI-000804']
   tag "nist": ['IA-8', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify the effective setting in Local Group Policy Editor.
+  desc "check", "Verify the effective setting in Local Group Policy Editor.
 
   Run gpedit.msc.
 
@@ -22,7 +22,7 @@ control 'V-73809' do
 
   If the value for Accounts: Guest account status is not set to Disabled,
   this is a finding."
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
   Accounts: Guest account status to Disabled."
   describe security_policy do

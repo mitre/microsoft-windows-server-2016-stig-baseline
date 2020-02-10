@@ -12,7 +12,7 @@ control 'V-73727' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "The default behavior is for Windows to mark file attachments
+  desc "check", "The default behavior is for Windows to mark file attachments
   with their zone information.
 
   If the registry Value Name below does not exist, this is not a finding.
@@ -29,7 +29,7 @@ control 'V-73727' do
 
   Value Type: REG_DWORD
   Value: 0x00000002 (2) (or if the Value Name does not exist)"
-  tag "fix": "The default behavior is for Windows to mark file attachments with
+  desc "fix", "The default behavior is for Windows to mark file attachments with
   their zone information.
 
   If this needs to be corrected, configure the policy value for User

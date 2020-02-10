@@ -11,7 +11,7 @@ control 'V-73279' do
   tag "cci": ['CCI-000366', 'CCI-002080']
   tag "nist": ['CM-6 b', 'CA-3 (5)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Determine if a host-based firewall is installed and enabled on
+  desc "check", "Determine if a host-based firewall is installed and enabled on
   the system.
 
   If a host-based firewall is not installed and enabled on the system, this is a
@@ -19,7 +19,7 @@ control 'V-73279' do
 
   The configuration requirements will be determined by the applicable firewall
   STIG."
-  tag "fix": 'Install and enable a host-based firewall on the system.'
+  desc "fix", 'Install and enable a host-based firewall on the system.'
   describe 'A manual review is required to verify that a host-based firewall is installed and enabled on this system' do
     skip 'A manual review is required to verify that a host-based firewall is installed and enabled on this system'
   end

@@ -20,7 +20,7 @@ control 'V-73249' do
   tag "cci": ['CCI-002165']
   tag "nist": ['AC-3 (4)', 'Rev_4']
   tag "documentable": false
-  tag "check": "The default permissions are adequate when the Security Option
+  desc "check", "The default permissions are adequate when the Security Option
   Network access: Let everyone permissions apply to anonymous users is set to
   Disabled (WN16-SO-000290).
 
@@ -70,7 +70,7 @@ control 'V-73249' do
   BUILTIN\\Users:(CI)(IO)(WD)
   CREATOR OWNER:(OI)(CI)(IO)(F)
   Successfully processed 1 files; Failed processing 0 files"
-  tag "fix": "Maintain the default permissions for the system drive's root
+  desc "fix", "Maintain the default permissions for the system drive's root
   directory and configure the Security Option Network access: Let everyone
   permissions apply to anonymous users to Disabled (WN16-SO-000290).
 

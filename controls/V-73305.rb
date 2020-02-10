@@ -13,7 +13,7 @@ control 'V-73305' do
   tag "cci": ['CCI-000366']
   tag "nist": ['CM-6 b', 'Rev_4']
   tag "documentable": false
-  tag "check": "If FTP is not installed on the system, this is NA.
+  desc "check", "If FTP is not installed on the system, this is NA.
 
   Open Internet Information Services (IIS) Manager.
 
@@ -27,7 +27,7 @@ control 'V-73305' do
 
   If the site includes any system areas such as root of the drive, Program Files,
   or Windows directories, this is a finding."
-  tag "fix": "Configure the FTP sites to allow access only to specific FTP
+  desc "fix", "Configure the FTP sites to allow access only to specific FTP
   shared resources. Do not allow access to other areas of the system."
   is_ftp_installed = command('Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed').stdout.strip
   if is_ftp_installed == 'False'

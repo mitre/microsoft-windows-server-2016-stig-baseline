@@ -26,13 +26,13 @@ control 'V-73273' do
   tag "cci": ['CCI-001199', 'CCI-002475', 'CCI-002476']
   tag "nist": ['SC-28', 'SC-28 (1)', 'Rev_4']
   tag "documentable": false
-  tag "check": "Verify systems that require additional protections due to
+  desc "check", "Verify systems that require additional protections due to
   factors such as inadequate physical protection or sensitivity of the data
   employ encryption to protect the confidentiality and integrity of all
   information at rest.
 
   If they do not, this is a finding."
-  tag "fix": "Configure systems that require additional protections due to
+  desc "fix", "Configure systems that require additional protections due to
   factors such as inadequate physical protection or sensitivity of the data to
   employ encryption to protect the confidentiality and integrity of all
   information at rest."

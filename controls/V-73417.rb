@@ -24,7 +24,7 @@ control 'V-73417' do
               'CCI-001405', 'CCI-002130']
   tag "nist": ['AC-2 (4)', 'AU-12 c', 'Rev_4']
   tag "documentable": false
-  tag "check": "This applies to domain controllers. It is NA for other systems.
+  desc "check", "This applies to domain controllers. It is NA for other systems.
 
   Security Option Audit: Force audit policy subcategory settings (Windows Vista
   or later) to override audit policy category settings must be set to
@@ -42,7 +42,7 @@ control 'V-73417' do
   If the system does not audit the following, this is a finding.
 
   Account Management >> Computer Account Management - Success"
-  tag "fix": "Configure the policy value for Computer Configuration >> Windows
+  desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Advanced Audit Policy Configuration >> System
   Audit Policies >> Account Management >> Audit Computer Account Management
   with Success selected."
