@@ -49,13 +49,13 @@ control 'V-73237' do
 
   if is_domain != 'WORKGROUP'
     tpm_ready = command('Get-Tpm | select -expand TpmReady').stdout.strip
-    tmp_present = command('Get-Tpm | select -expand TpmPresent').stdout.strip
-    describe 'Trusted Platform Module (TPM) TmpReady' do
+    tpm_present = command('Get-Tpm | select -expand TpmPresent').stdout.strip
+    describe 'Trusted Platform Module (TPM) TpmReady' do
       subject { tpm_ready }
       it { should eq 'True' }
     end
-    describe 'Trusted Platform Module (TPM) TmpPresent' do
-      subject { tmp_present }
+    describe 'Trusted Platform Module (TPM) TpmPresent' do
+      subject { tpm_present }
       it { should eq 'True' }
     end
   end
