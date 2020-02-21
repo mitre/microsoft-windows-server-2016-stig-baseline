@@ -1,4 +1,4 @@
-# windows_server_2016_v1r4_stig_baseline
+# microsoft-windows-server-2016-stig-baseline
 
 InSpec profile to validate the secure configuration of Microsoft Windows Server 2016, against [DISA](https://iase.disa.mil/stigs/)'s **Microsoft Windows Server 2016 Security Technical Implementation Guide (STIG) Version 1, Release 7**.
 
