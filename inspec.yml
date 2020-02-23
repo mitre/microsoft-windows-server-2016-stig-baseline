@@ -1,5 +1,5 @@
-name: windows_server_2016_v1r4_stig_baseline
-title: Windows 2016 Server STIG
+name: microsoft-windows-server-2016-stig-baseline
+title: InSpec profile to check against Windows 2016 Server STIG
 maintainer: MITRE InSpec Team
 copyright: MITRE InSpec Team
 copyright_email: inspec@mitre.org
@@ -7,7 +7,7 @@ license: Apache-2.0
 summary: Inspec profile testing STIG compliance of Windows Server 2016
 description: >
   Inspec testing for Windows 2016 servers per the IASE DISA Windows
-  2016 v1r4 STIG at 
+  2016 v1r7 STIG 
 version: 0.1.0
 
 inputs:
