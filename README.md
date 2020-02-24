@@ -33,7 +33,8 @@ For other help, please send a message to [inspec@mitre.org](mailto:inspec@mitre.
 To contribute, please review the [contribution guidelines](https://github.com/mitre/docs-mitre-inspec/blob/master/CONTRIBUTING.md).
 
 ## Authors
-- Alicia Sturtevant
+- Alicia Sturtevant, MITRE
+- Krishna Kola, DIFZ
 
 ## Special Thanks
 
