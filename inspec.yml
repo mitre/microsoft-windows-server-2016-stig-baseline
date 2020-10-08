@@ -9,6 +9,7 @@ description: >
   Inspec testing for Windows 2016 servers per the IASE DISA Windows
   2016 v1r7 STIG 
 version: 0.1.0
+inspec_version: ">= 4.0"
 
 inputs:
   - name: backup_operators
