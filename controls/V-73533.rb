@@ -29,9 +29,8 @@ control 'V-73533' do
   Administrative Templates >> System >> Logon >> Enumerate local users on
   domain-joined computers to Disabled."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  member_of_domain = command('(gwmi win32_computersystem).partofdomain').stdout.strip
 
-  if !(domain_role == '4') && !(domain_role == '5')
+  if !(domain_role == '4') && !(domain_role == '5') && !(domain_role == '2')
     describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\System') do
       it { should have_property 'EnumerateLocalUsers' }
       its('EnumerateLocalUsers') { should cmp 0 }
@@ -43,7 +42,7 @@ control 'V-73533' do
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
   end
   
-  if member_of_domain == 'False'
+  if domain_role == '2'
     impact 0.0
     desc 'This system is not a member of a domain, therefore this control is not applicable as it only applies to member servers' 
   end
