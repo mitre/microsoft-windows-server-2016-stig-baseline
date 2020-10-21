@@ -44,6 +44,7 @@ control 'V-73533' do
   
   if domain_role == '2'
     impact 0.0
-    desc 'This system is not a member of a domain, therefore this control is not applicable as it only applies to member servers' 
+    desc 'This system is not a member of a domain, therefore this control is not applicable as it only applies to member servers'
+      skip 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems'
   end
 end
