@@ -41,10 +41,11 @@ control 'V-73533' do
     impact 0.0
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
   end
-  
+
   if domain_role == '2'
     impact 0.0
-    desc 'This system is not a member of a domain, therefore this control is not applicable as it only applies to member servers'
+    describe 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems' do
       skip 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems'
+    end
   end
 end
