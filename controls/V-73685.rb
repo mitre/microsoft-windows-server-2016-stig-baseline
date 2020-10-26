@@ -2,7 +2,12 @@ control 'V-73685' do
   title "Kerberos encryption types must be configured to prevent the use of DES
   and RC4 encryption suites."
   desc "Certain encryption types are no longer considered secure. The DES and
-  RC4 encryption suites must not be used for Kerberos encryption."
+  RC4 encryption suites must not be used for Kerberos encryption.
+  
+  Note: Organizations with domain controllers running earlier versions of Windows 
+  where RC4 encryption is enabled, selecting The other domain supports Kerberos 
+  AES Encryption on domain trusts, may be required to allow client communication 
+  across the trust relationship."
   impact 0.5
   tag "gtitle": 'SRG-OS-000120-GPOS-00061'
   tag "gid": 'V-73685'
