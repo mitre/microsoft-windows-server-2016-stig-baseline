@@ -52,7 +52,7 @@ control 'V-73649' do
   
   describe 'The required legal notice caption' do
     subject { key.scan(/[\w().;,!]/).join}
-    it {should cmp legal_notice_caption.scan(/[\w().;,!]/).join }
+    it {should be_in legal_notice_caption }
   end
 
 end
