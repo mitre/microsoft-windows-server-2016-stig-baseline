@@ -17,9 +17,9 @@ control 'V-73271' do
 
   If any files with these extensions exist, this is a finding.
 
-  This does not apply to server-based applications that have a requirement for
-  certificate files. Some applications create files with extensions of .p12 that
-  are not certificate installation files. Removal of non-certificate installation
+  This does not apply to server-based applications that have a requirement for .p12 certificate 
+  files or Adobe PreFlight certificate files. Some applications create files with extensions 
+  of .p12 that are not certificate installation files. Removal of non-certificate installation 
   files from systems is not required. These must be documented with the ISSO."
   desc "fix", "Remove any certificate installation files (*.p12 and *.pfx) found
   on a system.
