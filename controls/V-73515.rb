@@ -5,7 +5,7 @@ control 'V-73515' do
   authentication information, which was stored in the Local Security Authority
   (LSA) in previous versions of Windows, is isolated from the rest of operating
   system and can only be accessed by privileged system software."
-  impact 0.3
+  impact 0.7
   tag "gtitle": 'SRG-OS-000480-GPOS-00227'
   tag "gid": 'V-73515'
   tag "rid": 'SV-88167r1_rule'
