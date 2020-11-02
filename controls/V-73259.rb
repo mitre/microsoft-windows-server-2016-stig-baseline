@@ -52,6 +52,7 @@ control 'V-73259' do
 
   - Built-in administrator account (Renamed, SID ending in 500)
   - Built-in guest account (Renamed, Disabled, SID ending in 501)
+  - Built-in default account (Renamed, Disabled, SID ending in 503)
   - Application accounts
 
   If any enabled accounts have not been logged on to within the past 35 days,
@@ -65,7 +66,7 @@ control 'V-73259' do
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   
   if domain_role == '4' || domain_role == '5'
-    user_query = "Search-ADAccount -AccountInactive -UsersOnly -TimeSpan 35.00:00:00 | Where-Object { ($_.SID -notlike '*500') -and ($_.SID -notlike '*501') -and ($_.Enabled -eq $true) } | Select-Object @{Name=\"name\";Expression={$_.SamAccountName}}, @{Name=\"lastLogin\";Expression={$_.LastLogonDate}} | ConvertTo-Json"
+    user_query = "Search-ADAccount -AccountInactive -UsersOnly -TimeSpan 35.00:00:00 | Where-Object { ($_.SID -notlike '*500') -and ($_.SID -notlike '*501') -and ($_.SID -notlike '*503')  -and ($_.Enabled -eq $true) } | Select-Object @{Name=\"name\";Expression={$_.SamAccountName}}, @{Name=\"lastLogin\";Expression={$_.LastLogonDate}} | ConvertTo-Json"
   else
     user_query = <<-FOO
       $users = @() 
