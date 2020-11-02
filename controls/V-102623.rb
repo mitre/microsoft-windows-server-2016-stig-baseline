@@ -29,9 +29,11 @@ control 'V-102623' do
   
   desc "fix" "Ensure the following settings are configured for Windows Server 2016 locally or applied through group policy. 
 
-  Configure the policy value for User Configuration >> Administrative Templates >> Windows Components >> File Explorer >> Explorer Frame Pane Turn off Preview Pane to Enabled.
+  Configure the policy value for User Configuration >> Administrative Templates 
+  >> Windows Components >> File Explorer >> Explorer Frame Pane Turn off Preview Pane to Enabled.
 
-  Configure the policy value for User Configuration >> Administrative Templates >> Windows Components >> File Explorer >> Explorer Frame Pane Turn on or off details pane" to \"Enabled\" and \"Configure details pane\" to \"Always hide\""
+  Configure the policy value for User Configuration >> Administrative Templates >> Windows Components 
+  >> File Explorer >> Explorer Frame Pane Turn on or off details pane to Enabled and Configure details pane to Always hide"
 
   describe registry_key('HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer') do
     its('NoPreviewPane') { should eq 1 }
