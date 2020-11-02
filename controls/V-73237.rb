@@ -6,7 +6,7 @@ control 'V-73237' do
   system requirements must be met in order for Credential Guard to be configured
   and enabled properly. Without a TPM enabled and ready for use, Credential Guard
   keys are stored in a less secure method using software."
-  impact 0.3
+  impact 0.5
   tag "gtitle": 'SRG-OS-000480-GPOS-00227'
   tag "gid": 'V-73237'
   tag "rid": 'SV-87889r1_rule'

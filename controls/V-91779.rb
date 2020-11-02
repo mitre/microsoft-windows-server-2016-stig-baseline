@@ -2,7 +2,11 @@ control 'V-91779' do
   title "The password for the krbtgt account on a domain must be reset at least every 180 days."
   desc "The krbtgt account acts as a service account for the Kerberos Key Distribution Center (KDC) service. 
   The account and password are created when a domain is created and the password is typically not changed. 
-  If the krbtgt account is compromised, attackers can create valid Kerberos Ticket Granting Tickets (TGT)."
+  If the krbtgt account is compromised, attackers can create valid Kerberos Ticket Granting Tickets (TGT).
+
+  The password must be changed twice to effectively remove the password history.Changing once, waiting for 
+  replication to complete and the amount of time equal to or greater than the maximum Kerberos ticket 
+  lifetime, and changing again reduces the risk of issues."
   impact 0.5
   tag "gtitle": 'SRG-OS-000480-GPOS-00227'
   tag "gid": 'V-91779'
