@@ -50,7 +50,7 @@ control 'V-73509' do
   end if is_domain != 'WORKGROUP'
 
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths') do
-    its('\\\\*\\NETLOGON') { should match("RequireMutualAuthentication=1, RequireIntegrity=1") }
+    its('\\\\*\\NETLOGON') { should match /(RequireMutualAuthentication=1).*(RequireIntegrity=1)/ }
   end if is_domain != 'WORKGROUP'
 
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths') do
@@ -58,7 +58,7 @@ control 'V-73509' do
   end if is_domain != 'WORKGROUP'
 
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths') do
-    its('\\\\*\\SYSVOL') { should match("RequireMutualAuthentication=1, RequireIntegrity=1") }
+    its('\\\\*\\SYSVOL') { should match /(RequireMutualAuthentication=1).*(RequireIntegrity=1)/ }
   end if is_domain != 'WORKGROUP'
 
   if is_domain == 'WORKGROUP'
