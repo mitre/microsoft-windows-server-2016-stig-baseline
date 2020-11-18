@@ -100,13 +100,25 @@ control 'V-73759' do
           skip 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
         end
       else
-        get_domain_sid = command('wmic useraccount get sid | FINDSTR /V SID | Select -First 2').stdout.strip
-        domain_sid = get_domain_sid[9..40]
+        domain_query = <<-EOH
+        $group = New-Object System.Security.Principal.NTAccount('Domain Admins')
+        $sid = ($group.Translate([security.principal.securityidentifier])).value
+        $sid | ConvertTo-Json
+        EOH
+
+        domain_admin_sid = json(command: domain_query).params
+        enterprise_admin_query = <<-EOH
+                $group = New-Object System.Security.Principal.NTAccount('Enterprise Admins')
+                $sid = ($group.Translate([security.principal.securityidentifier])).value
+                $sid | ConvertTo-Json
+                EOH
+
+        enterprise_admin_sid = json(command: enterprise_admin_query).params
         describe security_policy do
-          its('SeDenyNetworkLogonRight') { should include "S-1-21-#{domain_sid}-512" }
+          its('SeDenyNetworkLogonRight') { should include "#{domain_admin_sid}" }
         end
         describe security_policy do
-          its('SeDenyNetworkLogonRight') { should include "S-1-21-#{domain_sid}-519" }
+          its('SeDenyNetworkLogonRight') { should include "#{enterprise_admin_sid}" }
         end
       end
     end
