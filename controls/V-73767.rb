@@ -79,8 +79,8 @@ control 'V-73767' do
       describe security_policy do
         its('SeDenyServiceLogonRight') { should include "#{enterprise_admin_sid}" }
       end
+    end
   end
-
   if domain_role == '4' || domain_role == '5'
     impact 0.0
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
