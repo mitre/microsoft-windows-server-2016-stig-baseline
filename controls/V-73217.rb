@@ -19,21 +19,8 @@ control 'V-73217' do
 
   If users with administrative privileges do not have separate accounts for
   administrative functions and standard user functions, this is a finding."
-  desc "fix", "Ensure each user with administrative privileges has a separate
-  account for user duties and one for privileged duties."
-  administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split("\n")
-  administrators = attribute('administrators')
-  administrator_group.each do |user|
-    a = user.strip
-    describe a.to_s do
-      it { should be_in administrators }
-    end
-  end
-  if administrator_group.empty?
-    impact 0.0
-    desc 'There are no users with administrative privileges on this system, therefore this control is not applicable'
-    describe 'There are no users with administrative privileges on this system, therefore this control is not applicable' do
-      skip 'There are no users with administrative privileges on this system, therefore this control is not applicable'
-    end
+  desc "fix", "Ensure each user with administrative privileges has a separate account for user duties and one for privileged duties."
+  describe "A manual review is required to verify that each user with administrative privileges has a separate account for user duties and one for privileged duties." do
+    skip "A manual review is required to verify that each user with administrative privileges has a separate account for user duties and one for privileged duties."
   end
 end
