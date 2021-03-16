@@ -1,55 +1,62 @@
 name: microsoft-windows-server-2016-stig-baseline
-title: InSpec profile to check against Windows 2016 Server STIG
+title: microsoft-windows-server-2016-stig-baseline
 maintainer: MITRE InSpec Team
 copyright: MITRE InSpec Team
 copyright_email: inspec@mitre.org
 license: Apache-2.0
-summary: Inspec profile testing STIG compliance of Windows Server 2016
-description: >
-  Inspec testing for Windows 2016 servers per the IASE DISA Windows
-  2016 v1r7 STIG 
-version: 0.1.0
+summary: "Inspec Validation Profile for Microsoft Windows Member Server 2016 v1r7 STIG"
+version: 1.7.0
 inspec_version: ">= 4.0"
 
 inputs:
   - name: backup_operators
     description: 'List of authorized users in the Backup Operators Group'
     type: Array
-    value: []
+    value:
+      - 
 
   - name: administrators
     description: 'List of authorized users in the local Administrators group'
     type: Array
-    value: ["Administrator",
-            "Domain Admins",
-            "Enterprise Admins"]
+    sensitive: true
+    value:
+      - "Administrator"
+      - "Domain Admins"
+      - "Enterprise Admins"
 
   - name: administrators_domain
     description: 'List of authorized users in the local Administrators domain group'
     type: Array
-    value: ["Administrator",
-            "Domain Admins",
-            "Enterprise Admins"]
+    sensitive: true
+    value:
+      - "Administrator"
+      - "Domain Admins"
+      - "Enterprise Admins"
 
   - name: temp_account
     description: 'List of temporary accounts on the system'
     type: Array
-    value: ["tempuser"]
+    value:
+      - "tempuser"
 
   - name: emergency_account
     description: 'List of emergency accounts on the system'
     type: Array
-    value: []
+    value:
+      - 
 
   - name: administrator_domain_group
     description: 'List of authorized users in the local Administrators domain group'
     type: Array
-    value: ["Administrator"]
+    sensitive: true
+    value:
+      - "Administrator"
 
   - name: shared_accounts
     description: 'List of shared accounts on the system'
     type: Array
-    value: []
+    value:
+      - 
 
   - name: has_ftp_server_role
     description: 'Set to true server has the ftp server role'
@@ -112,44 +119,32 @@ inputs:
   - name: dod_certificates
     description: 'List of DoD Interoperability Root Certificates'
     type: Array
-    value: [
-      {
-        "Subject": "CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Issuer": "CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Thumbprint": "FFAD03329B9E527A43EEC66A56F9CBB5393E6E13",
-        "NotAfter": "Sunday, September 23, 2018"
-      },
-      {
-        "Subject": "CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Issuer": "CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Thumbprint": "FCE1B1E25374DD94F5935BEB86CA643D8C8D1FF4",
-        "NotAfter": "Sunday, February 17, 2019"
-      },
-      {
-        "Subject": "CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Issuer": "CN=DoD Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Thumbprint": "22BBE981F0694D246CC1472ED2B021DC8540A22F",
-        "NotAfter": "Friday, September 06, 2019"
-      }
-    ]
+    value:
+      - :Subject: "CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US"
+        :Issuer: "CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US"
+        :Thumbprint: "FFAD03329B9E527A43EEC66A56F9CBB5393E6E13"
+        :NotAfter: "Sunday, September 23, 2018"
+      - :Subject: "CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US"
+        :Issuer: "CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US"
+        :Thumbprint: "FCE1B1E25374DD94F5935BEB86CA643D8C8D1FF4"
+        :NotAfter: "Sunday, February 17, 2019"
+      - :Subject: "CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US"
+        :Issuer: "CN=DoD Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US"
+        :Thumbprint: "22BBE981F0694D246CC1472ED2B021DC8540A22F"
+        :NotAfter: "Friday, September 06, 2019"
 
   - name: dod_cceb_certificates
     description: 'List of DoD Interoperability Root Certificates'
     type: Array
-    value: [
-      {
-        "Subject": "CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Issuer": "CN=US DoD CCEB Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Thumbprint": "DA36FAF56B2F6FBA1604F5BE46D864C9FA013BA3",
-        "NotAfter": "Saturday, March 09, 2019"
-      },
-      {
-        "Subject": "CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Issuer": "CN=US DoD CCEB Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US",
-        "Thumbprint": "929BF3196896994C0A201DF4A5B71F603FEFBF2E",
-        "NotAfter": "Friday, September 27, 2019"
-      }
-    ]
+    value:
+      - :Subject: "CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US"
+        :Issuer: "CN=US DoD CCEB Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US"
+        :Thumbprint: "DA36FAF56B2F6FBA1604F5BE46D864C9FA013BA3"
+        :NotAfter: "Saturday, March 09, 2019"
+      - :Subject: "CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US"
+        :Issuer: "CN=US DoD CCEB Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US"
+        :Thumbprint: "929BF3196896994C0A201DF4A5B71F603FEFBF2E"
+        :NotAfter: "Friday, September 27, 2019"
     
   - name: built_in_admin_account
     description: 'Default account name for Built-In Administrator'
@@ -159,4 +154,5 @@ inputs:
   - name: manually_managed_app_service_accounts
     description: 'A list of all manually managed Application and Service account names'
     type: Array
-    value: []
+    value:
+      - 
