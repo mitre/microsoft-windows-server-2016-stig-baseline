@@ -56,13 +56,25 @@ control 'V-73307' do
   servers will synchronize with an authorized time server in the hierarchy."
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
 
-  describe command(' W32tm /query /configuration | Findstr Type') do
-    its('stdout') { should eq "Type: NT5DS (Local)\r\n" }
-  end if is_domain != 'WORKGROUP'
+  if is_domain != 'WORKGROUP'
+    pdc_emulator = command('netdom query fsmo | findstr PDC').stdout.split[1]
+    hostname = command('wmic computersystem get DNSHostName | findstr /V DNSHostName').stdout.strip
+    if pdc_emulator != hostname + "." + is_domain
+      describe command(' W32tm /query /configuration | Findstr Type') do
+        its('stdout') { should eq "Type: NT5DS (Local)\r\n" }
+      end
+    else
+      impact 0.0
+      desc 'This system is a domain controller with the PDC Emulator role, therefore this control is not applicable.'
+      describe 'This system is a domain controller with the PDC Emulator role, therefore this control is not applicable.' do
+        skip 'This system is a domain controller with the PDC Emulator role, therefore this control is not applicable.'
+      end
+    end
+  else
+    get_type = command('W32tm /query /configuration | Findstr Type').stdout.strip
 
-  get_type = command('W32tm /query /configuration | Findstr Type').stdout.strip
-
-  describe registry_key('HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32time\Parameters') do
-    its('NTPServer') { should_not cmp 'time.windows.com,0x9' }
-  end if is_domain == 'WORKGROUP'
+    describe registry_key('HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32time\Parameters') do
+      its('NTPServer') { should_not cmp 'time.windows.com,0x9' }
+    end
+  end
 end
