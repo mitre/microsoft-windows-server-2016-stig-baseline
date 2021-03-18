@@ -133,19 +133,15 @@ control 'V-73389' do
         acl_rules = [JSON.parse(acl_rules.to_json)]
       end
 
-      describe.one do
-        acl_rules.each do |acl_rule|
+      acl_rules.each do |acl_rule|
+        describe.one do
           describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
             subject { acl_rule }
             its(['AuditFlags']) { should cmp "Fail" }
             its(['IdentityReference']) { should cmp "Everyone" }
             its(['ActiveDirectoryRights']) { should cmp /(GenericAll)/ }
           end
-        end
-      end
 
-      describe.one do
-        acl_rules.each do |acl_rule|
           describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
             subject { acl_rule }
             its(['AuditFlags']) { should cmp "Success" }
@@ -154,11 +150,7 @@ control 'V-73389' do
             its(['IsInherited']) { should cmp "True" }
             its(['InheritanceType']) { should cmp "All" }
           end
-        end
-      end
 
-      describe.one do
-        acl_rules.each do |acl_rule|
           describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
             subject { acl_rule }
             its(['AuditFlags']) { should cmp "Success" }
