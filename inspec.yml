@@ -12,8 +12,7 @@ inputs:
   - name: backup_operators
     description: 'List of authorized users in the Backup Operators Group'
     type: Array
-    value:
-      - 
+    value: []
 
   - name: administrators
     description: 'List of authorized users in the local Administrators group'
@@ -42,8 +41,7 @@ inputs:
   - name: emergency_account
     description: 'List of emergency accounts on the system'
     type: Array
-    value:
-      - 
+    value: []
 
   - name: administrator_domain_group
     description: 'List of authorized users in the local Administrators domain group'
@@ -55,8 +53,7 @@ inputs:
   - name: shared_accounts
     description: 'List of shared accounts on the system'
     type: Array
-    value:
-      - 
+    value: []
 
   - name: has_ftp_server_role
     description: 'Set to true server has the ftp server role'
@@ -154,5 +151,4 @@ inputs:
   - name: manually_managed_app_service_accounts
     description: 'A list of all manually managed Application and Service account names'
     type: Array
-    value:
-      - 
+    value: []

@@ -69,8 +69,8 @@ control 'V-73285' do
   Local accounts can be configured to expire with the command Net user
   [username] /expires:[mm/dd/yyyy], where username is the name of the temporary
   user account."
-  emergency_account = attribute('emergency_account')
-  if !emergency_account .empty?
+  emergency_account = input('emergency_account')
+  if !emergency_account.empty?
 
     emergency_account.each do |user|
 
