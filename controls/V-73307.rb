@@ -65,7 +65,6 @@ control 'V-73307' do
       end
     else
       impact 0.0
-      desc 'This system is a domain controller with the PDC Emulator role, therefore this control is not applicable.'
       describe 'This system is a domain controller with the PDC Emulator role, therefore this control is not applicable.' do
         skip 'This system is a domain controller with the PDC Emulator role, therefore this control is not applicable.'
       end
