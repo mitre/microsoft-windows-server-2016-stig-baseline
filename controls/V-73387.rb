@@ -78,10 +78,9 @@ control 'V-73387' do
 
   Enter q at the ldap policy: and ntdsutil: prompts to exit."
   max_conn_idle_time = input('max_conn_idle_time')
-  forrest = attribute('forrest')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   if domain_role == '4' || domain_role == '5'
-    query = command("dsquery * \"cn=Default Query Policy,cn=Query-Policies,cn=Directory Service, cn=Windows NT,cn=Services,cn=Configuration," + forrest + "\" -attr LDAPAdminLimits").stdout
+    query = command("dsquery * \"cn=Default Query Policy,cn=Query-Policies,cn=Directory Service, cn=Windows NT,cn=Services,cn=Configuration," + input('forrest') + "\" -attr LDAPAdminLimits").stdout
     ldap_admin_limits = parse_config(query.gsub(/;/, "\n")).params
     describe "MaxConnIdleTime is configured" do
       subject { ldap_admin_limits }
