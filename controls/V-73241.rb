@@ -27,7 +27,8 @@ control 'V-73241' do
     end
     describe registry_key('HKLM\SOFTWARE\McAfee\Endpoint\AV\ProductVersion') do
       it { should exist }
-      describe registry_key('HKLM\SOFTWARE\Policies\Microsoft\Windows Defender') do
+    end
+    describe registry_key('HKLM\SOFTWARE\Policies\Microsoft\Windows Defender') do
         it { should exist }
     end
   end
