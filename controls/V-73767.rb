@@ -59,7 +59,10 @@ control 'V-73767' do
       end
 
     else
-      get_domain_sid = command('wmic useraccount get sid | FINDSTR /V SID | Select -First 2').stdout.strip
+         command('Enable-WindowsOptionalFeature -FeatureName ActiveDirectory-Powershell -Online -All')
+        get_domain_sid = command('Get-ADDomain | select DomainSID').stdout.strip
+        
+        ## get_domain_sid = command('wmic useraccount get sid | FINDSTR /V SID | Select -First 2').stdout.strip
       domain_sid = get_domain_sid[9..40]
       describe security_policy do
         its('SeDenyServiceLogonRight') { should include "S-1-21-#{domain_sid}-512" }
