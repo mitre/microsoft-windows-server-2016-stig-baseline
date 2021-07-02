@@ -63,8 +63,8 @@ control 'V-73759' do
   Deny access to this computer from the network to include the following:
 
   Domain Systems Only:
-  - Enterprise Admins group (SID* S-1-5-21root domain-519)
-  - Domain Admins group (SID* S-1-5-21domain-512)
+  - Enterprise Admins group (SID* S-1-5-21-root domain-519)
+  - Domain Admins group (SID* S-1-5-21-domain-512)
   - Local account (SID* S-1-2-0) and member of Administrators group (SID S-1-5-32-544) or Local account
   (see Note below)
 
@@ -102,7 +102,7 @@ control 'V-73759' do
           skip 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
         end
       else
-        ### Enable PowerShell Active Directory feature
+        ### Enable PowerShell Active Directory feature so we can get the domain SID
         enable_ADPWSH_script = <<-EOH
         Enable-WindowsOptionalFeature -FeatureName ActiveDirectory-Powershell -Online -All
         EOH
@@ -115,11 +115,8 @@ control 'V-73759' do
         EOH
         ### Actually run the script and assign output to variable, need to add error checking here if command fails
         get_SID_result = powershell(get_SID_script)
-        DomainSID = get_SID_result.stdout.gsub(/DomainSID|---------|\s/, "")
+        domain_sid = get_SID_result.stdout.gsub(/DomainSID|---------|\s/, "")
         
-        ## get_domain_sid = command('wmic useraccount get sid | FINDSTR /V SID | Select -First 2').stdout.strip
-        ## domain_sid = get_domain_sid[9..40]
-        domain_sid = DomainSID[9..40]
         describe security_policy do
           its('SeDenyNetworkLogonRight') { should include "#{domain_sid}-512" }
         end

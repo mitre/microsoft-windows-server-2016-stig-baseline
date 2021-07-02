@@ -68,16 +68,26 @@ control 'V-73763' do
       end
 
     else
-        command('Enable-WindowsOptionalFeature -FeatureName ActiveDirectory-Powershell -Online -All')
-        get_domain_sid = command('Get-ADDomain | select DomainSID').stdout.strip
-        
-        ## get_domain_sid = command('wmic useraccount get sid | FINDSTR /V SID | Select -First 2').stdout.strip
-      domain_sid = get_domain_sid[9..40]
+        ### Enable PowerShell Active Directory feature so we can get the domain SID
+        enable_ADPWSH_script = <<-EOH
+        Enable-WindowsOptionalFeature -FeatureName ActiveDirectory-Powershell -Online -All
+        EOH
+        ### Actually run the script, need to add error checking here if command fails
+        enable_ADPWSH_result = powershell(enable_ADPWSH_script)
+
+        ### Get this host's domain SID that will be used in security policy comparison
+        get_SID_script = <<-EOH
+        Get-ADDomain | select DomainSID
+        EOH
+        ### Actually run the script and assign output to variable, need to add error checking here if command fails
+        get_SID_result = powershell(get_SID_script)
+        domain_sid = get_SID_result.stdout.gsub(/DomainSID|---------|\s/, "")
+
       describe security_policy do
-        its('SeDenyBatchLogonRight') { should include "S-1-21-#{domain_sid}-512" }
+        its('SeDenyBatchLogonRight') { should include "#{domain_sid}-512" }
       end
       describe security_policy do
-        its('SeDenyBatchLogonRight') { should include "S-1-21-#{domain_sid}-519" }
+        its('SeDenyBatchLogonRight') { should include "#{domain_sid}-519" }
       end
     end
   end
