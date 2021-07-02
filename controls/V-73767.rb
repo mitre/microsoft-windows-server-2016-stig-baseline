@@ -48,8 +48,11 @@ control 'V-73767' do
   Deny log on as a service to include the following:
 
   Domain systems:
-  - Enterprise Admins Group
-  - Domain Admins Group"
+  - Enterprise Admins group (SID* S-1-5-21-root domain-519)
+  - Domain Admins group (SID* S-1-5-21-domain-512)
+  
+    * See SIDs in https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/security-identifiers-in-windows"
+
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   if !(domain_role == '4') && !(domain_role == '5')

@@ -37,6 +37,7 @@ control 'V-73763' do
   If the following accounts or groups are not defined for the Deny log on as a
   batch job user right, this is a finding.
 
+
   Domain Systems Only:
   - Enterprise Admins Group
   - Domain Admins Group
@@ -48,11 +49,14 @@ control 'V-73763' do
   Deny log on as a batch job to include the following:
 
   Domain Systems Only:
-  - Enterprise Admins Group
-  - Domain Admins Group
+  - Enterprise Admins group (SID* S-1-5-21-root domain-519)
+  - Domain Admins group (SID* S-1-5-21-domain-512)
 
   All Systems:
-  - Guests Group"
+  - Guests group (SID* S-1-5-32-546)
+
+  * See SIDs in https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/security-identifiers-in-windows"
+
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
 
