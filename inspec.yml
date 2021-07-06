@@ -100,8 +100,8 @@ inputs:
 
   - name: legal_notice_caption
     description: 'Standard Legal Notice Caption to go along with the Standard Legal Notice Text'
-    type: String
-    value: "DoD Notice and Consent Banner, US Department of Defense Warning Statement, or a site-defined equivalent."
+    type: Array
+    value: ["DoD Notice and Consent Banner", "US Department of Defense Warning Statement"]
 
   - name: max_conn_idle_time
     description: 'Maximum connectivity time to directory server in seconds'

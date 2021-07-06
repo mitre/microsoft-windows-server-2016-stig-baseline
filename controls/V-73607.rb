@@ -16,60 +16,45 @@ control 'V-73607' do
   tag "cci": ['CCI-000185', 'CCI-002470']
   tag "nist": ['IA-5 (2) (a)', 'SC-23 (5)', 'Rev_4']
   tag "documentable": false
-  desc "check", "This is applicable to unclassified systems. It is NA for others.
+  desc "check", "Verify the DoD Interoperability cross-certificates are installed on unclassified systems as Untrusted Certificates.
 
-  Open PowerShell as an administrator.
+  Run PowerShell as an administrator.
 
   Execute the following command:
 
-  Get-ChildItem -Path Cert:Localmachine\\disallowed | Where {$_.Issuer -Like
-  *DoD Interoperability* -and $_.Subject -Like *DoD*} | FL Subject,
-  Issuer, Thumbprint, NotAfter
+  Get-ChildItem -Path Cert:Localmachine\\disallowed | Where {$_.Issuer -Like *DoD Interoperability* -and $_.Subject -Like *DoD*} | FL Subject, Issuer, Thumbprint, NotAfter
 
-  If the following certificate Subject, Issuer, and Thumbprint
-  information is not displayed, this is finding.
+  If the following certificate Subject, Issuer, and Thumbprint, information is not displayed, this is finding. 
 
-  If an expired certificate (NotAfter date) is not listed in the results,
-  this is not a finding.
+  If an expired certificate (NotAfter date) is not listed in the results, this is not a finding.
 
   Subject: CN=DoD Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US
-  Issuer: CN=DoD Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government,
-  C=US
+  Issuer: CN=DoD Interoperability Root CA 1, OU=PKI, OU=DoD, O=U.S. Government, C=US
   Thumbprint: 22BBE981F0694D246CC1472ED2B021DC8540A22F
   NotAfter: 9/6/2019
 
   Subject: CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US
-  Issuer: CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government,
-  C=US
-  Thumbprint: FFAD03329B9E527A43EEC66A56F9CBB5393E6E13
-  NotAfter: 9/23/2018
+  Issuer: CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US
+  Thumbprint: AC06108CA348CC03B53795C64BF84403C1DBD341
+  NotAfter: 1/22/2022
 
-  Subject: CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US
-  Issuer: CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government,
-  C=US
-  Thumbprint: FCE1B1E25374DD94F5935BEB86CA643D8C8D1FF4
-  NotAfter: 2/17/2019
-
-  Alternately, use the Certificates MMC snap-in:
+  Alternately use the Certificates MMC snap-in:
 
   Run MMC.
 
   Select File, Add/Remove Snap-in.
 
-  Select Certificates and click Add.
+  Select Certificates, click Add.
 
-  Select Computer account and click Next.
+  Select Computer account, click Next.
 
-  Select Local computer: (the computer this console is running on) and click
-  Finish.
+  Select Local computer: (the computer this console is running on), click Finish.
 
   Click OK.
 
-  Expand Certificates and navigate to Untrusted Certificates >>
-  Certificates.
+  Expand Certificates and navigate to Untrusted Certificates >> Certificates.
 
-  For each certificate with DoD Root CA… under Issued To and DoD
-  Interoperability Root CA… under Issued By:
+  For each certificate with DoD Root CA… under Issued To and DoD Interoperability Root CA… under Issued By:
 
   Right-click on the certificate and select Open.
 
@@ -77,11 +62,9 @@ control 'V-73607' do
 
   Scroll to the bottom and select Thumbprint.
 
-  If the certificates below are not listed or the value for the Thumbprint
-  field is not as noted, this is a finding.
+  If the certificates below are not listed or the value for the Thumbprint field is not as noted, this is a finding.
 
-  If an expired certificate (Valid to date) is not listed in the results,
-  this is not a finding.
+  If an expired certificate (Valid to date) is not listed in the results, this is not a finding.
 
   Issued To: DoD Root CA 2
   Issued By: DoD Interoperability Root CA 1
@@ -90,32 +73,21 @@ control 'V-73607' do
 
   Issued To: DoD Root CA 3
   Issued By: DoD Interoperability Root CA 2
-  Thumbprint: FFAD03329B9E527A43EEC66A56F9CBB5393E6E13
-  Valid to: Sunday, September 23, 2018
-
-  Issued To: DoD Root CA 3
-  Issued By: DoD Interoperability Root CA 2
-  Thumbprint: FCE1B1E25374DD94F5935BEB86CA643D8C8D1FF4
-  Valid to: Sunday, February 17, 2019"
+  Thumbprint: AC06108CA348CC03B53795C64BF84403C1DBD341
+  Valid to: Saturday, January 22, 2022"
   desc "fix", "Install the DoD Interoperability Root CA cross-certificates on
   unclassified systems.
 
   Issued To - Issued By - Thumbprint
-  DoD Root CA 2 - DoD Interoperability Root CA 1 -
-  22BBE981F0694D246CC1472ED2B021DC8540A22F
-
-  DoD Root CA 3 - DoD Interoperability Root CA 2 -
-  FFAD03329B9E527A43EEC66A56F9CBB5393E6E13
-
-  DoD Root CA 3 - DoD Interoperability Root CA 2 -
-  FCE1B1E25374DD94F5935BEB86CA643D8C8D1FF4
+  DoD Root CA 2 - DoD Interoperability Root CA 1 - 22BBE981F0694D246CC1472ED2B021DC8540A22F
+  DoD Root CA 3 - DoD Interoperability Root CA 2 - AC06108CA348CC03B53795C64BF84403C1DBD341
 
   Administrators should run the Federal Bridge Certification Authority (FBCA)
   Cross-Certificate Removal Tool once as an administrator and once as the current
   user.
 
-  The FBCA Cross-Certificate Remover Tool and User Guide are available on IASE at
-  http://iase.disa.mil/pki-pke/Pages/tools.aspx."
+  The certificates can be installed using the InstallRoot tool. 
+  The tool and user guide are available on IASE at http://iase.disa.mil/pki-pke/Pages/tools.asp"
   is_unclassified_system = input('is_unclassified_system')
   dod_certificates = JSON.parse(input('dod_certificates').to_json)
   if is_unclassified_system

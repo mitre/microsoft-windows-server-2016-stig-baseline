@@ -2,7 +2,7 @@ control 'V-73497' do
   title 'WDigest Authentication must be disabled.'
   desc  "When the WDigest Authentication protocol is enabled, plain-text
   passwords are stored in the Local Security Authority Subsystem Service (LSASS),
-  exposing them to theft. WDigest is disabled by default in Windows 10. This
+  exposing them to theft. WDigest is disabled by default in Windows 2016. This
   setting ensures this is enforced."
   impact 0.5
   tag "gtitle": 'SRG-OS-000095-GPOS-00049'

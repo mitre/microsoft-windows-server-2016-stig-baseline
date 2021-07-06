@@ -6,7 +6,7 @@ control 'V-73513' do
   protection of code integrity. Secure Boot is the minimum security level, with
   DMA protection providing additional memory protection. DMA Protection requires
   a CPU that supports input/output memory management unit (IOMMU)."
-  impact 0.3
+  impact 0.5
   tag "gtitle": 'SRG-OS-000480-GPOS-00227'
   tag "gid": 'V-73513'
   tag "rid": 'SV-88165r1_rule'

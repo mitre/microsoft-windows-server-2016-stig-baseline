@@ -100,8 +100,8 @@ control 'V-73609' do
   Cross-Certificate Removal Tool once as an administrator and once as the current
   user.
 
-  The FBCA Cross-Certificate Remover Tool and User Guide are available on IASE at
-  http://iase.disa.mil/pki-pke/Pages/tools.aspx."
+ The certificates can be installed using the InstallRoot tool. 
+ The tool and user guide are available on IASE at http://iase.disa.mil/pki-pke/Pages/tools.aspx."
 
   is_unclassified_system = input('is_unclassified_system')
   dod_cceb_certificates = JSON.parse(input('dod_cceb_certificates').to_json)

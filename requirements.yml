@@ -1,0 +1,4 @@
+---
+- src: https://github.com/kclinden/Windows-2016-STIG.git
+  scm: git
+  version: master

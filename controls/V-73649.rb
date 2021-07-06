@@ -51,8 +51,8 @@ control 'V-73649' do
   key = registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System').LegalNoticeCaption.to_s
   
   describe 'The required legal notice caption' do
-    subject { key.scan(/[\w().;,!]/).join}
-    it {should cmp legal_notice_caption.scan(/[\w().;,!]/).join }
+    subject { key }
+    it {should be_in legal_notice_caption }
   end
 
 end

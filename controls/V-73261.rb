@@ -22,7 +22,7 @@ control 'V-73261' do
   Enter Get-Aduser -Filter * -Properties Passwordnotrequired |FT Name,
   Passwordnotrequired, Enabled.
 
-  Exclude disabled accounts (e.g., DefaultAccount, Guest) and the krbtgt account.
+  Exclude disabled accounts (e.g., DefaultAccount, Guest) and Trusted Domain Objects (TDOs).
 
   If Passwordnotrequired is True or blank for any enabled user account,
   this is a finding.

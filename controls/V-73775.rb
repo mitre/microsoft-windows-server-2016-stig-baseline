@@ -78,16 +78,11 @@ control 'V-73775' do
 
   if !(domain_role == '4') && !(domain_role == '5')
     if is_domain == 'WORKGROUP'
-      describe.one do
         describe security_policy do
-          its('SeDenyRemoteInteractiveLogonRight') { should eq ['S-1-5-32-546'] }
+         its('SeDenyRemoteInteractiveLogonRight') { should eq ['S-1-5-32-546'] }
         end
-        describe security_policy do
-          its('SeDenyRemoteInteractiveLogonRight') { should eq [] }
-        end
-      end
-
     else
+    
       if is_AD_only_system
         impact 0.0
         desc 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
@@ -95,18 +90,27 @@ control 'V-73775' do
           skip 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
         end
       else
-        get_domain_sid = command('wmic useraccount get sid | FINDSTR /V SID | Select -First 2').stdout.strip
-        domain_sid = get_domain_sid[9..40]
-        describe security_policy do
-          its('SeDenyRemoteInteractiveLogonRight') { should include "S-1-21-#{domain_sid}-512" }
-        end
-        describe security_policy do
-          its('SeDenyRemoteInteractiveLogonRight') { should include "S-1-21-#{domain_sid}-519" }
-        end
-        describe security_policy do
-          its('SeDenyRemoteInteractiveLogonRight') { should include 'S-1-2-0' }
-        end
-      end
+      domain_query = <<-EOH
+              $group = New-Object System.Security.Principal.NTAccount('Domain Admins')
+              $sid = ($group.Translate([security.principal.securityidentifier])).value
+              $sid | ConvertTo-Json
+              EOH
+
+      domain_admin_sid = json(command: domain_query).params
+      enterprise_admin_query = <<-EOH
+              $group = New-Object System.Security.Principal.NTAccount('Enterprise Admins')
+              $sid = ($group.Translate([security.principal.securityidentifier])).value
+              $sid | ConvertTo-Json
+              EOH
+
+      enterprise_admin_sid = json(command: enterprise_admin_query).params
+       describe security_policy do
+          its('SeDenyRemoteInteractiveLogonRight') { should include "#{domain_admin_sid}" }
+       end
+       describe security_policy do
+          its('SeDenyRemoteInteractiveLogonRight') { should include "#{enterprise_admin_sid}" }
+       end
+    end
     end
   end
 

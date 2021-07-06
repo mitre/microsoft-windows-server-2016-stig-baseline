@@ -20,13 +20,14 @@ control 'V-73281' do
   tag "cci": ['CCI-001233']
   tag "nist": ['SI-2 (2)', 'Rev_4']
   tag "documentable": false
-  desc "check", "Verify the operating system employs automated mechanisms to
-  determine the state of system components with regard to flaw remediation using
-  the following frequency: continuously, where HBSS is used; 30 days, for any
-  additional internal network scans not covered by HBSS; and annually, for
-  external scans by CNDSP.
-
-  If it does not, this is a finding."
+  desc "check", "Verify DoD approved HBSS software is installed, 
+  configured, and properly operating. Ask the operator to document 
+  the HBSS software installation and configuration. 
+  
+  If the operator is not able to provide a documented configuration 
+  for an installed HBSS or if the HBSS software is not properly 
+  configured, maintained, or used, this is a finding."
+  
   desc "fix", "Configure the operating system to employ automated mechanisms to
   determine the state of system components with regard to flaw remediation using
   the following frequency: continuously, where HBSS is used; 30 days, for any

@@ -30,15 +30,16 @@ control 'V-73305' do
   desc "fix", "Configure the FTP sites to allow access only to specific FTP
   shared resources. Do not allow access to other areas of the system."
   is_ftp_installed = command('Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed').stdout.strip
-  if is_ftp_installed == 'False'
-    describe 'FTP is not installed on this system, therefore this control is not applicable' do
-      skip 'FTP is not installed on this system, therefore this control is not applicable'
-    end
-  else
-    describe 'A manual review is required to ensure File Transfer Protocol (FTP) servers are configured to prevent
-    anonymous logons' do
-      skip 'A manual review is required to ensure File Transfer Protocol (FTP) servers are configured to prevent
-    anonymous logons'
+
+  if is_ftp_installed == "False"
+    describe windows_feature('Web-Ftp-Server') do
+      it { should_not be_installed }
     end
   end
+  if is_ftp_installed == "True"
+    describe 'A manual review is required to ensure File Transfer Protocol (FTP) servers are configured to prevent anonymous logons' do
+      skip 'A manual review is required to ensure File Transfer Protocol (FTP) servers are configured to prevent anonymous logos'
+    end
+  end
+
 end

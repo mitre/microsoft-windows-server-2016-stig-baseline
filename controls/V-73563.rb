@@ -35,8 +35,13 @@ control 'V-73563' do
   Configuration >> Administrative Templates >> Windows Components >> File
   Explorer >> Turn off heap termination on corruption to Not Configured
   or Disabled."
-  describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Explorer') do
-    it { should have_property 'NoHeapTerminationOnCorruption' }
-    its('NoHeapTerminationOnCorruption') { should_not cmp 1 }
+  describe.one do
+    describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Explorer') do
+      it { should_not have_property 'NoHeapTerminationOnCorruption' }
+    end
+    describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\Explorer') do
+      it { should have_property 'NoHeapTerminationOnCorruption' }
+      its('NoHeapTerminationOnCorruption') { should_not cmp 1 }
+    end
   end
 end

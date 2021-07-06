@@ -34,7 +34,7 @@ control 'V-73651' do
   Interactive Logon: Number of previous logons to cache (in case Domain
   Controller is not available) to 4 logons or less."
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  if !(domain_role == '4') && !(domain_role == '5')
+  if !(domain_role == '4') && !(domain_role == '5') && !(domain_role == '2')
     describe registry_key('HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon') do
       it { should have_property 'CachedLogonsCount' }
       its('CachedLogonsCount') { should cmp <= 4 }
@@ -44,5 +44,12 @@ control 'V-73651' do
   if domain_role == '4' || domain_role == '5'
     impact 0.0
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
+  end
+
+  if domain_role == '2'
+    impact 0.0
+    describe 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems' do
+      skip 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems'
+    end
   end
 end

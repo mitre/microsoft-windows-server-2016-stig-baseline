@@ -71,10 +71,6 @@ control 'V-73223' do
       subject { pwd_last_set_days }
       it { should cmp <= 60 }
     end
-    describe "The built-in Administrator account name" do
-      subject { account_name }
-      it { should_not cmp 'Administrator' }
-    end
   else
     describe 'There are no administrative accounts on this system' do
       skip 'There are no administrative accounts on this system'
