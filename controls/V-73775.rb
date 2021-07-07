@@ -97,20 +97,10 @@ control 'V-73775' do
           skip 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
         end
       else
-        ### Enable PowerShell Active Directory feature so we can get the domain SID
-        enable_ADPWSH_script = <<-EOH
-        Enable-WindowsOptionalFeature -FeatureName ActiveDirectory-Powershell -Online -All
-        EOH
-        ### Actually run the script, need to add error checking here if command fails
-        enable_ADPWSH_result = powershell(enable_ADPWSH_script)
-
-        ### Get this host's domain SID that will be used in security policy comparison
-        get_SID_script = <<-EOH
-        Get-ADDomain | select DomainSID
-        EOH
-        ### Actually run the script and assign output to variable, need to add error checking here if command fails
-        get_SID_result = powershell(get_SID_script)
-        domain_sid = get_SID_result.stdout.gsub(/DomainSID|---------|\s/, "")
+        user_info = command('whoami /user').stdout
+        start_index = user_info.index("S-1")
+        end_index = user_info.rindex("-")
+        domain_sid = user_info[start_index,end_index - start_index]
 
         describe security_policy do
           its('SeDenyRemoteInteractiveLogonRight') { should include "#{domain_sid}-512" }
