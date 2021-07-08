@@ -71,20 +71,28 @@ control 'V-73763' do
         end
       end
 
-    else
-        user_info = command('whoami /user').stdout
-        start_index = user_info.index("S-1")
-        end_index = user_info.rindex("-")
-        domain_sid = user_info[start_index,end_index - start_index]
+      else
+        domain_admin_sid_query = <<-EOH
+          $group = New-Object System.Security.Principal.NTAccount('Domain Admins')
+          $sid = $group.Translate([security.principal.securityidentifier]).value
+          $sid | ConvertTo-Json
+        EOH
+        domain_admin_sid = json(command: domain_admin_sid_query).params
+        
+        enterprise_admin_sid_query = <<-EOH
+          $group = New-Object System.Security.Principal.NTAccount('Enterprise Admins')
+          $sid = $group.Translate([security.principal.securityidentifier]).value
+          $sid | ConvertTo-Json
+        EOH
+        enterprise_admin_sid = json(command: enterprise_admin_sid_query).params
 
-      describe security_policy do
-        its('SeDenyBatchLogonRight') { should include "#{domain_sid}-512" }
+        describe security_policy do
+          its('SeDenyNetworkLogonRight') { should include "#{domain_admin_sid}" }
+        end
+        describe security_policy do
+          its('SeDenyNetworkLogonRight') { should include "#{enterprise_admin_sid}" }
+        end
       end
-      describe security_policy do
-        its('SeDenyBatchLogonRight') { should include "#{domain_sid}-519" }
-      end
-    end
-  end
 
   if domain_role == '4' || domain_role == '5'
     impact 0.0
