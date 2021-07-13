@@ -122,7 +122,8 @@ control 'V-73775' do
           its('SeDenyRemoteInteractiveLogonRight') { should include 'S-1-2-0' }
         end
       end
-
+    end
+  end
   if domain_role == '4' || domain_role == '5'
     impact 0.0
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to domain controllers'
@@ -130,6 +131,4 @@ control 'V-73775' do
       skip 'This system is a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     end
   end
-end
-end
 end

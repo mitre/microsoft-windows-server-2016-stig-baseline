@@ -123,7 +123,8 @@ control 'V-73759' do
           its('SeDenyNetworkLogonRight') { should include "#{enterprise_admin_sid}" }
         end
       end
-
+    end
+  end
   if domain_role == '4' || domain_role == '5'
     impact 0.0
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
@@ -131,6 +132,4 @@ control 'V-73759' do
       skip 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
     end
   end
-end
-end
 end
