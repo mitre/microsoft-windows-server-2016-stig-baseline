@@ -63,15 +63,13 @@ control 'V-73759' do
   Deny access to this computer from the network to include the following:
 
   Domain Systems Only:
-  - Enterprise Admins group (SID* S-1-5-21-root domain-519)
-  - Domain Admins group (SID* S-1-5-21-domain-512)
-  - Local account (SID* S-1-2-0) and member of Administrators group (SID S-1-5-32-544) or Local account
+  - Enterprise Admins group
+  - Domain Admins group
+  - Local account and member of Administrators group or Local account
   (see Note below)
 
   All Systems:
   - Guests group (SID* S-1-5-32-546)
-
-  * See SIDs in https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/security-identifiers-in-windows
 
   Systems dedicated to the management of Active Directory (AD admin platforms,
   see V-36436 in the Active Directory Domain STIG) are exempt from denying the

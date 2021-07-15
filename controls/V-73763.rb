@@ -49,13 +49,11 @@ control 'V-73763' do
   Deny log on as a batch job to include the following:
 
   Domain Systems Only:
-  - Enterprise Admins group (SID* S-1-5-21-root domain-519)
-  - Domain Admins group (SID* S-1-5-21-domain-512)
+  - Enterprise Admins group 
+  - Domain Admins group 
 
   All Systems:
-  - Guests group (SID* S-1-5-32-546)
-
-  * See SIDs in https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/security-identifiers-in-windows"
+  - Guests group 
 
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip

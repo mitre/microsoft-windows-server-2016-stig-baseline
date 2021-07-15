@@ -53,16 +53,14 @@ control 'V-73771' do
 
 
   Domain Systems Only:
-  - Enterprise Admins group (SID* S-1-5-21-root domain-519)
-  - Domain Admins group (SID* S-1-5-21-domain-512)
+  - Enterprise Admins group 
+  - Domain Admins group 
 
   Systems dedicated to the management of Active Directory (AD admin platforms,
   see V-36436 in the Active Directory Domain STIG) are exempt from this.
 
   All Systems:
-  - Guests group (SID* S-1-5-32-546)
-
-  * See SIDs in https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/security-identifiers-in-windows"
+  - Guests group 
 
   is_AD_only_system = input('is_AD_only_system')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
