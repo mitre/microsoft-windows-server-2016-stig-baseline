@@ -69,7 +69,7 @@ control 'V-73759' do
   (see Note below)
 
   All Systems:
-  - Guests group (SID* S-1-5-32-546)
+  - Guests group 
 
   Systems dedicated to the management of Active Directory (AD admin platforms,
   see V-36436 in the Active Directory Domain STIG) are exempt from denying the
