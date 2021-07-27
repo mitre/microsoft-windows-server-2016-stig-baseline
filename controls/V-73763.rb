@@ -37,7 +37,6 @@ control 'V-73763' do
   If the following accounts or groups are not defined for the Deny log on as a
   batch job user right, this is a finding.
 
-
   Domain Systems Only:
   - Enterprise Admins Group
   - Domain Admins Group
@@ -53,50 +52,41 @@ control 'V-73763' do
   - Domain Admins group 
 
   All Systems:
-  - Guests group 
+  - Guests group "
 
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
 
-  if !(domain_role == '4') && !(domain_role == '5')
-    if is_domain == 'WORKGROUP'
-      describe.one do
-        describe security_policy do
-          its('SeDenyBatchLogonRight') { should eq ['S-1-5-32-546'] }
-        end
-        describe security_policy do
-          its('SeDenyBatchLogonRight') { should eq [] }
-        end
-      end
-
-      else
-        domain_admin_sid_query = <<-EOH
-          $group = New-Object System.Security.Principal.NTAccount('Domain Admins')
-          $sid = $group.Translate([security.principal.securityidentifier]).value
-          $sid | ConvertTo-Json
-        EOH
-        domain_admin_sid = json(command: domain_admin_sid_query).params
-        
-        enterprise_admin_sid_query = <<-EOH
-          $group = New-Object System.Security.Principal.NTAccount('Enterprise Admins')
-          $sid = $group.Translate([security.principal.securityidentifier]).value
-          $sid | ConvertTo-Json
-        EOH
-        enterprise_admin_sid = json(command: enterprise_admin_sid_query).params
-
-        describe security_policy do
-          its('SeDenyNetworkLogonRight') { should include "#{domain_admin_sid}" }
-        end
-        describe security_policy do
-          its('SeDenyNetworkLogonRight') { should include "#{enterprise_admin_sid}" }
-        end
-      end
-  end
   if domain_role == '4' || domain_role == '5'
     impact 0.0
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
     describe 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems' do
       skip 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
+    end
+  else
+    describe security_policy do
+      its('SeDenyBatchLogonRight') { should include 'S-1-5-32-546' }
+    end
+    if domain_role == '3'
+      domain_admin_sid_query = <<-EOH
+        $group = New-Object System.Security.Principal.NTAccount('Domain Admins')
+        $sid = $group.Translate([security.principal.securityidentifier]).value
+        $sid | ConvertTo-Json
+      EOH
+      domain_admin_sid = json(command: domain_admin_sid_query).params
+      
+      enterprise_admin_sid_query = <<-EOH
+        $group = New-Object System.Security.Principal.NTAccount('Enterprise Admins')
+        $sid = $group.Translate([security.principal.securityidentifier]).value
+        $sid | ConvertTo-Json
+      EOH
+      enterprise_admin_sid = json(command: enterprise_admin_sid_query).params
+
+      describe security_policy do
+        its('SeDenyBatchLogonRight') { should include "#{domain_admin_sid}" }
+      end
+      describe security_policy do
+        its('SeDenyBatchLogonRight') { should include "#{enterprise_admin_sid}" }
+      end
     end
   end
 end

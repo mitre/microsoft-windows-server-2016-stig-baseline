@@ -78,7 +78,8 @@ control 'V-73759' do
   Note: These are built-in security groups. Local account is more restrictive
   but may cause issues on servers such as systems that provide failover
   clustering."
-  # is_AD_only_system = input('is_AD_only_system')
+
+  is_AD_only_system = input('is_AD_only_system')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   if domain_role == '4' || domain_role == '5'
@@ -87,11 +88,12 @@ control 'V-73759' do
     describe 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems' do
       skip 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
     end
-  # elsif is_AD_only_system
-  #   impact 0.0
-  #   desc 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
-  #   describe 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control' do
-  #     skip 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
+  elsif is_AD_only_system
+    impact 0.0
+    desc 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
+    describe 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control' do
+      skip 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
+    end
   else
     describe security_policy do
       its('SeDenyNetworkLogonRight') { should include 'S-1-5-32-546' }
