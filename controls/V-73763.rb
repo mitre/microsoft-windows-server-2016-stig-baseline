@@ -48,42 +48,45 @@ control 'V-73763' do
   Deny log on as a batch job to include the following:
 
   Domain Systems Only:
-  - Enterprise Admins Group
-  - Domain Admins Group
+  - Enterprise Admins group 
+  - Domain Admins group 
 
   All Systems:
-  - Guests Group"
+  - Guests group "
+
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
-
-  if !(domain_role == '4') && !(domain_role == '5')
-    if is_domain == 'WORKGROUP'
-      describe.one do
-        describe security_policy do
-          its('SeDenyBatchLogonRight') { should eq ['S-1-5-32-546'] }
-        end
-        describe security_policy do
-          its('SeDenyBatchLogonRight') { should eq [] }
-        end
-      end
-
-    else
-      get_domain_sid = command('wmic useraccount get sid | FINDSTR /V SID | Select -First 2').stdout.strip
-      domain_sid = get_domain_sid[9..40]
-      describe security_policy do
-        its('SeDenyBatchLogonRight') { should include "S-1-21-#{domain_sid}-512" }
-      end
-      describe security_policy do
-        its('SeDenyBatchLogonRight') { should include "S-1-21-#{domain_sid}-519" }
-      end
-    end
-  end
 
   if domain_role == '4' || domain_role == '5'
     impact 0.0
     desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
     describe 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems' do
       skip 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
+    end
+  else
+    describe security_policy do
+      its('SeDenyBatchLogonRight') { should include 'S-1-5-32-546' }
+    end
+    if domain_role == '3'
+      domain_admin_sid_query = <<-EOH
+        $group = New-Object System.Security.Principal.NTAccount('Domain Admins')
+        $sid = $group.Translate([security.principal.securityidentifier]).value
+        $sid | ConvertTo-Json
+      EOH
+      domain_admin_sid = json(command: domain_admin_sid_query).params
+      
+      enterprise_admin_sid_query = <<-EOH
+        $group = New-Object System.Security.Principal.NTAccount('Enterprise Admins')
+        $sid = $group.Translate([security.principal.securityidentifier]).value
+        $sid | ConvertTo-Json
+      EOH
+      enterprise_admin_sid = json(command: enterprise_admin_sid_query).params
+
+      describe security_policy do
+        its('SeDenyBatchLogonRight') { should include "#{domain_admin_sid}" }
+      end
+      describe security_policy do
+        its('SeDenyBatchLogonRight') { should include "#{enterprise_admin_sid}" }
+      end
     end
   end
 end
