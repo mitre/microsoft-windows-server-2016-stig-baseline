@@ -39,5 +39,6 @@ control 'V-73533' do
     impact 0.0
     describe 'This control is not applicable as it only applies to member servers' do
       skip 'This control is not applicable as it only applies to member servers'
+    end
   end
 end
