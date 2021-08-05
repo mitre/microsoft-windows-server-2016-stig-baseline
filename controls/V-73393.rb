@@ -8,7 +8,7 @@ control 'V-73393' do
   by identification, authentication, or authorization functions could degrade or
   eliminate the ability to track changes to access policy for systems or data.
 
-      For Active Directory (AD), there are a number of critical object types in
+  For Active Directory (AD), there are a number of critical object types in
   the domain naming context of the AD database for which auditing is essential.
   This includes the Infrastructure object. Because changes to these objects can
   significantly impact access controls or the availability of systems, the
@@ -20,8 +20,7 @@ control 'V-73393' do
   "
   impact 0.5
   tag "gtitle": 'SRG-OS-000327-GPOS-00127'
-  tag "satisfies": ['SRG-OS-000327-GPOS-00127', 'SRG-OS-000458-GPOS-00203',
-                    'SRG-OS-000463-GPOS-00207', 'SRG-OS-000468-GPOS-00212']
+  tag "satisfies": ['SRG-OS-000327-GPOS-00127', 'SRG-OS-000458-GPOS-00203', 'SRG-OS-000463-GPOS-00207', 'SRG-OS-000468-GPOS-00212']
   tag "gid": 'V-73393'
   tag "rid": 'SV-88045r1_rule'
   tag "stig_id": 'WN16-DC-000190'
@@ -109,11 +108,11 @@ control 'V-73393' do
   Principal - Everyone
   Access - (blank)
   Inherited from - (CN of domain)"
+
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
 
   if domain_role == '4' || domain_role == '5'
     distinguishedName = json(command: '(Get-ADDomain).DistinguishedName | ConvertTo-JSON').params
-    netbiosname = json(command: 'Get-ADDomain | Select NetBIOSName | ConvertTo-JSON').params['NetBIOSName']
     acl_rules = json(command: "(Get-ACL -Audit -Path AD:'CN=Infrastructure,#{distinguishedName}').Audit | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON").params
 
     if acl_rules.is_a?(Hash)
@@ -124,7 +123,7 @@ control 'V-73393' do
       acl_rules.each do |acl_rule|
         describe "Audit rule property for principal: #{acl_rule['IdentityReference']}" do
           subject { acl_rule }
-          its(['AuditFlags']) { should cmp "Fail" }
+          its(['AuditFlags']) { should cmp "Failure" }
           its(['IdentityReference']) { should cmp "Everyone" }
           its(['ActiveDirectoryRights']) { should cmp "GenericAll" }
           its(['InheritanceFlags']) { should cmp "None" }
@@ -155,9 +154,9 @@ control 'V-73393' do
           its(['AuditFlags']) { should cmp "Success" }
           its(['IdentityReference']) { should cmp "Everyone" }
           its(['ActiveDirectoryRights']) { should cmp "WriteProperty" }
-          its(['InheritanceFlags']) { should cmp "None" }
+          its(['InheritanceFlags']) { should cmp "ContainerInherit" }
           its(['InheritanceType']) { should cmp "Descendents" }
-          its(['PropagationFlags']) { should cmp "None" }
+          its(['PropagationFlags']) { should cmp "InheritOnly" }
         end
       end
     end
