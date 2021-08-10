@@ -73,63 +73,77 @@ control 'V-73285' do
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   emergency_accounts_list = input('emergency_accounts')
   emergency_accounts_data = []
-
-  if emergency_accounts_list.empty?
+  
+  if emergency_accounts_list == [nil]
     impact 0.0
     describe 'There are no Emergency Account listed for this Control' do
-      skip 'There is no value assigned to the input "emergency_accounts"'
+      skip 'This becomes a manual check if the input emergency_accounts_domain is not assigned a value'
     end
-
   else
     if domain_role == '4' || domain_role == '5'
-      emergency_accounts_list.each do |account|
-        emergency_accounts_data << json({ command: "Get-ADUser -Identity #{account} -Properties WhenCreated, AccountExpirationDate | Select-Object -Property SamAccountName, @{Name='WhenCreated';Expression={$_.WhenCreated.ToString('yyyy-MM-dd')}}, @{Name='AccountExpirationDate';Expression={$_.AccountExpirationDate.ToString('yyyy-MM-dd')}}| ConvertTo-Json"}).params
+      emergency_accounts_list.each do |emergency_account|
+        emergency_accounts_data << json({ command: "Get-ADUser -Identity #{emergency_account} -Properties WhenCreated, AccountExpirationDate | Select-Object -Property SamAccountName, @{Name='WhenCreated';Expression={$_.WhenCreated.ToString('yyyy-MM-dd')}}, @{Name='AccountExpirationDate';Expression={$_.AccountExpirationDate.ToString('yyyy-MM-dd')}}| ConvertTo-Json"}).params
       end
-      emergency_accounts_data.each do |account_data|
-        account_name = account_data.fetch("SamAccountName")
-        if account_data.fetch("WhenCreated") == nil
-          describe "The WhenCreated date for '#{account_name}'" do
-            subject { account_data.fetch("WhenCreated") }
-            it { should_not eq nil }
-          end
-        elsif account_data.fetch("AccountExpirationDate") == nil
-          describe "The AccountExpirationDate date for '#{account_name}'" do
-            subject { account_data.fetch("AccountExpirationDate") }
-            it { should_not eq nil }
-          end
-        else
-          creation_date = Date.parse(account_data.fetch("WhenCreated"))
-          expiration_date = Date.parse(account_data.fetch("AccountExpirationDate"))
-          date_difference = expiration_date.mjd - creation_date.mjd
-          describe "Account expiration days set for '#{account_name}'" do
-            subject { date_difference }
-            it { should cmp <= input('emergency_account_period')}
+      if emergency_accounts_data.empty?
+        impact 0.0
+        describe 'This control is not applicable as account information was not found for the listed emergency accounts' do
+          skip 'This control is not applicable as account information was not found for the listed emergency accounts'
+        end
+      else
+        emergency_accounts_data.each do |emergency_account|
+          account_name = emergency_account.fetch("SamAccountName")
+          if emergency_account.fetch("WhenCreated") == nil
+            describe "#{account_name} account's creation date" do
+              subject { emergency_account.fetch("WhenCreated") }
+              it { should_not eq nil}
+            end
+          elsif emergency_account.fetch("AccountExpirationDate") == nil
+            describe "#{account_name} account's expiration date" do
+              subject { emergency_account.fetch("AccountExpirationDate") }
+              it { should_not eq nil}
+            end
+          else
+            creation_date = Date.parse(emergency_account.fetch("WhenCreated"))
+            expiration_date = Date.parse(emergency_account.fetch("AccountExpirationDate"))
+            date_difference = expiration_date.mjd - creation_date.mjd
+            describe "Account expiration set for #{account_name}" do
+              subject { date_difference }
+              it { should cmp <= input('emergency_account_period')}
+            end
           end
         end
       end
+
     else
-      emergency_accounts_list.each do |account|
-        emergency_accounts_data << json({ command: "Get-LocalUser -Name #{account} | Select-Object -Property Name, @{Name='PasswordLastSet';Expression={$_.PasswordLastSet.ToString('yyyy-MM-dd')}}, @{Name='AccountExpires';Expression={$_.AccountExpires.ToString('yyyy-MM-dd')}} | ConvertTo-Json"}).params
+      emergency_accounts_list.each do |emergency_account|
+        emergency_accounts_data << json({ command: "Get-LocalUser -Name #{emergency_account} | Select-Object -Property Name, @{Name='PasswordLastSet';Expression={$_.PasswordLastSet.ToString('yyyy-MM-dd')}}, @{Name='AccountExpires';Expression={$_.AccountExpires.ToString('yyyy-MM-dd')}} | ConvertTo-Json"}).params
       end
-      emergency_accounts_data.each do |account_data|
-        user_name = account_data.fetch("Name")
-        if account_data.fetch("PasswordLastSet") == nil
-          describe "The PasswordLastSet date for '#{user_name}'" do
-            subject { account_data.fetch("PasswordLastSet") }
-            it { should_not eq nil }
-          end
-        elsif account_data.fetch("AccountExpires") == nil
-          describe "The AccountExpires date for '#{user_name}'" do
-            subject { account_data.fetch("AccountExpires") }
-            it { should_not eq nil }
-          end
-        else
-          password_date = Date.parse(account_data.fetch("PasswordLastSet"))
-          expiration_date = Date.parse(account_data.fetch("AccountExpires"))
-          date_difference = expiration_date.mjd - password_date.mjd
-          describe "Account expiration days set for '#{user_name}'" do
-            subject { date_difference }
-            it { should cmp <= input('emergency_account_period')}
+      if emergency_accounts_data.empty?
+        impact 0.0
+        describe 'This control is not applicable as account information was not found for the listed emergency accounts' do
+          skip 'This control is not applicable as account information was not found for the listed emergency accounts'
+        end
+      else
+        emergency_accounts_data.each do |emergency_account|
+          user_name = emergency_account.fetch("Name")
+          if emergency_account.fetch("PasswordLastSet") == nil
+            describe "#{user_name} account's password last set date" do
+              subject { emergency_account.fetch("PasswordLastSet") }
+              it { should_not eq nil}
+            end
+          elsif emergency_account.fetch("AccountExpires") == nil
+            describe "#{user_name} account's expiration date" do
+              subject { emergency_account.fetch("AccountExpires") }
+              it { should_not eq nil}
+            end
+          else
+            password_date = Date.parse(emergency_account.fetch("PasswordLastSet"))
+            expiration_date = Date.parse(emergency_account.fetch("AccountExpires"))
+            date_difference = expiration_date.mjd - password_date.mjd
+            describe "Account expiration set for #{user_name}" do
+              subject { date_difference }
+              it { should cmp <= input('emergency_account_period')}
+            end
           end
         end
       end
