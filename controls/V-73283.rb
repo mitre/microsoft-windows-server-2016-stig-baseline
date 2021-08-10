@@ -62,52 +62,83 @@ control 'V-73283' do
 
   Delete any temporary user accounts that are no longer necessary."
 
-  temp_account = input('temp_account')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
+  temp_accounts_list = input('temporary_accounts')
+  temp_accounts_data = []
   
-  if !temp_account.empty?
-    users = []
-    if domain_role == '4' || domain_role == '5'
-      temp_account.each do |temp_user|
-        ad_user = json(command: "Get-ADUser -Filter * -Properties AccountExpirationDate | Where-Object {($_.SamAccountName -eq '#{temp_user}')} | Select-Object @{Name='Name';Expression={$_.SamAccountName}}, @{Name='TimeSpan';Expression={New-TimeSpan -Start ($_.AccountExpirationDate) -End (Get-Date) | Select Days, Hours}} | ConvertTo-JSON").params
-        if ad_user['Name'] == temp_user
-          users.push(ad_user)
-        end
-      end
-    else
-      temp_account.each do |temp_user|
-        local_user = json(command: "Get-LocalUser #{temp_user} | Select Name, @{Name='TimeSpan';Expression={New-TimeSpan -Start ($_.AccountExpires) -End (Get-Date) | Select Days, Hours}} | ConvertTo-JSON").params
-        if local_user['Name'] == temp_user
-          users.push(local_user)
-        end
-      end
-    end
-
-    if !users.empty?
-      users.each do |user|
-        if user['TimeSpan'] == nil
-          describe "The Account Expiration for temporary account '#{user['Name']}'" do
-            subject { user['TimeSpan'] }
-            it { should_not cmp nil }
-          end
-        else
-          describe "The number of hours for account expiry for temporary account '#{user['Name']}'" do
-            subject { user['TimeSpan']['Days']*24 + user['TimeSpan']['Hours'] }
-            it { should_not cmp >= 72 }
-          end
-        end
-      end
-    else
-      impact 0.0
-      describe 'No accounts exist on this system, control not applicable' do
-        skip 'No accounts exist on this system, control not applicable'
-      end
-    end
-
-  else
+  if temp_accounts_list == [nil]
     impact 0.0
-    describe 'No temporary accounts on this system, control not applicable' do
-      skip 'No temporary accounts on this system, control not applicable'
+    describe 'This control is not applicable as no temporary accounts were listed as an input' do
+      skip 'This control is not applicable as no temporary accounts were listed as an input'
+    end
+  else
+    if domain_role == '4' || domain_role == '5'
+      temp_accounts_list.each do |temporary_account|
+        temp_accounts_data << json({ command: "Get-ADUser -Identity #{temporary_account} -Properties WhenCreated, AccountExpirationDate | Select-Object -Property SamAccountName, @{Name='WhenCreated';Expression={$_.WhenCreated.ToString('yyyy-MM-dd')}}, @{Name='AccountExpirationDate';Expression={$_.AccountExpirationDate.ToString('yyyy-MM-dd')}}| ConvertTo-Json"}).params
+      end
+      if temp_accounts_data.empty?
+        impact 0.0
+        describe 'This control is not applicable as account information was not found for the listed temporary accounts' do
+          skip 'This control is not applicable as account information was not found for the listed temporary accounts'
+        end
+      else
+        temp_accounts_data.each do |temp_account|
+          account_name = temp_account.fetch("SamAccountName")
+          if temp_account.fetch("WhenCreated") == nil
+            describe "#{account_name} account's creation date" do
+              subject { temp_account.fetch("WhenCreated") }
+              it { should_not eq nil}
+            end
+          elsif temp_account.fetch("AccountExpirationDate") == nil
+            describe "#{account_name} account's expiration date" do
+              subject { temp_account.fetch("AccountExpirationDate") }
+              it { should_not eq nil}
+            end
+          else
+            creation_date = Date.parse(temp_account.fetch("WhenCreated"))
+            expiration_date = Date.parse(temp_account.fetch("AccountExpirationDate"))
+            date_difference = expiration_date.mjd - creation_date.mjd
+            describe "Account expiration set for #{account_name}" do
+              subject { date_difference }
+              it { should cmp <= input('temporary_account_period')}
+            end
+          end
+        end
+      end
+
+    else
+      temp_accounts_list.each do |temporary_account|
+        temp_accounts_data << json({ command: "Get-LocalUser -Name #{temporary_account} | Select-Object -Property Name, @{Name='PasswordLastSet';Expression={$_.PasswordLastSet.ToString('yyyy-MM-dd')}}, @{Name='AccountExpires';Expression={$_.AccountExpires.ToString('yyyy-MM-dd')}} | ConvertTo-Json"}).params
+      end
+      if temp_accounts_data.empty?
+        impact 0.0
+        describe 'This control is not applicable as account information was not found for the listed temporary accounts' do
+          skip 'This control is not applicable as account information was not found for the listed temporary accounts'
+        end
+      else
+        temp_accounts_data.each do |temp_account|
+          user_name = temp_account.fetch("Name")
+          if temp_account.fetch("PasswordLastSet") == nil
+            describe "#{user_name} account's password last set date" do
+              subject { temp_account.fetch("PasswordLastSet") }
+              it { should_not eq nil}
+            end
+          elsif temp_account.fetch("AccountExpires") == nil
+            describe "#{user_name} account's expiration date" do
+              subject { temp_account.fetch("AccountExpires") }
+              it { should_not eq nil}
+            end
+          else
+            password_date = Date.parse(temp_account.fetch("PasswordLastSet"))
+            expiration_date = Date.parse(temp_account.fetch("AccountExpires"))
+            date_difference = expiration_date.mjd - password_date.mjd
+            describe "Account expiration set for #{user_name}" do
+              subject { date_difference }
+              it { should cmp <= input('temporary_account_period')}
+            end
+          end
+        end
+      end
     end
   end
 end
