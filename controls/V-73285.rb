@@ -76,8 +76,8 @@ control 'V-73285' do
   
   if emergency_accounts_list == [nil]
     impact 0.0
-    describe 'There are no Emergency Account listed for this Control' do
-      skip 'This becomes a manual check if the input emergency_accounts_domain is not assigned a value'
+    describe 'This control is not applicable as no emergency accounts were listed as an input' do
+      skip 'This control is not applicable as no emergency accounts were listed as an input'
     end
   else
     if domain_role == '4' || domain_role == '5'
