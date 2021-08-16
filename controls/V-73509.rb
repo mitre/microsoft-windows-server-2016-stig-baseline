@@ -43,26 +43,20 @@ control 'V-73509' do
 
   Value Name: \\\\*\\NETLOGON
   Value: RequireMutualAuthentication=1, RequireIntegrity=1"
+
   is_domain = command('wmic computersystem get domain | FINDSTR /V Domain').stdout.strip
-
-  describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths') do
-    it { should have_property '\\\\*\\NETLOGON' }
-  end if is_domain != 'WORKGROUP'
-
-  describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths') do
-    its('\\\\*\\NETLOGON') { should match(/RequireMutualAuthentication=1, RequireIntegrity=1/) }
-  end if is_domain != 'WORKGROUP'
-
-  describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths') do
-    it { should have_property '\\\\*\\SYSVOL' }
-  end if is_domain != 'WORKGROUP'
-
-  describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths') do
-    its('\\\\*\\SYSVOL') { should match(/RequireMutualAuthentication=1, RequireIntegrity=1/) }
-  end if is_domain != 'WORKGROUP'
 
   if is_domain == 'WORKGROUP'
     impact 0.0
-    desc 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems'
+    describe 'This control is not applicable because this is not a domain-joined system' do
+      skip 'This control is not applicable because this is not a domain-joined system'
+    end
+  else
+    describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths') do
+      it { should have_property '\\\\*\\NETLOGON' }
+      its('\\\\*\\NETLOGON') { should cmp 'RequireMutualAuthentication=1, RequireIntegrity=1' }
+      it { should have_property '\\\\*\\SYSVOL' }
+      its('\\\\*\\SYSVOL') { should cmp 'RequireMutualAuthentication=1, RequireIntegrity=1' }
+    end
   end
 end
