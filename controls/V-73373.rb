@@ -104,84 +104,17 @@ control 'V-73373' do
   objects permission on the two default Group Policy objects: Default Domain
   Policy and Default Domain Controllers Policy. They will have this permission on
   created Group Policy objects."
+
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
+
   if domain_role == '4' || domain_role == '5'
-    perms_query = <<-FOO
-    $gpos = Get-GPO -All;
-    $info = foreach ($gpo in $gpos) {
-      Get-GPPermissions -Guid $gpo.Id -All | Select-Object `
-      @{n='GPOName';e={$gpo.DisplayName}},
-      @{n='AccountName';e={$_.Trustee.Name}},
-      @{n='Permissions';e={$_.Permission}}
-    };
-    $info | ConvertTo-CSV | ConvertFrom-CSV | ConvertTo-JSON;
-    FOO
-    permissions = json(command: perms_query).params
-
-    describe.one do
-      permissions.each do |perm|
-        describe "The #{perm['GPOName']} gpo's permission property for #{perm['AccountName']} group/account" do
-          subject { perm }
-          its(['AccountName']) { should cmp "Domain Admins" }
-          if perm['GPOName'] == "Default Domain Policy" || perm['GPOName'] == "Default Domain Controllers Policy"
-            its(['Permissions']) { should cmp "GpoCustom" }
-            its(['Permissions']) { should_not cmp "GpoEditDeleteModifySecurity" }
-          else
-            its(['Permissions']) { should cmp "GpoEditDeleteModifySecurity" }
-          end
-        end
-      end
-    end
-
-    describe.one do
-      permissions.each do |perm|
-        describe "The #{perm['GPOName']} gpo's permission property for #{perm['AccountName']} group/account" do
-          subject { perm }
-          its(['AccountName']) { should cmp "Enterprise Admins" }
-          if perm['GPOName'] == "Default Domain Policy" || perm['GPOName'] == "Default Domain Controllers Policy"
-            its(['Permissions']) { should cmp "GpoCustom" }
-            its(['Permissions']) { should_not cmp "GpoEditDeleteModifySecurity" }
-          else
-            its(['Permissions']) { should cmp "GpoEditDeleteModifySecurity" }
-          end
-        end
-      end
-    end
-
-    describe.one do
-      permissions.each do |perm|
-        describe "The #{perm['GPOName']} gpo's permission property for #{perm['AccountName']} group/account" do
-          subject { perm }
-          its(['AccountName']) { should cmp "SYSTEM" }
-          its(['Permissions']) { should cmp "GpoEditDeleteModifySecurity" }
-        end
-      end
-    end
-
-    describe.one do
-      permissions.each do |perm|
-        describe "The #{perm['GPOName']} gpo's permission property for #{perm['AccountName']} group/account" do
-          subject { perm }
-          its(['AccountName']) { should cmp "Authenticated Users" }
-          its(['Permissions']) { should cmp "GpoApply" }
-        end
-      end
-    end
-
-    describe.one do
-      permissions.each do |perm|
-        describe "The #{perm['GPOName']} gpo's permission property for #{perm['AccountName']} group/account" do
-          subject { perm }
-          its(['AccountName']) { should cmp "ENTERPRISE DOMAIN CONTROLLERS" }
-          its(['Permissions']) { should cmp "GpoRead" }
-        end
-      end
+    describe 'A manual review is required to ensure all Group Policies have the correct permisions' do
+      skip 'A manual review is required to ensure all Group Policies have the correct permisions'
     end
   else
     impact 0.0
-    desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
-    describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
-      skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
+    describe 'This system is not a domain controller, therefore this control is not applicable.' do
+      skip 'This system is not a domain controller, therefore this control is not applicable.'
     end
   end
 end
