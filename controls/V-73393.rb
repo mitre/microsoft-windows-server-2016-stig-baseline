@@ -126,9 +126,7 @@ control 'V-73393' do
           its(['AuditFlags']) { should cmp "Failure" }
           its(['IdentityReference']) { should cmp "Everyone" }
           its(['ActiveDirectoryRights']) { should cmp "GenericAll" }
-          its(['InheritanceFlags']) { should cmp "None" }
-          its(['InheritanceType']) { should cmp "None" }
-          its(['PropagationFlags']) { should cmp "None" }
+          its(['IsInherited']) { should cmp "False" }
         end
       end
     end
@@ -140,9 +138,7 @@ control 'V-73393' do
           its(['AuditFlags']) { should cmp "Success" }
           its(['IdentityReference']) { should cmp "Everyone" }
           its(['ActiveDirectoryRights']) { should cmp "WriteProperty, ExtendedRight" }
-          its(['InheritanceFlags']) { should cmp "None" }
-          its(['InheritanceType']) { should cmp "None" }
-          its(['PropagationFlags']) { should cmp "None" }
+          its(['IsInherited']) { should cmp "False" }
         end
       end
     end
@@ -153,10 +149,7 @@ control 'V-73393' do
           subject { acl_rule }
           its(['AuditFlags']) { should cmp "Success" }
           its(['IdentityReference']) { should cmp "Everyone" }
-          its(['ActiveDirectoryRights']) { should cmp "WriteProperty" }
-          its(['InheritanceFlags']) { should cmp "ContainerInherit" }
-          its(['InheritanceType']) { should cmp "Descendents" }
-          its(['PropagationFlags']) { should cmp "InheritOnly" }
+          its(['IsInherited']) { should cmp "True" }
         end
       end
     end
