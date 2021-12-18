@@ -1,0 +1,47 @@
+---
+
+  verifier:
+    name: inspec
+    sudo: true
+    load_plugins: true
+    inspec_tests:
+      - path: ./
+    input_files:
+      - kitchen.inputs.yml
+
+  provisioner:
+    name: ansible_playbook
+    hosts: all
+    require_ansible_repo: false
+    require_ansible_omnibus: false
+    require_chef_for_busser: false
+    require_ruby_for_busser: false
+    ansible_verbose: true
+    ansible_verbosity: 4
+    roles_path: test/ansible/Windows-2016-STIG
+    galaxy_ignore_certs: true
+    ansible_connection: winrm
+    ansible_platform: windows
+    require_windows_support: true
+
+  platforms:
+    - name: windows-2016
+      driver:
+        box: tas50/windows_2016
+        communicator: winrm #
+
+  suites:
+    - name: hardened
+      provisioner:
+        playbook: test/ansible/Windows-2016-STIG/site.yml
+      verifier:
+        reporter:
+          - cli
+          - json:test/results/hardened-test-result.json
+    # - name: vanilla
+    #   provisioner:
+    #     playbook: test/ansible/Windows-2016-STIG/site.yml
+    #   verifier:
+    #     reporter:
+    #       - cli
+    #       - json:test/results/vanilla-test-result.json
