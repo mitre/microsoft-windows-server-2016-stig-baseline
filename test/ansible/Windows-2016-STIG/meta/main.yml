@@ -1,0 +1,23 @@
+---
+galaxy_info:
+  author: "kasey_linden"
+  role_name: windows_2016
+  description: "Apply the DISA Windows Server 2016 STIG V1R12"
+  license: MIT
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: Windows
+      versions:
+        - 2016
+
+  galaxy_tags:
+    - system
+    - security
+    - stig
+    - hardening
+    - microsoft
+    - windows
+
+dependencies: []
+

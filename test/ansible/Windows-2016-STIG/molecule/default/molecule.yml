@@ -1,0 +1,31 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+platforms:
+  - name: windows-2016
+    box: tas50/windows_2016
+    memory: 2048
+    cpus: 2
+    groups:
+      - windows
+lint: |
+  ansible-lint
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      windows:
+        ansible_user: vagrant
+        ansible_password: vagrant
+        ansible_host: 127.0.0.1
+        ansible_port: 55986
+        ansible_connection: winrm
+        ansible_winrm_scheme: http
+        ansible_winrm_server_cert_validation: ignore
+verifier:
+  name: inspec
+  enabled: false

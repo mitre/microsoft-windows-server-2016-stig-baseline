@@ -1,0 +1,7 @@
+ansible==2.9
+ansible-lint
+molecule
+molecule-vagrant
+molecule-inspec
+python-vagrant
+pywinrm

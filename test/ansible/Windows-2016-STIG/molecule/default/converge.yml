@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include windows-molecule"
+      include_role:
+        name: "Windows-2016-STIG"
