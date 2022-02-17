@@ -76,7 +76,8 @@ control 'V-73221' do
   administrators = attribute('administrators')
   is_AD_only_system = input('is_AD_only_system')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  administrator_group = command("net localgroup Administrators | Format-List | Findstr /V 'Alias Name Comment Members - command'").stdout.strip.split('\n')
+  administrator_group = command("Get-LocalGroupMember -Group \"Administrators\" | select -ExpandProperty Name | ForEach-Object {$_ -replace \"$env:COMPUTERNAME\\\\\" -replace \"\"}").stdout.strip.split("\r\n")
+
 
   if (domain_role == '2' || domain_role == '3') && !is_AD_only_system
     administrator_group.each do |user|
