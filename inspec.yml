@@ -54,6 +54,11 @@ inputs:
     type: Numeric
     value: 3
 
+  - name: pass_lock_duration
+    desc: "List the number of minutes for account lockout duration"
+    type: Numeric
+    value: 15
+
   - name: administrator_domain_group
     description: 'List of authorized users in the local Administrators domain group'
     type: Array
