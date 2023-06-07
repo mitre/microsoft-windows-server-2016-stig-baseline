@@ -1,6 +1,5 @@
 control 'V-73311' do
-  title "The number of allowed bad logon attempts must be configured to three
-  or less."
+  title "The number of allowed bad logon attempts must be configured to #{input('max_pass_lockout')} or less."
   desc "The account lockout feature, when enabled, prevents brute-force
   password attacks on the system. The higher this value is, the less effective
   the account lockout feature will be in protecting the local system. The number
@@ -23,14 +22,14 @@ control 'V-73311' do
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Account Policies >> Account Lockout Policy.
 
-  If the Account lockout threshold is 0 or more than 3 attempts, this
+  If the Account lockout threshold is 0 or more than #{input('max_pass_lockout')} attempts, this
   is a finding."
   desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Account Lockout Policy >>
-  Account lockout threshold to 3 or fewer invalid logon attempts
+  Account lockout threshold to #{input('max_pass_lockout')} or fewer invalid logon attempts
   (excluding 0, which is unacceptable)."
   describe security_policy do
-    its('LockoutBadCount') { should be <= 3 }
+    its('LockoutBadCount') { should be <= input('max_pass_lockout') }
   end
   describe security_policy do
     its('LockoutBadCount') { should be > 0 }

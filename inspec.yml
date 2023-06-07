@@ -58,6 +58,11 @@ inputs:
     desc: "List the number of minutes for account lockout duration"
     type: Numeric
     value: 15
+  
+  - name: max_pass_lockout 
+    desc: "Account lockout threshold based on invalid logon attempts"
+    type: Numeric
+    value: 3
 
   - name: administrator_domain_group
     description: 'List of authorized users in the local Administrators domain group'
