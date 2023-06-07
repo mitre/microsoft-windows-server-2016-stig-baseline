@@ -69,6 +69,11 @@ inputs:
     type: Numeric
     value: 15 
 
+  - name: app_password_age
+    desc: "Set the number of days that manually managed application account passwords must be changed"
+    type: Numeric
+    value: 365 
+    
   - name: administrator_domain_group
     description: 'List of authorized users in the local Administrators domain group'
     type: Array
