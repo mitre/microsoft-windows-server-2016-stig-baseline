@@ -4,7 +4,7 @@ control 'V-73641' do
   desc "Computer account passwords are changed automatically on a regular
   basis. This setting controls the maximum password age that a machine account
   may have. This must be set to no more than #{input('maximum_password_age_machine')} days, ensuring the machine
-  changes its password #{input('maximum_password_age_machine')} days."
+  changes its password every #{input('maximum_password_age_machine')} days."
   impact 0.5
   tag "gtitle": 'SRG-OS-000480-GPOS-00227'
   tag "gid": 'V-73641'
