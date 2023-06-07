@@ -64,6 +64,11 @@ inputs:
     type: Numeric
     value: 3
 
+  - name: pass_lock_time
+    desc: "List the number of minutes before a session is locked out"
+    type: Numeric
+    value: 15 
+
   - name: administrator_domain_group
     description: 'List of authorized users in the local Administrators domain group'
     type: Array
