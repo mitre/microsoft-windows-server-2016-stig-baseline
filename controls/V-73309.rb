@@ -1,6 +1,6 @@
 control 'V-73309' do
-  title "Windows 2016 account lockout duration must be configured to #{input('pass_lock_duration')} minutes
-  or greater."
+  title "Windows 2016 account lockout duration must be configured to #{input('pass_lock_duration') == 0? 'until the locked account is released by an administrator.' : "for #{input('pass_lock_duration')} minutes or greater."}"
+  
   desc "The account lockout feature, when enabled, prevents brute-force
   password attacks on the system. This parameter specifies the period of time
   that an account will remain locked after the specified number of failed logon
