@@ -73,6 +73,11 @@ inputs:
     desc: "Set the number of days that manually managed application account passwords must be changed"
     type: Numeric
     value: 365 
+
+  - name: maximum_password_age_machine
+    desc: "Set the machine account maximum password age stated by your organiztion"
+    type: Numeric
+    value: 30
     
   - name: administrator_domain_group
     description: 'List of authorized users in the local Administrators domain group'
