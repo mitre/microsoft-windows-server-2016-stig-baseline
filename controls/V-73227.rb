@@ -38,7 +38,6 @@ control 'V-73227' do
   end
   if backup_operators_group.empty?
     impact 0.0
-    desc 'There are no users in the Backup Operators Group, therefore this control is not applicable'
     describe 'There are no users in the Backup Operators Group, therefore this control is not applicable' do
       skip 'There are no users in the Backup Operators Group, therefore this control is not applicable'
     end
