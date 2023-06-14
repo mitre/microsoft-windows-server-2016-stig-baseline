@@ -78,7 +78,37 @@ inputs:
     desc: "Set the machine account maximum password age stated by your organiztion"
     type: Numeric
     value: 30
-    
+
+  - name: unused_account_age
+    desc: "Set the maximum age in days for unused accounts stated by your organization"
+    type: Numeric
+    value: 35
+
+  - name: minimum_password_length_manual 
+    desc: "Set the minimum password length for manually managed applications stated by your organization"
+    type: Numeric
+    value: 15
+
+  - name: minimum_password_length 
+    desc: "Set the minimum password length stated by your organization"
+    type: Numeric 
+    value: 14
+  
+  - name: password_history_size # V-73315
+    desc: "Set the password history size stated by your organization"
+    type: Numeric
+    value: 24
+
+  - name: maximum_idle_time 
+    desc: "Set the maximum connection idle time stated by your organization"
+    type: Numeric
+    value: 5
+
+  - name: maximum_idle_time_phrase 
+    desc: "Set the maximum connection idle time stated by your organization"
+    type: String  
+    value: 300
+
   - name: administrator_domain_group
     description: 'List of authorized users in the local Administrators domain group'
     type: Array

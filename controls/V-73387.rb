@@ -1,6 +1,6 @@
 control 'V-73387' do
   title "The directory service must be configured to terminate LDAP-based
-  network connections to the directory server after 5 minutes of inactivity."
+  network connections to the directory server after #{input('maximum_idle_time_phrase')} of inactivity."
   desc "The failure to terminate inactive network connections increases the
   risk of a successful attack on the directory server. The longer an established
   session is in progress, the more time an attacker has to hijack the session,
@@ -35,7 +35,7 @@ control 'V-73387' do
 
   At the ldap policy: prompt, enter show values.
 
-  If the value for MaxConnIdleTime is greater than 300 (5 minutes) or is not
+  If the value for MaxConnIdleTime is greater than \"#{input('maximum_idle_time')}\" (#{input('maximum_idle_time_phrase')}) or is not
   specified, this is a finding.
 
   Enter q at the ldap policy: and ntdsutil: prompts to exit.
@@ -53,30 +53,20 @@ control 'V-73387' do
   of the domain being reviewed (e.g., dc=disaost,dc=mil).
 
   If the results do not specify a MaxConnIdleTime or it has a value greater
-  than 300 (5 minutes), this is a finding."
+  than \"#{input('maximum_idle_time')}\" (#{input('maximum_idle_time_phrase')}), this is a finding."
   desc "fix", "Configure the directory service to terminate LDAP-based network
-  connections to the directory server after 5 minutes of inactivity.
+  connections to the directory server after #{input('maximum_idle_time_phrase')} of inactivity.
+    Open an elevated \"Command prompt\" (run as administrator).
+    Enter \"ntdsutil\".
+    At the \"ntdsutil:\" prompt, enter \"LDAP policies\".
+    At the \"ldap policy:\" prompt, enter \"connections\".
+    At the \"server connections:\" prompt, enter \"connect to server [host-name]\" (where [host-name] is the computer name of the domain controller).
+    At the \"server connections:\" prompt, enter \"q\".
+    At the \"ldap policy:\" prompt, enter \"Set MaxConnIdleTime to #{input('maximum_idle_time')}\".
+    Enter \"Commit Changes\" to save.
+    Enter \"Show values\" to verify changes.
+    Enter \"q\" at the \"ldap policy:\" and \"ntdsutil:\" prompts to exit."
 
-  Open an elevated Command prompt (run as administrator).
-
-  Enter ntdsutil.
-
-  At the ntdsutil: prompt, enter LDAP policies.
-
-  At the ldap policy: prompt, enter connections.
-
-  At the server connections: prompt, enter connect to server [host-name]
-  (where [host-name] is the computer name of the domain controller).
-
-  At the server connections: prompt, enter q.
-
-  At the ldap policy: prompt, enter Set MaxConnIdleTime to 300.
-
-  Enter Commit Changes to save.
-
-  Enter Show values to verify changes.
-
-  Enter q at the ldap policy: and ntdsutil: prompts to exit."
   max_conn_idle_time = input('max_conn_idle_time')
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
   if domain_role == '4' || domain_role == '5'
@@ -88,7 +78,7 @@ control 'V-73387' do
     end
     describe "The MaxConnIdleTime" do
       subject { ldap_admin_limits['MaxConnIdleTime'] }
-      it { should cmp <= 300 }
+      it { should cmp <= input("maximum_idle_time") } 
     end
   else
     impact 0.0
