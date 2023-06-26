@@ -52,14 +52,12 @@ control 'V-73219' do
 
   if domain_role != '4' && domain_role != '5'
     impact 0.0
-    desc 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     describe 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers' do
       skip 'This system is not a domain controller, therefore this control is not applicable as it only applies to domain controllers'
     end
   end
   if administrator_group.empty?
     impact 0.0
-    desc 'There are no users with administrative privileges on this system, therefore this control is not applicable'
     describe 'There are no users with administrative privileges on this system, therefore this control is not applicable' do
       skip 'There are no users with administrative privileges on this system, therefore this control is not applicable'
     end

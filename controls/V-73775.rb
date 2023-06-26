@@ -78,13 +78,11 @@ control 'V-73775' do
 
   if domain_role == '4' || domain_role == '5'
     impact 0.0
-    desc 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
     describe 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems' do
       skip 'This system is a domain controller, therefore this control is not applicable as it only applies to member servers and standalone systems'
     end
   elsif is_AD_only_system
     impact 0.0
-    desc 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
     describe 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control' do
       skip 'This system is dedicated to the management of Active Directory, therefore this system is exempt from this control'
     end
