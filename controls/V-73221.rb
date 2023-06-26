@@ -89,21 +89,18 @@ control 'V-73221' do
 
   if domain_role != '2' && domain_role != '3'
     impact 0.0
-    desc 'This control applies to member servers and standalone systems. A separate version applies to domain controllers.'
     describe 'This control applies to member servers and standalone systems. A separate version applies to domain controllers.' do
       skip 'This control applies to member servers and standalone systems. A separate version applies to domain controllers.'
     end
   end
   if is_AD_only_system
     impact 0.0
-    desc 'This system is dedicated to the management of Active Directory, therefore this control is not applicable'
     describe 'This system is dedicated to the management of Active Directory, therefore this control is not applicable' do
       skip 'This system is dedicated to the management of Active Directory, therefore this control is not applicable'
     end
   end
   if administrator_group.empty?
     impact 0.0
-    desc 'There are no users with administrative privileges on this system, therefore this control is not applicable'
     describe 'There are no users with administrative privileges on this system, therefore this control is not applicable' do
       skip 'There are no users with administrative privileges on this system, therefore this control is not applicable'
     end

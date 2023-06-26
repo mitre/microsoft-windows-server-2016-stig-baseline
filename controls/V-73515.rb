@@ -85,7 +85,6 @@ control 'V-73515' do
 
   if is_domain == 'WORKGROUP'
     impact 0.0
-    desc 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems'
     describe 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems' do
       skip 'This system is not joined to a domain, therfore this control is not appliable as it does not apply to standalone systems'
     end

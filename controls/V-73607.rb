@@ -126,7 +126,6 @@ control 'V-73607' do
     end
   else
     impact 0.0
-    desc 'This is NOT an unclassified system, therefore this control is not applicable'
     describe 'This is NOT an unclassified system, therefore this control is not applicable' do
       skip 'This is NOT an unclassified system, therefore this control is not applicable'
     end

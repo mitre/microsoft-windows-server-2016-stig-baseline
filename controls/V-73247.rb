@@ -29,7 +29,6 @@ control 'V-73247' do
 
   if volumes.empty?
     impact 0.0
-    desc 'There are no local volumes on this system, therefore this control is not applicable'
     describe 'There are no local volumes on this system, therefore this control is not applicable' do
       skip 'There are no local volumes on this system, therefore this control is not applicable'
     end

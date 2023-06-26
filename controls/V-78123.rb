@@ -43,7 +43,6 @@ control 'V-78123' do
     end
   else
     impact 0.0
-    desc 'SMBv1 is not installed on this system, therefore this control is not applicable'
     describe 'SMBv1 is not installed on this system, therefore this control is not applicable' do
       skip 'SMBv1 is not installed on this system, therefore this control is not applicable'
     end
