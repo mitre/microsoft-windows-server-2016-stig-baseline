@@ -99,7 +99,6 @@ control 'V-73369' do
     end
   else
     impact 0.0
-    desc 'This system is not a domain controller, therefore this control is not applicable.'
     describe 'This system is not a domain controller, therefore this control is not applicable.' do
       skip 'This system is not a domain controller, therefore this control is not applicable.'
     end

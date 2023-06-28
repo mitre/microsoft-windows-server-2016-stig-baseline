@@ -44,7 +44,6 @@ control 'V-73257' do
   get_printers = command("Get-Printer | Format-List | Findstr /v 'Name ---'")
   if get_printers == ''
     impact 0.0
-    desc 'There are no printers configured on this system, therefore this control is not applicable'
     describe 'There are no printers configured on this system, therefore this control is not applicable' do
       skip 'There are no printers configured on this system, therefore this control is not applicable'
     end

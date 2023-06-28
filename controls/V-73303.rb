@@ -39,7 +39,6 @@ control 'V-73303' do
   is_ftp_installed = command('Get-WindowsFeature Web-Ftp-Server | Select -Expand Installed').stdout.strip
   if is_ftp_installed == 'False'
     impact 0.0
-    desc 'FTP is not installed on this system, therefore this control is not applicable'
     describe 'FTP is not installed on this system, therefore this control is not applicable' do
       skip 'FTP is not installed on this system, therefore this control is not applicable'
     end

@@ -33,7 +33,6 @@ control 'V-73233' do
 
   if shared_accounts.empty?
     impact 0.0
-    desc 'This system does not have any shared accounts, therefore this control is not applicable'
     describe 'This system does not have any shared accounts, therefore this control is not applicable' do
       skip 'This system does not have any shared accounts, therefore this control is not applicable'
     end
