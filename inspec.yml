@@ -100,14 +100,9 @@ inputs:
     value: 24
 
   - name: maximum_idle_time 
-    desc: "Set the maximum connection idle time stated by your organization"
+    desc: "Set the maximum connection idle time stated by your organization (in minutes)"
     type: Numeric
     value: 5
-
-  - name: maximum_idle_time_phrase 
-    desc: "Set the maximum connection idle time stated by your organization"
-    type: String  
-    value: 300
 
   - name: administrator_domain_group
     description: 'List of authorized users in the local Administrators domain group'
@@ -168,11 +163,6 @@ inputs:
     description: 'Standard Legal Notice Caption to go along with the Standard Legal Notice Text'
     type: String
     value: "DoD Notice and Consent Banner, US Department of Defense Warning Statement, or a site-defined equivalent."
-
-  - name: max_conn_idle_time
-    description: 'Maximum connectivity time to directory server in seconds'
-    type: Numeric
-    value: 300
 
   - name: is_unclassified_system
     description: 'Set flag to true if the target system is unclassified'
