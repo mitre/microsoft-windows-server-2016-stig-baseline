@@ -54,6 +54,56 @@ inputs:
     type: Numeric
     value: 3
 
+  - name: pass_lock_duration
+    desc: "List the number of minutes for account lockout duration"
+    type: Numeric
+    value: 15
+  
+  - name: max_pass_lockout 
+    desc: "Account lockout threshold based on invalid logon attempts"
+    type: Numeric
+    value: 3
+
+  - name: pass_lock_time
+    desc: "List the number of minutes before a session is locked out"
+    type: Numeric
+    value: 15 
+
+  - name: app_password_age
+    desc: "Set the number of days that manually managed application account passwords must be changed"
+    type: Numeric
+    value: 365 
+
+  - name: maximum_password_age_machine
+    desc: "Set the machine account maximum password age stated by your organiztion"
+    type: Numeric
+    value: 30
+
+  - name: unused_account_age
+    desc: "Set the maximum age in days for unused accounts stated by your organization"
+    type: Numeric
+    value: 35
+
+  - name: minimum_password_length_manual 
+    desc: "Set the minimum password length for manually managed applications stated by your organization"
+    type: Numeric
+    value: 15
+
+  - name: minimum_password_length 
+    desc: "Set the minimum password length stated by your organization"
+    type: Numeric 
+    value: 14
+  
+  - name: password_history_size # V-73315
+    desc: "Set the password history size stated by your organization"
+    type: Numeric
+    value: 24
+
+  - name: maximum_idle_time 
+    desc: "Set the maximum connection idle time stated by your organization (in minutes)"
+    type: Numeric
+    value: 5
+
   - name: administrator_domain_group
     description: 'List of authorized users in the local Administrators domain group'
     type: Array
@@ -86,7 +136,7 @@ inputs:
     type: Boolean
     value: false
 
-  - name: legal_notice_text
+  - name: legal_notice_text # V-73647
     description: 'Standard Legal Notice Text shown to the user on login'
     type: String
     value: "You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.
@@ -113,11 +163,6 @@ inputs:
     description: 'Standard Legal Notice Caption to go along with the Standard Legal Notice Text'
     type: String
     value: "DoD Notice and Consent Banner, US Department of Defense Warning Statement, or a site-defined equivalent."
-
-  - name: max_conn_idle_time
-    description: 'Maximum connectivity time to directory server in seconds'
-    type: Numeric
-    value: 300
 
   - name: is_unclassified_system
     description: 'Set flag to true if the target system is unclassified'

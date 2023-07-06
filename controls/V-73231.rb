@@ -1,6 +1,6 @@
 control 'V-73231' do
   title "Manually managed application account passwords must be changed at
-  least annually or when a system administrator with knowledge of the password
+  least #{input('app_password_age')} days or when a system administrator with knowledge of the password
   leaves the organization."
   desc  "Setting application account passwords to expire may cause applications
   to stop functioning. However, not changing them on a regular basis exposes them
@@ -19,7 +19,7 @@ control 'V-73231' do
   exist. If none exist, this is NA.
 
   If passwords for manually managed application/service accounts are not changed
-  at least annually or when an administrator with knowledge of the password
+  at least #{input('app_password_age')} days or when an administrator with knowledge of the password
   leaves the organization, this is a finding.
 
   Identify manually managed application/service accounts.
@@ -46,7 +46,7 @@ control 'V-73231' do
 
   If the Password Last Set date is more than one year old, this is a finding."
   desc "fix", "Change passwords for manually managed application/service
-  accounts at least annually or when an administrator with knowledge of the
+  accounts at least #{input('app_password_age')} days or when an administrator with knowledge of the
   password leaves the organization.
 
   It is recommended that system-managed service accounts be used whenever
@@ -68,7 +68,7 @@ control 'V-73231' do
   
       describe "Password age for managed account: #{account_name}" do
         subject { pwd_last_set_days }
-        it { should cmp <= 365 }
+        it { should cmp <= input('app_password_age') }
       end
     end
   else

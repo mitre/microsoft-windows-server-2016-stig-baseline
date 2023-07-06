@@ -1,6 +1,6 @@
 control 'V-73309' do
-  title "Windows 2016 account lockout duration must be configured to 15 minutes
-  or greater."
+  title "Windows 2016 account lockout duration must be configured to #{input('pass_lock_duration') == 0? 'until the locked account is released by an administrator.' : "for #{input('pass_lock_duration')} minutes or greater."}"
+  
   desc "The account lockout feature, when enabled, prevents brute-force
   password attacks on the system. This parameter specifies the period of time
   that an account will remain locked after the specified number of failed logon
@@ -20,20 +20,22 @@ control 'V-73309' do
   Navigate to Local Computer Policy >> Computer Configuration >> Windows Settings
   >> Security Settings >> Account Policies >> Account Lockout Policy.
 
-  If the Account lockout duration is less than 15 minutes (excluding
+  If the Account lockout duration is less than #{input('pass_lock_duration')} minutes (excluding
   0), this is a finding.
 
   Configuring this to 0, requiring an administrator to unlock the account, is
   more restrictive and is not a finding."
   desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Account Policies >> Account Lockout Policy >>
-  Account lockout duration to 15 minutes or greater.
+  Account lockout duration to #{input('pass_lock_duration')} minutes or greater.
 
   A value of 0 is also acceptable, requiring an administrator to unlock the
   account."
+
+  pass_lock_duration = input('pass_lock_duration')
   describe.one do
     describe security_policy do
-      its('LockoutDuration') { should be >= 15 }
+      its('LockoutDuration') { should be >= input('pass_lock_duration') }
     end
     describe security_policy do
       its('LockoutDuration') { should eq 0 }

@@ -19,9 +19,9 @@ control 'V-73259' do
 
   Domain Controllers:
 
-  Enter Search-ADAccount -AccountInactive -UsersOnly -TimeSpan 35.00:00:00
+  Enter \"Search-ADAccount -AccountInactive -UsersOnly -TimeSpan #{input('unused_account_age')}.00:00:00\"
 
-  This will return accounts that have not been logged on to for 35 days, along
+  This will return accounts that have not been logged on to for  #{input('unused_account_age')} days, along
   with various attributes such as the Enabled status and LastLogonDate.
 
   Member servers and standalone systems:
@@ -54,18 +54,18 @@ control 'V-73259' do
   - Built-in guest account (Renamed, Disabled, SID ending in 501)
   - Application accounts
 
-  If any enabled accounts have not been logged on to within the past 35 days,
+  If any enabled accounts have not been logged on to within the past #{input('unused_account_age')} days,
   this is a finding.
 
   Inactive accounts that have been reviewed and deemed to be required must be
   documented with the ISSO."
   desc "fix", "Regularly review accounts to determine if they are still active.
-  Remove or disable accounts that have not been used in the last 35 days."
+  Remove or disable accounts that have not been used in the last #{input('unused_account_age')} days."
   
   domain_role = command('wmic computersystem get domainrole | Findstr /v DomainRole').stdout.strip
-  
+  age = input('unused_account_age')
   if domain_role == '4' || domain_role == '5'
-    user_query = "Search-ADAccount -AccountInactive -UsersOnly -TimeSpan 35.00:00:00 | Where-Object { ($_.SID -notlike '*500') -and ($_.SID -notlike '*501') -and ($_.Enabled -eq $true) } | Select-Object @{Name=\"name\";Expression={$_.SamAccountName}}, @{Name=\"lastLogin\";Expression={$_.LastLogonDate}} | ConvertTo-Json"
+    user_query = "Search-ADAccount -AccountInactive -UsersOnly -TimeSpan #{age}.00:00:00 | Where-Object { ($_.SID -notlike '*500') -and ($_.SID -notlike '*501') -and ($_.Enabled -eq $true) } | Select-Object @{Name=\"name\";Expression={$_.SamAccountName}}, @{Name=\"lastLogin\";Expression={$_.LastLogonDate}} | ConvertTo-Json"
   else
     user_query = <<-FOO
       $users = @() 
@@ -112,8 +112,8 @@ control 'V-73259' do
           expect(subject).not_to(cmp nil)
         end
         subject { account['lastLogin'] }
-        it "should not be more than 35 days" do
-          expect(subject).to(be <= 35)
+        it "should not be more than #{input("unused_account_age")} days" do
+          expect(subject).to(be <= age)
         end
       end
     end
