@@ -136,7 +136,7 @@ inputs:
     type: Boolean
     value: false
 
-  - name: legal_notice_text
+  - name: legal_notice_text # V-73647
     description: 'Standard Legal Notice Text shown to the user on login'
     type: String
     value: "You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.

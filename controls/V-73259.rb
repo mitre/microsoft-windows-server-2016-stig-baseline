@@ -113,7 +113,7 @@ control 'V-73259' do
         end
         subject { account['lastLogin'] }
         it "should not be more than #{input("unused_account_age")} days" do
-          expect(subject).to(be <= {age})
+          expect(subject).to(be <= age)
         end
       end
     end

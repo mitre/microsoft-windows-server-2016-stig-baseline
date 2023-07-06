@@ -22,13 +22,12 @@ control 'V-73649' do
   Registry Path:
   \\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\
 
-  Value Name: LegalNoticeCaption
+  Value Name: legal_notice_caption
 
   Value Type: REG_SZ
   Value: See message title options below
 
-  DoD Notice and Consent Banner, US Department of Defense Warning
-  Statement, or an organization-defined equivalent.
+  #{input('legal_notice_caption')}.
 
   If an organization-defined title is used, it can in no case contravene or
   modify the language of the banner text required in WN16-SO-000150.
@@ -37,15 +36,13 @@ control 'V-73649' do
   organization-defined title is used, a manual review will be required."
   desc "fix", "Configure the policy value for Computer Configuration >> Windows
   Settings >> Security Settings >> Local Policies >> Security Options >>
-  Interactive Logon: Message title for users attempting to log on to DoD
-  Notice and Consent Banner, US Department of Defense Warning Statement, or
-  an organization-defined equivalent.
+  Interactive Logon: Message title for users attempting to log on to #{input('legal_notice_caption')}
 
   If an organization-defined title is used, it can in no case contravene or
   modify the language of the message text required in WN16-SO-000150."
   legal_notice_caption = input('legal_notice_caption')
   describe registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System') do
-    it { should have_property 'LegalNoticeCaption' }
+    it { should have_property 'legal_notice_caption' }
   end 
 
   key = registry_key('HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System').LegalNoticeCaption.to_s
